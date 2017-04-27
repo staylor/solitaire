@@ -1,2 +1,7 @@
-# solitaire
-Solitaire game
+# Solitaire
+
+
+
+
+# Links
+http://hammerjs.github.io/
