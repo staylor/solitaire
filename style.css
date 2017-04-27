@@ -1,0 +1,94 @@
+html, body {
+   margin: 0;
+   padding: 0;
+  background: #81C784;
+}
+#board {
+   position: relative;
+   width: 825px;
+   height: 480px;
+   margin: 40px auto;
+}
+
+#stock_revealed {
+   position: absolute;
+   top: 20px;
+   left: 20px;
+}
+#foundation {
+   position: absolute;
+   top: 20px;
+   left: 365px;
+}
+
+.ph_suite {
+   font-size: 60px;   
+  color: rgba(255,255,255,0.7);
+   text-align: center;
+   vertical-align: bottom;
+   margin-top: 15px;
+}
+
+#foundation_clubs:hover .ph_suite, #foundation_spades:hover .ph_suite {
+   color: black;
+}
+#foundation_diamonds:hover .ph_suite, #foundation_hearts:hover .ph_suite {
+   color: #F44336;
+}
+
+
+#tableau {
+   position: absolute;
+   top: 165px;
+   left: 20px;
+}
+
+#board .pile_left {
+   margin-left: 0;
+}
+
+.placeholder, .card {
+   border-radius: 10px;
+   width: 75px;
+   height: 105px;     
+}
+
+.pile {
+   position: relative;
+   float: left;
+   margin-left: 30px;
+}
+.placeholder {
+   background: rgba(255, 255, 255, 0.5);
+   border: 5px solid #FFFFFF;
+}
+
+.red {
+   color: #F44336;
+}
+.black {
+   color: black;
+}
+
+.card {
+   background: #FFFFFF;
+   border: 5px solid #FFFFFF;
+}
+.card_value, .card_suite, .card_center {
+   position: absolute;
+   top: 5px;
+   font-size: 24px;
+   font-weight: 800;
+}
+.card_value {
+   left: 5px;
+}
+.card_suite {
+   right: 5px;
+}
+.card_center {
+   position: relative;
+   font-size: 48px;
+   text-align: center;
+   padding-top: 40px;
+}
