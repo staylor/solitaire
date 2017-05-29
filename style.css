@@ -73,24 +73,18 @@ html, body {
 .card {
    position: relative;
    background: #FFFFFF;
-   border: 1px solid #BDBDBD;
+   border: 5px solid #FFFFFF;
    cursor: -webkit-grab;
-   cursor: grab;
-}
-.card:before {
-   content: '';
-   display: block;
-   position: absolute;
-   top: 0;
-   bottom: 0;
-   left: 0;
-   right: 0;
-   border-radius: 10px;
-   border: 4px solid #FFFFFF;
+  cursor: grab;
+  box-shadow: 4px 4px 2px rgba(0,0,0,0.4);
 }
 
 .card_back {
    background: #2196F3;
+   z-index: 10;
+}
+.card_front {
+  z-index: 20;
 }
 
 .card_value, .card_suite, .card_center {
