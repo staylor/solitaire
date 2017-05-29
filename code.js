@@ -72,7 +72,10 @@ $(function() {
     $("#foundation_hearts").html(placeholderHtml("❤"));
     $("#foundation_spades").html(placeholderHtml("♠"));
 
-    $( ".card" ).draggable();
+    $( ".card" ).draggable({
+        opacity: 0.9,
+        zIndex: 30
+    });
     $( ".card" ).droppable({
         drop: function(event, ui) {
             console.log("dropped event: ", event);
@@ -153,7 +156,7 @@ Card.prototype.toHtml = function(top_margin){
     if (this.face == 'back') {
         return ("<div class=\"card card_back\" style=\"margin-top: " + top_margin + ";\"></div>");
     }
-    return ("<div class=\"card " + this.color + "\" style=\"margin-top: " + top_margin + ";\">" +
+    return ("<div class=\"card card_front " + this.color + "\" style=\"margin-top: " + top_margin + ";\">" +
             "<div class=\"card_value\">" + this.value_str + "</div>" +
             "<div class=\"card_suite\">" + this.suite + "</div>" +
             "<div class=\"card_center\"><div class=\"card_center_suite\">" + this.suite + "</div></div>" +
