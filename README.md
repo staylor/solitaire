@@ -3,7 +3,7 @@ Solitaire game written in JavaScript.  Uses jQuery UI's Draggable and Droppable 
 
 [Try out now!](https://hughmandeville.github.io/solitaire/)
 
-![Solitaire Screen Shot](/docs/solitaire_scree_shot.png?raw=true "Solitaire Screen Shot")
+![Solitaire Screenshot](/docs/solitaire_screenshot.png?raw=true "Solitaire Screenshot")
 
 
 # Links
