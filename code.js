@@ -74,10 +74,14 @@ $(function() {
 
     $( ".card" ).draggable({
         opacity: 0.9,
-        zIndex: 30
+        zIndex: 100,
+        revert: "invalid"
     });
-    $( ".card" ).droppable({
-        drop: function(event, ui) {
+    $( ".card_back" ).draggable({
+        disabled: true
+    });
+    $( "#tableau .pile, #foundation .pile" ).droppable({
+        drop: function(event, ui) {            
             console.log("dropped event: ", event);
         }
     });
@@ -92,7 +96,7 @@ function Stack()
     this.cards = new Array();
 }
 
-// Returns HTML representation of the card.
+// Returns HTML representation of the card stack.
 Stack.prototype.push = function(card, face){
     card.face = face;
     this.cards.push(card);
@@ -101,10 +105,20 @@ Stack.prototype.push = function(card, face){
 Stack.prototype.toHtml = function(){
     var html = "";
     var top_margin = 0;
+
+    /*
     for (i in this.cards) {
         var card = this.cards[i];
-        html += card.toHtml(top_margin);
+        html += card.toHtml(top_margin, null);
         top_margin = "-70px";
+    }
+    */
+    for (var i=(this.cards.length-1); i>=0; i--) {
+        var card = this.cards[i];
+        if (i == 0) {
+            top_margin = 0;
+        }
+        html = card.toHtml(html);
     }
     return (html);
 };
@@ -152,16 +166,22 @@ function Card(card)
 }
 
 // Returns HTML representation of the card.
-Card.prototype.toHtml = function(top_margin){
+Card.prototype.toHtml = function(inner_html){
+    var html = "";
     if (this.face == 'back') {
-        return ("<div class=\"card card_back\" style=\"margin-top: " + top_margin + ";\"></div>");
-    }
-    return ("<div class=\"card card_front " + this.color + "\" style=\"margin-top: " + top_margin + ";\">" +
+        html = "<div class=\"card card_back\">";
+    } else {
+        html = "<div class=\"card card_front " + this.color + "\">" +
             "<div class=\"card_value\">" + this.value_str + "</div>" +
             "<div class=\"card_suite\">" + this.suite + "</div>" +
-            "<div class=\"card_center\"><div class=\"card_center_suite\">" + this.suite + "</div></div>" +
-            "</div>");
-};
+            "<div class=\"card_center\"><div class=\"card_center_suite\">" + this.suite + "</div></div>";
+    }
+    if (inner_html != null) {
+        html += "<div class=\"sub_cards\">" + inner_html + "</div>";
+    }
+    html += "</div>";
+    return (html);
+}
 
 function placeholderHtml(suite)
 {
