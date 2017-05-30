@@ -16,25 +16,21 @@ $(function() {
 
     ts1_stack = new Stack();
     ts1_stack.push(cards[ci++], 'front');
-    $("#tableau_slot_1").html(ts1_stack.toHtml());
 
     ts2_stack = new Stack();
     ts2_stack.push(cards[ci++], 'back');
     ts2_stack.push(cards[ci++], 'front');
-    $("#tableau_slot_2").html(ts2_stack.toHtml());
 
     ts3_stack = new Stack();
     ts3_stack.push(cards[ci++], 'back');
     ts3_stack.push(cards[ci++], 'back');
     ts3_stack.push(cards[ci++], 'front');
-    $("#tableau_slot_3").html(ts3_stack.toHtml());
 
     ts4_stack = new Stack();
     ts4_stack.push(cards[ci++], 'back');
     ts4_stack.push(cards[ci++], 'back');
     ts4_stack.push(cards[ci++], 'back');
     ts4_stack.push(cards[ci++], 'front');
-    $("#tableau_slot_4").html(ts4_stack.toHtml());
 
     ts5_stack = new Stack();
     ts5_stack.push(cards[ci++], 'back');
@@ -42,7 +38,6 @@ $(function() {
     ts5_stack.push(cards[ci++], 'back');
     ts5_stack.push(cards[ci++], 'back');
     ts5_stack.push(cards[ci++], 'front');
-    $("#tableau_slot_5").html(ts5_stack.toHtml());
 
     ts6_stack = new Stack();
     ts6_stack.push(cards[ci++], 'back');
@@ -51,7 +46,6 @@ $(function() {
     ts6_stack.push(cards[ci++], 'back');
     ts6_stack.push(cards[ci++], 'back');
     ts6_stack.push(cards[ci++], 'front');
-    $("#tableau_slot_6").html(ts6_stack.toHtml());
 
     ts7_stack = new Stack();
     ts7_stack.push(cards[ci++], 'back');
@@ -61,8 +55,20 @@ $(function() {
     ts7_stack.push(cards[ci++], 'back');
     ts7_stack.push(cards[ci++], 'back');
     ts7_stack.push(cards[ci++], 'front');
-    $("#tableau_slot_7").html(ts7_stack.toHtml());
 
+    draw_page();
+});
+
+
+function draw_page()
+{
+    $("#tableau_slot_1").html(ts1_stack.toHtml());
+    $("#tableau_slot_2").html(ts2_stack.toHtml());
+    $("#tableau_slot_3").html(ts3_stack.toHtml());
+    $("#tableau_slot_4").html(ts4_stack.toHtml());
+    $("#tableau_slot_5").html(ts5_stack.toHtml());
+    $("#tableau_slot_6").html(ts6_stack.toHtml());
+    $("#tableau_slot_7").html(ts7_stack.toHtml());
 
     $("#stock").html(placeholderHtml(null));
     $("#revealed").html(placeholderHtml(null));
@@ -81,11 +87,21 @@ $(function() {
         disabled: true
     });
     $( "#tableau .pile, #foundation .pile" ).droppable({
-        drop: function(event, ui) {            
-            console.log("dropped event: ", event);
+        drop: function(event, ui) {
+            //draw_page();
+            //console.log("dropped event: ", event);
+            //console.log("dropped ui: ", ui);
+            var from_card_id = $(ui['draggable'][0]).data('id');
+            var from_pile = "?";
+            var to_pile = "?";
+
+            console.log("From Card: " + from_card_id + " and Pile: " + from_pile); 
+            console.log("To Pile: " + to_pile);
+
         }
     });
-});
+}
+
 
 
 /**
@@ -137,6 +153,7 @@ Stack.prototype.toHtml = function(){
  */
 function Card(card)
 {
+    this.id = card;
     this.face = 'front';
     this.value = (card % 13) + 1;
     if (this.value == 1) {
@@ -171,7 +188,7 @@ Card.prototype.toHtml = function(inner_html){
     if (this.face == 'back') {
         html = "<div class=\"card card_back\">";
     } else {
-        html = "<div class=\"card card_front " + this.color + "\">" +
+        html = "<div data-id=\"" + this.id + "\" class=\"card card_front " + this.color + "\">" +
             "<div class=\"card_value\">" + this.value_str + "</div>" +
             "<div class=\"card_suite\">" + this.suite + "</div>" +
             "<div class=\"card_center\"><div class=\"card_center_suite\">" + this.suite + "</div></div>";
