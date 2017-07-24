@@ -137,14 +137,22 @@ function draw_page()
             //console.log("dropped ui: ", ui);
             var from_card_id = $(ui['draggable'][0]).data('id');
 
-            var found = card_index(stock.cards, from_card_id);
-            console.log("from card index: " + found);
+            // move cards from one stack to another
+            i = card_index(stock.cards, from_card_id);
+            if (i >= 0) {
+                var remaining_cards = stock.cards.slice(0,i);
+                var move_cards = stock.cards.slice(i);
+                tableaus[1].cards = tableaus[1].cards.concat(move_cards);
+                stock.cards = remaining_cards;
+            }
 
             var from_stack = $(ui['draggable'][0]).closest(".stack").attr("id");
             var to_stack = $(this).closest(".stack").attr("id");
 
             console.log("From Card: " + from_card_id + " and Stack: " + from_stack);
             console.log("To Stack: " + to_stack);
+            dump_state();
+            draw_page();
         }
     });
 }
@@ -294,9 +302,11 @@ function shuffle(array)
 }
 
 
+/**
+ * Given an array of cards, returns the index of the card with the specified id.
+ */
 function card_index(cards, id)
 {
-    console.log("card_index check for " + id);
     for (i in cards) {
         var card = cards[i];
         if (card.id == id) {
