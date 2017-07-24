@@ -136,6 +136,10 @@ function draw_page()
             //console.log("dropped event: ", event);
             //console.log("dropped ui: ", ui);
             var from_card_id = $(ui['draggable'][0]).data('id');
+
+            var found = card_index(stock.cards, from_card_id);
+            console.log("from card index: " + found);
+
             var from_stack = $(ui['draggable'][0]).closest(".stack").attr("id");
             var to_stack = $(this).closest(".stack").attr("id");
 
@@ -244,7 +248,8 @@ Card.prototype.toHtml = function(inner_html){
         html = "<div class=\"card card_back\">";
     } else {
     */
-    html = "<div data-id=\"" + this.id + "\" class=\"card card_front " + this.color + "\">" +
+    html = "<div data-id=\"" + this.id + "\" class=\"card card_front " + this.color +
+        "\" style=\"z-index: 1\">" +
         "<div class=\"card_value\">" + this.value_str + "</div>" +
         "<div class=\"card_suite\">" + this.suite + "</div>" +
         "<div class=\"card_center\"><div class=\"card_center_suite\">" + this.suite + "</div></div>";
@@ -286,4 +291,17 @@ function shuffle(array)
     }
 
     return array;
+}
+
+
+function card_index(cards, id)
+{
+    console.log("card_index check for " + id);
+    for (i in cards) {
+        var card = cards[i];
+        if (card.id == id) {
+            return (i);
+        }
+    }
+    return (-1);
 }
