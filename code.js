@@ -1,77 +1,120 @@
 
+/*
+ *  Stack       Max Cards  Start Z-Index
+ *  -----       ---------  -------------
+ *  stock       24         201
+ *  waste       24         301
+ *  foundation  13         1
+ *  tableau     19         101
+ *  <dragged>   13         401
+ */
 
-$(function() {
-    var cards = new Array();
+var cards = new Array();
 
-    for (i=0; i<=52; i++) {
+// stacks
+var stock = new Stack(false, 201);
+var waste = new Stack(false, 301);
+var foundations = new Array();
+var tableaus = new Array();
+
+function setup_deck() {
+    for (i=0; i<52; i++) {
         cards.push(new Card(i));
     }
     shuffle(cards);
+}
 
-    for (i in cards) {
-        var card = cards[i];
-    }
+
+$(function() {
+    setup_deck();
 
     var ci = 0;
 
-    ts1_stack = new Stack();
-    ts1_stack.push(cards[ci++], 'front');
+    for (var ti = 1; ti <= 7; ti++) {
+        tableaus[ti] = new Stack(true, 101);
+        for (var tci = 1; tci <= ti; tci++) {
+            var face = 'back';
+            if (tci == ti) {
+                var face = 'front';
+            }
+            tableaus[ti].push(cards[ci++], face);
+        }
+    }
+    while (ci < (cards.length - 1)) {
+        stock.push(cards[ci++], 'back');
+    }
+    waste.push(cards[ci++], 'front');
 
-    ts2_stack = new Stack();
-    ts2_stack.push(cards[ci++], 'back');
-    ts2_stack.push(cards[ci++], 'front');
-
-    ts3_stack = new Stack();
-    ts3_stack.push(cards[ci++], 'back');
-    ts3_stack.push(cards[ci++], 'back');
-    ts3_stack.push(cards[ci++], 'front');
-
-    ts4_stack = new Stack();
-    ts4_stack.push(cards[ci++], 'back');
-    ts4_stack.push(cards[ci++], 'back');
-    ts4_stack.push(cards[ci++], 'back');
-    ts4_stack.push(cards[ci++], 'front');
-
-    ts5_stack = new Stack();
-    ts5_stack.push(cards[ci++], 'back');
-    ts5_stack.push(cards[ci++], 'back');
-    ts5_stack.push(cards[ci++], 'back');
-    ts5_stack.push(cards[ci++], 'back');
-    ts5_stack.push(cards[ci++], 'front');
-
-    ts6_stack = new Stack();
-    ts6_stack.push(cards[ci++], 'back');
-    ts6_stack.push(cards[ci++], 'back');
-    ts6_stack.push(cards[ci++], 'back');
-    ts6_stack.push(cards[ci++], 'back');
-    ts6_stack.push(cards[ci++], 'back');
-    ts6_stack.push(cards[ci++], 'front');
-
-    ts7_stack = new Stack();
-    ts7_stack.push(cards[ci++], 'back');
-    ts7_stack.push(cards[ci++], 'back');
-    ts7_stack.push(cards[ci++], 'back');
-    ts7_stack.push(cards[ci++], 'back');
-    ts7_stack.push(cards[ci++], 'back');
-    ts7_stack.push(cards[ci++], 'back');
-    ts7_stack.push(cards[ci++], 'front');
+    foundations['clubs'] = new Stack(false, 1);
+    foundations['diamonds'] = new Stack(false, 1);
+    foundations['hearts'] = new Stack(false, 1);
+    foundations['spades'] = new Stack(false, 1);
 
     draw_page();
 });
 
+/**
+ * Write current state of cards to the console.
+ */
+function dump_state()
+{
+    var str = "";
+    var comma = "";
+    for (i in stock.cards) {
+        var card = stock.cards[i];
+        str += comma + card.toString();
+        comma = ", ";
+    }
+    console.log("stock: " + str);
+
+    str = "";
+    comma = "";
+    for (i in waste.cards) {
+        var card = waste.cards[i];
+        str += comma + card.toString();
+        comma = ", ";
+    }
+    console.log("waste: " + str);
+
+    for (ti in tableaus) {
+        str = ""
+        comma = ""
+        var tableau = tableaus[ti];
+        for (ci in tableau.cards) {
+            var card = tableau.cards[ci];
+            str += comma + card.toString();
+            comma = ", ";
+        }
+        console.log("tableau " + ti + ": " + str);
+    }
+
+    for (fi in foundations) {
+        str = ""
+        comma = ""
+        var foundation = foundations[fi];
+        for (ci in foundation.cards) {
+            var card = foundation.cards[ci];
+            str += comma + card.toString();
+            comma = ", ";
+        }
+        console.log("foundation " + fi + ": " + str);
+    }
+}
+
 
 function draw_page()
 {
-    $("#tableau_slot_1").html(ts1_stack.toHtml());
-    $("#tableau_slot_2").html(ts2_stack.toHtml());
-    $("#tableau_slot_3").html(ts3_stack.toHtml());
-    $("#tableau_slot_4").html(ts4_stack.toHtml());
-    $("#tableau_slot_5").html(ts5_stack.toHtml());
-    $("#tableau_slot_6").html(ts6_stack.toHtml());
-    $("#tableau_slot_7").html(ts7_stack.toHtml());
+    dump_state();
+    $("#tableau_1").html(tableaus[1].toHtml());
+    $("#tableau_2").html(tableaus[2].toHtml());
+    $("#tableau_3").html(tableaus[3].toHtml());
+    $("#tableau_4").html(tableaus[4].toHtml());
+    $("#tableau_5").html(tableaus[5].toHtml());
+    $("#tableau_6").html(tableaus[6].toHtml());
+    $("#tableau_7").html(tableaus[7].toHtml());
 
-    $("#stock").html(placeholderHtml(null));
-    $("#revealed").html(placeholderHtml(null));
+    $("#stock").html(stock.toHtml());
+    $("#waste").html(waste.toHtml());
 
     $("#foundation_clubs").html(placeholderHtml("♣"));
     $("#foundation_diamonds").html(placeholderHtml("♦"));
@@ -80,24 +123,24 @@ function draw_page()
 
     $( ".card" ).draggable({
         opacity: 0.9,
-        zIndex: 100,
+        zIndex: 401,
         revert: "invalid"
     });
     $( ".card_back" ).draggable({
-        disabled: true
+        zIndex: 402,
+        //disabled: true
     });
-    $( "#tableau .pile, #foundation .pile" ).droppable({
+    $( "#tableau .stack, #foundation .stack" ).droppable({
         drop: function(event, ui) {
             //draw_page();
             //console.log("dropped event: ", event);
             //console.log("dropped ui: ", ui);
             var from_card_id = $(ui['draggable'][0]).data('id');
-            var from_pile = "?";
-            var to_pile = "?";
+            var from_stack = $(ui['draggable'][0]).closest(".stack").attr("id");
+            var to_stack = $(this).closest(".stack").attr("id");
 
-            console.log("From Card: " + from_card_id + " and Pile: " + from_pile); 
-            console.log("To Pile: " + to_pile);
-
+            console.log("From Card: " + from_card_id + " and Stack: " + from_stack);
+            console.log("To Stack: " + to_stack);
         }
     });
 }
@@ -107,9 +150,14 @@ function draw_page()
 /**
  * Stack class.
  */
-function Stack()
+function Stack(splay, start_z_index)
 {
     this.cards = new Array();
+
+    // Whether to splay cards when displaying.  Tableau stacks are splayed.  Other stacks aren't.
+    this.splay = splay;
+
+    this.start_z_index = start_z_index;
 }
 
 // Returns HTML representation of the card stack.
@@ -156,6 +204,7 @@ function Card(card)
     this.id = card;
     this.face = 'front';
     this.value = (card % 13) + 1;
+    this.z_index = 13 - (card % 13);
     if (this.value == 1) {
         this.value_str = 'A';
     } else if (this.value == 11) {
@@ -182,23 +231,31 @@ function Card(card)
     }
 }
 
+
+Card.prototype.toString = function(){
+    return (this.value_str + this.suite);
+}
+
 // Returns HTML representation of the card.
 Card.prototype.toHtml = function(inner_html){
     var html = "";
+    /*
     if (this.face == 'back') {
         html = "<div class=\"card card_back\">";
     } else {
-        html = "<div data-id=\"" + this.id + "\" class=\"card card_front " + this.color + "\">" +
-            "<div class=\"card_value\">" + this.value_str + "</div>" +
-            "<div class=\"card_suite\">" + this.suite + "</div>" +
-            "<div class=\"card_center\"><div class=\"card_center_suite\">" + this.suite + "</div></div>";
-    }
+    */
+    html = "<div data-id=\"" + this.id + "\" class=\"card card_front " + this.color + "\">" +
+        "<div class=\"card_value\">" + this.value_str + "</div>" +
+        "<div class=\"card_suite\">" + this.suite + "</div>" +
+        "<div class=\"card_center\"><div class=\"card_center_suite\">" + this.suite + "</div></div>";
+    //}
     if (inner_html != null) {
         html += "<div class=\"sub_cards\">" + inner_html + "</div>";
     }
     html += "</div>";
     return (html);
 }
+
 
 function placeholderHtml(suite)
 {
