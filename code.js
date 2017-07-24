@@ -137,20 +137,23 @@ function draw_page()
             //console.log("dropped ui: ", ui);
             var from_card_id = $(ui['draggable'][0]).data('id');
 
+            var from_stack_name = $(ui['draggable'][0]).closest(".stack").attr("id");
+            var to_stack_name = $(this).closest(".stack").attr("id");
+
+            console.log("From Card: " + from_card_id + " and Stack: " + from_stack_name);
+            console.log("To Stack: " + to_stack_name);
+
             // move cards from one stack to another
-            i = card_index(stock.cards, from_card_id);
+            var from_stack = get_stack(from_stack_name);
+            var to_stack = get_stack(to_stack_name);
+            i = card_index(from_stack.cards, from_card_id);
             if (i >= 0) {
-                var remaining_cards = stock.cards.slice(0,i);
-                var move_cards = stock.cards.slice(i);
-                tableaus[1].cards = tableaus[1].cards.concat(move_cards);
-                stock.cards = remaining_cards;
+                var remaining_cards = from_stack.cards.slice(0,i);
+                var move_cards = from_stack.cards.slice(i);
+                to_stack.cards = to_stack.cards.concat(move_cards);
+                from_stack.cards = remaining_cards;
             }
 
-            var from_stack = $(ui['draggable'][0]).closest(".stack").attr("id");
-            var to_stack = $(this).closest(".stack").attr("id");
-
-            console.log("From Card: " + from_card_id + " and Stack: " + from_stack);
-            console.log("To Stack: " + to_stack);
             dump_state();
             draw_page();
         }
@@ -314,4 +317,50 @@ function card_index(cards, id)
         }
     }
     return (-1);
+}
+
+/**
+ * Given stack name returns stack variable.
+ */
+function get_stack(name)
+{
+    if (name == "stock") {
+        return (stock);
+    }
+    if (name == "waste") {
+        return (waste);
+    }
+    if (name == "foundation_clubs") {
+        return (foundations['clubs']);
+    }
+    if (name == "foundation_diamonds") {
+        return (foundations['diamons']);
+    }
+    if (name == "foundation_hearts") {
+        return (foundations['hearts']);
+    }
+    if (name == "foundation_spades") {
+        return (foundations['spades']);
+    }
+    if (name == "tableau_1") {
+        return (tableaus[1]);
+    }
+    if (name == "tableau_2") {
+        return (tableaus[2]);
+    }
+    if (name == "tableau_3") {
+        return (tableaus[3]);
+    }
+    if (name == "tableau_4") {
+        return (tableaus[4]);
+    }
+    if (name == "tableau_5") {
+        return (tableaus[5]);
+    }
+    if (name == "tableau_6") {
+        return (tableaus[6]);
+    }
+    if (name == "tableau_7") {
+        return (tableaus[7]);
+    }
 }
