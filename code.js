@@ -7,15 +7,21 @@
  *  foundation  13         1
  *  tableau     19         101
  *  <dragged>   13         401
+ *
+ * To Do
+ *  - Save game state history
+ * Links
+ *  - http://www.elated.com/articles/drag-and-drop-with-jquery-your-essential-guide/
+ *  - http://jqueryui.com/draggable/
  */
 
-var cards = new Array();
+var cards = [];
 
 // stacks
-var stock = new Stack(false, 201);
-var waste = new Stack(false, 301);
-var foundations = new Array();
-var tableaus = new Array();
+var stock = new Stack(false);
+var waste = new Stack(false);
+var foundations = [];
+var tableaus = [];
 
 function setup_deck() {
     for (i=0; i<52; i++) {
@@ -165,14 +171,12 @@ function draw_page()
 /**
  * Stack class.
  */
-function Stack(splay, start_z_index)
+function Stack(splay)
 {
-    this.cards = new Array();
+    this.cards = [];
 
     // Whether to splay cards when displaying.  Tableau stacks are splayed.  Other stacks aren't.
     this.splay = splay;
-
-    this.start_z_index = start_z_index;
 }
 
 // Returns HTML representation of the card stack.
@@ -219,7 +223,6 @@ function Card(card)
     this.id = card;
     this.face = 'front';
     this.value = (card % 13) + 1;
-    this.z_index = 13 - (card % 13);
     if (this.value == 1) {
         this.value_str = 'A';
     } else if (this.value == 11) {
@@ -259,8 +262,7 @@ Card.prototype.toHtml = function(inner_html){
         html = "<div class=\"card card_back\">";
     } else {
     */
-    html = "<div data-id=\"" + this.id + "\" class=\"card card_front " + this.color +
-        "\" style=\"z-index: 1\">" +
+    html = "<div data-id=\"" + this.id + "\" class=\"card card_front " + this.color + "\">" +
         "<div class=\"card_value\">" + this.value_str + "</div>" +
         "<div class=\"card_suite\">" + this.suite + "</div>" +
         "<div class=\"card_center\"><div class=\"card_center_suite\">" + this.suite + "</div></div>";
