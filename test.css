@@ -2,26 +2,23 @@ body {
    background: #ffffff;
 }
 #boxes {   
-   position: fixed;
+   position: absolute;
    top: 20px;
    left: 20px;
    width: 1000px;
    height: 800px;
    z-index: 1;
+   font-family: courier;
+   font-weight: 600;
 }
-#colors {
-   position: fixed;
-   top: 20px;
-   left: 1020px;
-   width: 300px;
-   height: 800px;
-   z-index: -1;
-}
-.color_box {
+#drop_box {
+   position: absolute;
+   top: 120px;
+   left: 600px;
    border: 1px solid #90A4AE;
-   width: 250px;
-   height: 150px;
-   line-height: 150px;
+   width: 400px;
+   height: 280px;
+   line-height: 280px;
    color: #546E7A;
    background: #ECEFF1;
    text-align: center;
@@ -33,17 +30,24 @@ body {
    z-index: -1;
 }
 .hovered {
-   border: 1px solid #546E7A;
-   background: #CFD8DC
+   border: 1px solid #546E7A !important;
+   //border: 1px solid red;
+   background: #CFD8DC !important;
 }
 
 
 .box {
-   position: absolute;
-   width: 120px;
-   height: 120px;
+   position: relative;
+   width: 100px;
+   height: 100px;
+   padding: 10px;
    opacity: 0.8;
 }
+
+.box:not(:first-child) {
+   margin-top: -80px;
+}
+
 
 .blue {
    background: #2196F3;
@@ -79,7 +83,5 @@ body {
 }
 
 
-.container {
-   border: 10px solid red;
-   position: fixed;
+#container {   
 }
