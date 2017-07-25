@@ -32,6 +32,11 @@ body {
    font-family: monospace;
    z-index: -1;
 }
+.hovered {
+   border: 1px solid #546E7A;
+   background: #CFD8DC
+}
+
 
 .box {
    position: absolute;
@@ -73,3 +78,8 @@ body {
    border: 1px solid #FBC02D;
 }
 
+
+.container {
+   border: 10px solid red;
+   position: fixed;
+}
