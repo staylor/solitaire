@@ -13,6 +13,7 @@
  * Links
  *  - http://www.elated.com/articles/drag-and-drop-with-jquery-your-essential-guide/
  *  - http://jqueryui.com/draggable/
+ *  - http://api.jqueryui.com/draggable/
  */
 
 var cards = [];
@@ -32,6 +33,7 @@ function setup_deck() {
 
 
 $(function() {
+
     setup_deck();
 
     var ci = 0;
@@ -122,22 +124,22 @@ function draw_page()
     $("#stock").html(stock.toHtml());
     $("#waste").html(waste.toHtml());
 
-    $("#foundation_clubs").html(placeholderHtml("♣"));
-    $("#foundation_diamonds").html(placeholderHtml("♦"));
-    $("#foundation_hearts").html(placeholderHtml("❤"));
-    $("#foundation_spades").html(placeholderHtml("♠"));
+    //$("#foundation_clubs").html(placeholderHtml("♣"));
+    //$("#foundation_diamonds").html(placeholderHtml("♦"));
+    //$("#foundation_hearts").html(placeholderHtml("❤"));
+    //$("#foundation_spades").html(placeholderHtml("♠"));
 
     $( ".card" ).draggable({
         opacity: 0.9,
         zIndex: 401,
-        revert: "invalid"
-    });
-    $( ".card_back" ).draggable({
-        zIndex: 402,
-        //disabled: true
+        revert: true,
+        stack: ".card"
     });
     $( "#tableau .stack, #foundation .stack" ).droppable({
         drop: function(event, ui) {
+            // XXX: determine if dropping on origin.
+
+            
             //draw_page();
             //console.log("dropped event: ", event);
             //console.log("dropped ui: ", ui);
@@ -189,19 +191,9 @@ Stack.prototype.toHtml = function(){
     var html = "";
     var top_margin = 0;
 
-    /*
     for (i in this.cards) {
         var card = this.cards[i];
-        html += card.toHtml(top_margin, null);
-        top_margin = "-70px";
-    }
-    */
-    for (var i=(this.cards.length-1); i>=0; i--) {
-        var card = this.cards[i];
-        if (i == 0) {
-            top_margin = 0;
-        }
-        html = card.toHtml(html);
+        html += card.toHtml();
     }
     return (html);
 };
@@ -255,7 +247,7 @@ Card.prototype.toString = function(){
 }
 
 // Returns HTML representation of the card.
-Card.prototype.toHtml = function(inner_html){
+Card.prototype.toHtml = function(){
     var html = "";
     /*
     if (this.face == 'back') {
@@ -265,12 +257,7 @@ Card.prototype.toHtml = function(inner_html){
     html = "<div data-id=\"" + this.id + "\" class=\"card card_front " + this.color + "\">" +
         "<div class=\"card_value\">" + this.value_str + "</div>" +
         "<div class=\"card_suite\">" + this.suite + "</div>" +
-        "<div class=\"card_center\"><div class=\"card_center_suite\">" + this.suite + "</div></div>";
-    //}
-    if (inner_html != null) {
-        html += "<div class=\"sub_cards\">" + inner_html + "</div>";
-    }
-    html += "</div>";
+        "<div class=\"card_center\"><div class=\"card_center_suite\">" + this.suite + "</div></div></div>";
     return (html);
 }
 

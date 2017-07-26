@@ -4,49 +4,11 @@ html, body {
    background: #81C784;
 }
 #board {
+   background: #81C784;
    position: relative;
-   //width: 825px;
-   width: 1650px;
-   height: 480px;
+   width: 775px;
+   height: 900px;
    margin: 40px auto;
-}
-
-#stock_waste {
-   position: absolute;
-   top: 20px;
-   left: 20px;
-}
-#foundation {
-   position: absolute;
-   top: 20px;
-   left: 365px;
-}
-
-.ph_suite {
-   font-size: 60px;
-   color: rgba(255,255,255,0.7);
-   text-align: center;
-   vertical-align: bottom;
-   margin-top: 15px;
-}
-
-#foundation_clubs:hover .ph_suite, #foundation_spades:hover .ph_suite {
-   color: black;
-}
-#foundation_diamonds:hover .ph_suite, #foundation_hearts:hover .ph_suite {
-   color: #F44336;
-}
-
-
-#tableau {
-   position: absolute;
-   top: 165px;
-   //left: 20px;
-   left: 845px;
-}
-
-#board .stack_left {
-   margin-left: 0;
 }
 
 .placeholder, .card {
@@ -55,20 +17,85 @@ html, body {
    height: 105px;
    user-select: none;
 }
-
-.stack {
-  position: relative;
-  float: left;
-  margin-left: 30px;
-}
-#tableau .stack {
-  height: 500px;
-  z-index: 1;
-}
-
 .placeholder {
-   background: rgba(255, 255, 255, 0.5);
-   border: 5px solid #FFFFFF;
+   position: absolute;
+   background: rgba(255, 255, 255, 0.1);
+   border: 5px solid rgba(255, 255, 255, 0.2);
+   z-index: 0;
+}
+.stack {
+  position: absolute;
+  z-index: 1; 
+}
+
+#placeholder_stock, #stock {
+   top: 0;
+   left: 0;
+}
+#placeholder_waste, #waste {
+   top: 0;
+   left: 115px;
+}
+#placeholder_foundation_clubs, #foundation_clubs {
+   top: 0;
+   left: 345px;
+}
+#placeholder_foundation_diamonds, #foundation_diamonds {
+   top: 0;
+   left: 460px;
+}
+#placeholder_foundation_hearts, #foundation_hearts {
+   top: 0;
+   left: 575px;
+}
+#placeholder_foundation_spades, #foundation_spades {
+   top: 0;
+   left: 690px;
+}
+
+#placeholder_tableau_1, #tableau_1 {
+   top: 165px;
+   left: 0;
+}
+#placeholder_tableau_2, #tableau_2 {
+   top: 165px;
+   left: 115px;
+}
+#placeholder_tableau_3, #tableau_3 {
+   top: 165px;
+   left: 230px;
+}
+#placeholder_tableau_4, #tableau_4 {
+   top: 165px;
+   left: 345px;
+}
+#placeholder_tableau_5, #tableau_5 {
+   top: 165px;
+   left: 460px;
+}
+#placeholder_tableau_6, #tableau_6 {
+   top: 165px;
+   left: 575px;
+}
+#placeholder_tableau_7, #tableau_7 {
+   top: 165px;
+   left: 690px;
+}
+
+
+.ph_suite {
+   font-size: 60px;
+   line-height: 105px;
+   color: rgba(255,255,255,0.7);
+   text-align: center;
+   vertical-align: middle;
+}
+
+#placeholder_foundation_clubs:hover, #placeholder_foundation_spades:hover {
+   color: black;
+}
+#placeholder_foundation_diamonds:hover, #placeholder_foundation_hearts:hover {
+   color: #F44336;
 }
 
 .red {
@@ -115,4 +142,7 @@ html, body {
 .sub_cards {
   margin-top: 35px;
   margin-left: -5px;
+}
+.card:not(:first-child) {
+   margin-top: -75px;
 }
