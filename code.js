@@ -132,16 +132,19 @@ function draw_page()
     $("#foundation_hearts").html(foundations['hearts'].toHtml());
     $("#foundation_spades").html(foundations['spades'].toHtml());
 
-    $('.card').draggable({
+    $(".card").draggable({
         revert: true,
         helper: helperHandler,
-        //drag: dragHandler,
         start: startHandler,
         stop: stopHandler,
         zIndex: 200,
         cursor: "move",
         stack: "#drag_container"
-        });
+    });
+
+    $(".tableau, .foundation").droppable({
+        drop: handleDropEvent
+    });
 }
 
 
@@ -277,61 +280,13 @@ function card_index(cards, id)
     return (-1);
 }
 
-/**
- * Given stack name returns stack variable.
- */
-function get_stack(name)
-{
-    if (name == "stock") {
-        return (stock);
-    }
-    if (name == "waste") {
-        return (waste);
-    }
-    if (name == "foundation_clubs") {
-        return (foundations['clubs']);
-    }
-    if (name == "foundation_diamonds") {
-        return (foundations['diamons']);
-    }
-    if (name == "foundation_hearts") {
-        return (foundations['hearts']);
-    }
-    if (name == "foundation_spades") {
-        return (foundations['spades']);
-    }
-    if (name == "tableau_1") {
-        return (tableaus[1]);
-    }
-    if (name == "tableau_2") {
-        return (tableaus[2]);
-    }
-    if (name == "tableau_3") {
-        return (tableaus[3]);
-    }
-    if (name == "tableau_4") {
-        return (tableaus[4]);
-    }
-    if (name == "tableau_5") {
-        return (tableaus[5]);
-    }
-    if (name == "tableau_6") {
-        return (tableaus[6]);
-    }
-    if (name == "tableau_7") {
-        return (tableaus[7]);
-    }
-}
-
 
 /**
  * Create container (stack of cards) to be dragged.
  */
 function helperHandler(event)
 {
-    var id = $(this).attr("id");
-    var parts = id.split("_");
-    id = parts[1];
+    var id = $(this).data("id");
     var parent_id = $(this).parent().attr("id");
     console.log("from: " + parent_id +  "->" + id);
 
@@ -381,47 +336,80 @@ function stopHandler(event, ui)
     }
 }
 
+function handleDropEvent( event, ui ) {
+    var draggable = ui.draggable;
 
+    console.log(draggable.parent().attr('id') + "->" + draggable.attr('id') + ' was dropped onto ' + $(this).attr("id"));
+
+    var from_card_id = $(ui['draggable'][0]).data('id');
+    var from_stack_name = $(ui['draggable'][0]).closest(".stack").attr("id");
+    var to_stack_name = $(this).attr("id");
+
+    console.log("From: " + from_stack_name + "->" + from_card_id);
+    console.log("To:   " + to_stack_name);
+
+    if ((from_stack_name == null) || (to_stack_name == null)) {
+        console.log("from or to stack name not set");
+        return;
+    }
+    if ((from_stack_name == to_stack_name) ||
+        ("placeholder_" + from_stack_name == to_stack_name)) {
+        console.log("Dropped cache on it's original stack (ph).");
+        return;
+    }
+
+    // move cards from one stack to another
+    var from_stack = get_stack(from_stack_name);
+    var to_stack = get_stack(to_stack_name);
+    i = card_index(from_stack.cards, from_card_id);
+    if (i >= 0) {
+        var remaining_cards = from_stack.cards.slice(0,i);
+        var move_cards = from_stack.cards.slice(i);
+        to_stack.cards = to_stack.cards.concat(move_cards);
+        from_stack.cards = remaining_cards;
+    }
+
+    dump_state();
+    draw_page();
+
+
+    $("#drag_container").remove();
+    if (selected != null) {
+        selected.remove();
+        selected = null;
+    }
+}
+
+
+/**
+ * Givn stack ID returns stack object.
+ */
 function get_stack(stack_id)
 {
-    if (stack_id == "stock") {
+    if (stack_id == null) {
+        return (null);
+    }
+    if (stack_id.startsWith("stock")) {
         return (stock);
     }
-    if (stack_id == "waste") {
+    if (stack_id.startsWith("waste")) {
         return (waste);
     }
-    if (stack_id == "tableau_1") {
-        return (tableaus[1]);
+    var parts = stack_id.split("_");
+    var index = null;
+    if (parts.length > 0) {
+        index = parts[parts.length - 1];
     }
-    if (stack_id == "tableau_2") {
-        return (tableaus[2]);
-    }
-    if (stack_id == "tableau_3") {
-        return (tableaus[3]);
-    }
-    if (stack_id == "tableau_4") {
-        return (tableaus[4]);
-    }
-    if (stack_id == "tableau_5") {
-        return (tableaus[5]);
-    }
-    if (stack_id == "tableau_6") {
-        return (tableaus[6]);
-    }
-    if (stack_id == "tableau_7") {
-        return (tableaus[7]);
-    }
-    if (stack_id == "foundation_clubs") {
-        return (foundations['clubs']);
-    }
-    if (stack_id == "foundation_clubs") {
-        return (foundations['diamonds']);
-    }
-    if (stack_id == "foundation_clubs") {
-        return (foundations['hearts']);
-    }
-    if (stack_id == "foundation_clubs") {
-        return (foundations['spades']);
+    if ((stack_id.startsWith("tableau")) ||
+        (stack_id.startsWith("placeholder_tableau"))) {
+        if (index != null) {
+            return (tableaus[index]);
+        }
+    } else if ((stack_id.startsWith("foundation")) ||
+               (stack_id.startsWith("placeholder_foundation"))) {
+        if (index != null) {
+            return (foundations[index]);
+        }
     }
     return (null);
 }
