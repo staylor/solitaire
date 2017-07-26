@@ -18,6 +18,9 @@
 
 var cards = [];
 
+// cards currently being dragged
+var selected = null;
+
 // stacks
 var stock = new Stack(false);
 var waste = new Stack(false);
@@ -124,48 +127,21 @@ function draw_page()
     $("#stock").html(stock.toHtml());
     $("#waste").html(waste.toHtml());
 
-    //$("#foundation_clubs").html(placeholderHtml("♣"));
-    //$("#foundation_diamonds").html(placeholderHtml("♦"));
-    //$("#foundation_hearts").html(placeholderHtml("❤"));
-    //$("#foundation_spades").html(placeholderHtml("♠"));
+    $("#foundation_clubs").html(foundations['clubs'].toHtml());
+    $("#foundation_diamonds").html(foundations['diamonds'].toHtml());
+    $("#foundation_hearts").html(foundations['hearts'].toHtml());
+    $("#foundation_spades").html(foundations['spades'].toHtml());
 
-    $( ".card" ).draggable({
-        opacity: 0.9,
-        zIndex: 401,
+    $('.card').draggable({
         revert: true,
-        stack: ".card"
-    });
-    $( "#tableau .stack, #foundation .stack" ).droppable({
-        drop: function(event, ui) {
-            // XXX: determine if dropping on origin.
-
-            
-            //draw_page();
-            //console.log("dropped event: ", event);
-            //console.log("dropped ui: ", ui);
-            var from_card_id = $(ui['draggable'][0]).data('id');
-
-            var from_stack_name = $(ui['draggable'][0]).closest(".stack").attr("id");
-            var to_stack_name = $(this).closest(".stack").attr("id");
-
-            console.log("From Card: " + from_card_id + " and Stack: " + from_stack_name);
-            console.log("To Stack: " + to_stack_name);
-
-            // move cards from one stack to another
-            var from_stack = get_stack(from_stack_name);
-            var to_stack = get_stack(to_stack_name);
-            i = card_index(from_stack.cards, from_card_id);
-            if (i >= 0) {
-                var remaining_cards = from_stack.cards.slice(0,i);
-                var move_cards = from_stack.cards.slice(i);
-                to_stack.cards = to_stack.cards.concat(move_cards);
-                from_stack.cards = remaining_cards;
-            }
-
-            dump_state();
-            draw_page();
-        }
-    });
+        helper: helperHandler,
+        //drag: dragHandler,
+        start: startHandler,
+        stop: stopHandler,
+        zIndex: 200,
+        cursor: "move",
+        stack: "#drag_container"
+        });
 }
 
 
@@ -191,9 +167,10 @@ Stack.prototype.toHtml = function(){
     var html = "";
     var top_margin = 0;
 
+    zi = 1;
     for (i in this.cards) {
         var card = this.cards[i];
-        html += card.toHtml();
+        html += card.toHtml(zi++);
     }
     return (html);
 };
@@ -247,14 +224,15 @@ Card.prototype.toString = function(){
 }
 
 // Returns HTML representation of the card.
-Card.prototype.toHtml = function(){
+Card.prototype.toHtml = function(i){
     var html = "";
     /*
     if (this.face == 'back') {
         html = "<div class=\"card card_back\">";
     } else {
     */
-    html = "<div data-id=\"" + this.id + "\" class=\"card card_front " + this.color + "\">" +
+    html = "<div id=\"card_" + this.id + "\" data-id=\"" + this.id + "\" class=\"card card_front " + this.color +
+        "\" style=\"z-index: " + i + "\" data-zi=\"" + i + "\">" +
         "<div class=\"card_value\">" + this.value_str + "</div>" +
         "<div class=\"card_suite\">" + this.suite + "</div>" +
         "<div class=\"card_center\"><div class=\"card_center_suite\">" + this.suite + "</div></div></div>";
@@ -262,18 +240,9 @@ Card.prototype.toHtml = function(){
 }
 
 
-function placeholderHtml(suite)
-{
-    var html = "<div class=\"placeholder\">";
-    if (suite != null) {
-        html += "<div class=\"ph_suite\">" + suite + "</div>";
-    }
-    html += "</div>";
-    return (html);
-}
-
-
-
+/**
+ * Shuffles an array.
+ */
 function shuffle(array)
 {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -352,4 +321,107 @@ function get_stack(name)
     if (name == "tableau_7") {
         return (tableaus[7]);
     }
+}
+
+
+/**
+ * Create container (stack of cards) to be dragged.
+ */
+function helperHandler(event)
+{
+    var id = $(this).attr("id");
+    var parts = id.split("_");
+    id = parts[1];
+    var parent_id = $(this).parent().attr("id");
+    console.log("from: " + parent_id +  "->" + id);
+
+    var stack = get_stack(parent_id);
+
+    var select_str = "";
+    var comma = "";
+    var found = -1;
+    for (i in stack.cards) {
+        var card = stack.cards[i];
+        if (card.id == id) {
+            found = i;
+        }
+        if (found > -1) {
+            select_str += comma + "#card_" + card.id;
+            comma = ", ";
+        }
+    }
+    console.log("select str: " + select_str);
+    selected = $(select_str);
+    var container = $('<div/>').attr('id', 'drag_container');
+    if (found > 0) {
+        container.css("margin-top", "-75px");
+    }
+    container.append(selected.clone());
+    return container;
+}
+
+function startHandler(event, ui)
+{
+    if (selected != null) {
+        selected.hide();
+        $(".card").each(function() {
+            $(this).css("z-index", $(this).data("zi"));
+        });
+        $("#drag_container, #drag_container .card").css("z-index", "200");
+    }
+}
+
+function stopHandler(event, ui)
+{
+    if (selected != null) {
+        selected.show();
+        $(".card").each(function() {
+            $(this).css("z-index", $(this).data("zi"));
+        });
+    }
+}
+
+
+function get_stack(stack_id)
+{
+    if (stack_id == "stock") {
+        return (stock);
+    }
+    if (stack_id == "waste") {
+        return (waste);
+    }
+    if (stack_id == "tableau_1") {
+        return (tableaus[1]);
+    }
+    if (stack_id == "tableau_2") {
+        return (tableaus[2]);
+    }
+    if (stack_id == "tableau_3") {
+        return (tableaus[3]);
+    }
+    if (stack_id == "tableau_4") {
+        return (tableaus[4]);
+    }
+    if (stack_id == "tableau_5") {
+        return (tableaus[5]);
+    }
+    if (stack_id == "tableau_6") {
+        return (tableaus[6]);
+    }
+    if (stack_id == "tableau_7") {
+        return (tableaus[7]);
+    }
+    if (stack_id == "foundation_clubs") {
+        return (foundations['clubs']);
+    }
+    if (stack_id == "foundation_clubs") {
+        return (foundations['diamonds']);
+    }
+    if (stack_id == "foundation_clubs") {
+        return (foundations['hearts']);
+    }
+    if (stack_id == "foundation_clubs") {
+        return (foundations['spades']);
+    }
+    return (null);
 }
