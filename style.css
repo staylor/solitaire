@@ -25,7 +25,6 @@ html, body {
 }
 .stack {
   position: absolute;
-  z-index: 1; 
 }
 
 #placeholder_stock, #stock {
@@ -112,6 +111,7 @@ html, body {
   cursor: -webkit-grab;
   cursor: grab;
   box-shadow: 4px 4px 2px rgba(0,0,0,0.4);
+  z-index: 1;
 }
 
 .card_back {
@@ -145,4 +145,8 @@ html, body {
 }
 .card:not(:first-child) {
    margin-top: -75px;
+}
+
+#drag_container {
+   z-index: 200;
 }
