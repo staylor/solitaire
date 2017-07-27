@@ -167,6 +167,9 @@ html, body {
   cursor: -webkit-grab;
   cursor: grab;
 }
+#stock .card_back:last-child {
+  cursor: pointer;
+}
 
 .card_value, .card_suite, .card_center {
    position: absolute;

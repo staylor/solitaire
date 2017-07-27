@@ -1,12 +1,12 @@
 
-/*
- *  Stack       Max Cards  Start Z-Index
- *  -----       ---------  -------------
- *  stock       24         201
- *  waste       24         301
- *  foundation  13         1
- *  tableau     19         101
- *  <dragged>   13         401
+/**
+ *  Stack       Max Cards
+ *  -----       ---------
+ *  stock       24  
+ *  waste       24
+ *  foundation  13
+ *  tableau     19
+ *  <dragged>   13
  *
  * To Do
  *  - Save game state history
@@ -166,8 +166,26 @@ function draw_page()
     $(".tableau, .foundation").droppable({
         drop: handleDropEvent
     });
+
+    $("#stock .card_back:last-child").on("click", next_card);
 }
 
+/**
+ * Flip card on the waste pile.
+ */
+function next_card()
+{
+    console.log("flip next card");
+
+    var last_card_index = stock.cards.length - 1;
+    var move_card = stock.cards.slice(last_card_index);
+    move_card[0].face = "front";
+    waste.cards = waste.cards.concat(move_card);
+    stock.cards = stock.cards.slice(0, last_card_index);
+
+    dump_state();
+    draw_page();
+}
 
 
 /**
