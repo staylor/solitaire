@@ -14,6 +14,8 @@
  *  - Save game state history.
  *  - Support undo.
  *  - Keep track of score.
+ *  - Double click to auto-place (ace, ...).
+ *  - Let put ace any where in foundation.
  * Links
  *  - http://www.elated.com/articles/drag-and-drop-with-jquery-your-essential-guide/
  *  - http://jqueryui.com/draggable/
@@ -141,6 +143,7 @@ function dump_state()
 function draw_page()
 {
     flip_tableau_cards();
+    check_won();
     //dump_state();
     $("#tableau_1").html(tableaus[1].toHtml());
     $("#tableau_2").html(tableaus[2].toHtml());
@@ -436,7 +439,7 @@ function handleDropEvent( event, ui ) {
     if (to_stack.cards.length > 0) {
         to_card = to_stack.cards[(to_stack.cards.length - 1)];
     }
-        
+
     console.log("from card: " + from_card);
     console.log("to card: " + to_card);
 
@@ -477,8 +480,8 @@ function handleDropEvent( event, ui ) {
                 return;
             }
         }
-    }    
-    
+    }
+
     if (from_card_index >= 0) {
         var remaining_cards = from_stack.cards.slice(0,from_card_index);
         var move_cards = from_stack.cards.slice(from_card_index);
@@ -495,6 +498,22 @@ function handleDropEvent( event, ui ) {
     draw_page();
 }
 
+/**
+ * If game is won, show top_modal.
+ */
+function check_won()
+{
+    // if all cards are face up, then you won.
+    for (i in cards) {
+        var card = cards[i];
+        if (card.face == "back") {
+            $("#top_modal").hide();
+
+            return;
+        }
+    }
+    $("#top_modal").show();
+}
 
 /**
  * Givn stack ID returns stack object.
@@ -543,15 +562,15 @@ function get_stack_type(stack_id)
     }
     if ((stack_id.startsWith("foundation")) ||
         (stack_id.startsWith("placeholder_foundation")) ||
-        (stack_id.startsWith("dropzone_foundation"))) {       
+        (stack_id.startsWith("dropzone_foundation"))) {
         return ("foundation");
     }
     if ((stack_id.startsWith("stock")) ||
-        (stack_id.startsWith("placeholder_stock"))) {       
+        (stack_id.startsWith("placeholder_stock"))) {
         return ("stock");
     }
     if ((stack_id.startsWith("waste")) ||
-        (stack_id.startsWith("placeholder_waste"))) {       
+        (stack_id.startsWith("placeholder_waste"))) {
         return ("waste");
     }
     return ("tableau");

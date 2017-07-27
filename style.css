@@ -214,3 +214,14 @@ html, body {
 #drag_container {
    z-index: 200;
 }
+#top_modal {
+   position: absolute;
+   font-size: 100px;
+   left: 100px;
+   top: 200px;
+   z-index: 300;
+   color: #FFFFFF;
+   text-shadow: 2px 2px #BDBDBD;
+   font-family: "nyt-karnak-display-130124",georgia,"times new roman",times,serif;
+   display: none;
+}
