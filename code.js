@@ -9,7 +9,11 @@
  *  <dragged>   13
  *
  * To Do
- *  - Save game state history
+ *  - Determine if won.
+ *  - Add new game button.
+ *  - Save game state history.
+ *  - Support undo.
+ *  - Keep track of score.
  * Links
  *  - http://www.elated.com/articles/drag-and-drop-with-jquery-your-essential-guide/
  *  - http://jqueryui.com/draggable/
@@ -245,6 +249,7 @@ Stack.prototype.toHtml = function(){
  *   value:      1-13
  *   value_str:  A, 1-10, J, Q, K
  *   suite:      ♣, ♦, ❤, ♠
+ *   suite_name: clubs, diamonds, hearts, spades
  *   color:      red, black
  *   face:       front, back
  */
@@ -265,16 +270,21 @@ function Card(card)
         this.value_str = this.value;
     }
     this.suite = "♣";
+    this.suite_name = "clubs";
+
     this.color = "black";
 
     if (card >= 39) {
         this.suite = "♠";
+        this.suite_name = "spades";
         this.color = "black";
     } else if (card >= 26) {
         this.suite = "♦";
+        this.suite_name = "diamonds";
         this.color = "red";
     } else if (card >= 13) {
         this.suite = "❤";
+        this.suite_name = "hearts";
         this.color = "red";
     }
 }
@@ -447,6 +457,11 @@ function handleDropEvent( event, ui ) {
             }
         }
     } else if (to_stack_type == "foundation") {
+        var to_stack_suite = get_stack_suite(to_stack_name);
+        if (to_stack_suite != from_card.suite_name) {
+            console.log("Suites must match.");
+            return;
+        }
         if (to_card == null) {
             if (from_card.value != 1) {
                 console.log ("Can only put ace on blank foundation space.");
@@ -540,4 +555,20 @@ function get_stack_type(stack_id)
         return ("waste");
     }
     return ("tableau");
+}
+
+/**
+ * Given foundation stack name, return foundation stack's suite.
+ */
+function get_stack_suite(stack_id)
+{
+    if (stack_id == null) {
+        return (null);
+    }
+    var parts = stack_id.split("_");
+    var suite = null;
+    if (parts.length > 0) {
+        suite = parts[parts.length - 1];
+    }
+    return (suite);
 }
