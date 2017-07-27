@@ -3,6 +3,10 @@ html, body {
    padding: 0;
    background: #2DB570;
 }
+a {
+   color: inherit;
+}
+
 #nav {
    position: relative;
    height: 28px;
