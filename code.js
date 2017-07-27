@@ -2,7 +2,7 @@
 /**
  *  Stack       Max Cards
  *  -----       ---------
- *  stock       24  
+ *  stock       24
  *  waste       24
  *  foundation  13
  *  tableau     19
@@ -36,7 +36,6 @@ function setup_deck() {
 
 
 $(function() {
-
     setup_deck();
 
     var ci = 0;
@@ -60,6 +59,8 @@ $(function() {
     foundations['diamonds'] = new Stack(false, 1);
     foundations['hearts'] = new Stack(false, 1);
     foundations['spades'] = new Stack(false, 1);
+
+    $("#placeholder_stock").on("click", recycle_waste);
 
     draw_page();
 });
@@ -171,11 +172,11 @@ function draw_page()
 }
 
 /**
- * Flip card on the waste pile.
+ * Flip next card on the waste pile.
  */
 function next_card()
 {
-    console.log("flip next card");
+    console.log("Flip next card.");
 
     var last_card_index = stock.cards.length - 1;
     var move_card = stock.cards.slice(last_card_index);
@@ -186,6 +187,26 @@ function next_card()
     dump_state();
     draw_page();
 }
+
+/**
+ * Reshuffle cards from waste and put in stock.
+ */
+function recycle_waste()
+{
+    console.log("Recycle waste.");
+
+    stock.cards = waste.cards;
+    shuffle(stock.cards);
+    waste.cards = [];
+
+    for (i in stock.cards) {
+        var card = stock.cards[i];
+        card.face = "back";
+    }
+    dump_state();
+    draw_page();
+}
+
 
 
 /**

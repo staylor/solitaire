@@ -130,7 +130,7 @@ html, body {
    left: 675px;
 }
 
-.ph_suite {
+.ph_suite, .ph_recycle, .ph_recycle i {
    font-size: 60px;
    line-height: 105px;
    color: rgba(255,255,255,0.7);
@@ -144,6 +144,10 @@ html, body {
 #placeholder_foundation_diamonds:hover, #placeholder_foundation_hearts:hover {
    color: #F44336;
 }
+.ph_recycle i:hover {
+   color: #FF9800;
+}
+
 
 .red {
    color: #F44336;
@@ -167,7 +171,7 @@ html, body {
   cursor: -webkit-grab;
   cursor: grab;
 }
-#stock .card_back:last-child {
+#stock .card_back:last-child, #placeholder_stock {
   cursor: pointer;
 }
 
