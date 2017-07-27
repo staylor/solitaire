@@ -2,6 +2,8 @@ html, body {
    margin: 0;
    padding: 0;
    background: #2DB570;
+   font-family: "nyt-franklin", arial, serif;
+   color: #ffffff;
 }
 a {
    color: inherit;
@@ -290,6 +292,22 @@ a {
    display: none;
 }
 
+#stats {
+   top: 10px;
+   position: absolute;
+   width: 100%;
+   text-align: center;
+   z-index: 150;
+   font-size: 16px;
+   z-index: 140;
+}
+#time {
+   display: inline-block;
+   margin: 0 10px;
+   font-size: 20px;
+}
+
+
 #buttons {
    position: fixed;
    bottom: 20px;
@@ -298,7 +316,6 @@ a {
    text-align: center;
    z-index: 150;
 }
-
 
 .button {
    font-family: "nyt-franklin", arial, serif;

@@ -33,10 +33,10 @@ var foundations = [];
 var tableaus = [];
 
 var moves = 0;
-var time = 0;
+var start_time = null;
 var score = 0;
 
-
+var clock_timer = null;
 
 $(function() {
     new_game();
@@ -83,7 +83,40 @@ function new_game()
 
     $("#button_new_game").on("click", new_game);
 
+    if (clock_timer != null) {
+        clearTimeout(clock_timer);
+        clock_timer = null;
+    }
+    start_time = Date.now();
+    clock_timer = window.setInterval(update_clock, 1000);
+
     draw_page();
+}
+
+
+function update_clock()
+{
+    var cur_time = Date.now();
+    // diff time from saved time
+    var diff = cur_time - start_time;
+    var seconds = Math.floor(diff/1000) % 60;
+    var minutes = Math.floor(diff/60000) % 60;
+    // TBD: add hours
+
+    var date_str = seconds;
+    if (seconds < 10) {
+        date_str = "0" + date_str;
+    }
+    date_str = minutes + ":" + date_str;
+/*
+    if (hours > 0) {
+        if (minutes < 10) {
+            date_str = "0" + date_str;
+        }
+        date_str = hours + ":" + date_str;
+    }
+*/
+    $("#time").html(date_str);
 }
 
 function setup_deck()
@@ -185,6 +218,9 @@ function draw_page()
     $("#foundation_hearts").html(foundations['hearts'].toHtml());
     $("#foundation_spades").html(foundations['spades'].toHtml());
 
+    $("#moves").html(moves);
+    $("#score").html(score);
+
     $(".card_front").draggable({
         revert: true,
         helper: helperHandler,
@@ -215,6 +251,7 @@ function next_card()
     waste.cards = waste.cards.concat(move_card);
     stock.cards = stock.cards.slice(0, last_card_index);
 
+    moves++;
     draw_page();
 }
 
@@ -519,6 +556,7 @@ function handleDropEvent( event, ui ) {
         selected = null;
     }
 
+    moves++;
     draw_page();
 }
 
