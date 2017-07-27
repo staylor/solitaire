@@ -132,7 +132,7 @@ function draw_page()
     $("#foundation_hearts").html(foundations['hearts'].toHtml());
     $("#foundation_spades").html(foundations['spades'].toHtml());
 
-    $(".card").draggable({
+    $(".card_front").draggable({
         revert: true,
         helper: helperHandler,
         start: startHandler,
@@ -229,16 +229,15 @@ Card.prototype.toString = function(){
 // Returns HTML representation of the card.
 Card.prototype.toHtml = function(i){
     var html = "";
-    /*
     if (this.face == 'back') {
-        html = "<div class=\"card card_back\">";
+        html = "<div data-id=\"" + this.id + "\" class=\"card card_back\"></div>";
     } else {
-    */
-    html = "<div id=\"card_" + this.id + "\" data-id=\"" + this.id + "\" class=\"card card_front " + this.color +
-        "\" style=\"z-index: " + i + "\" data-zi=\"" + i + "\">" +
-        "<div class=\"card_value\">" + this.value_str + "</div>" +
-        "<div class=\"card_suite\">" + this.suite + "</div>" +
-        "<div class=\"card_center\"><div class=\"card_center_suite\">" + this.suite + "</div></div></div>";
+        html = "<div id=\"card_" + this.id + "\" data-id=\"" + this.id + "\" class=\"card card_front " + this.color +
+            "\" style=\"z-index: " + i + "\" data-zi=\"" + i + "\">" +
+            "<div class=\"card_value\">" + this.value_str + "</div>" +
+            "<div class=\"card_suite\">" + this.suite + "</div>" +
+            "<div class=\"card_center\"><div class=\"card_center_suite\">" + this.suite + "</div></div></div>";
+    }
     return (html);
 }
 
