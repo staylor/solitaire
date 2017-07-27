@@ -289,3 +289,33 @@ a {
    font-family: "nyt-karnak-display-130124",georgia,"times new roman",times,serif;
    display: none;
 }
+
+#buttons {
+   position: fixed;
+   bottom: 20px;
+   width: 100%;
+   margin: 0 auto;
+   text-align: center;
+   z-index: 150;
+}
+
+
+.button {
+   font-family: "nyt-franklin", arial, serif;
+   display: inline-block;
+   color: #ffffff;
+   padding: 8px 20px 8px 20px;
+   background: #128265;
+   border: 1px solid #43A047;
+   margin: 10px;
+   cursor: pointer;
+   text-align: middle;
+   line-height: 20px;
+}
+.button i {
+   font-size: 16px;
+}
+.button:hover {
+   background: #1B5E20;
+   border: 1px solid #4CAF50;
+}

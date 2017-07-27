@@ -32,15 +32,29 @@ var waste = new Stack(false);
 var foundations = [];
 var tableaus = [];
 
-function setup_deck() {
-    for (i=0; i<52; i++) {
-        cards.push(new Card(i));
-    }
-    shuffle(cards);
-}
+var moves = 0;
+var time = 0;
+var score = 0;
+
 
 
 $(function() {
+    new_game();
+});
+
+
+function new_game()
+{
+    cards = [];
+    selected = null;
+    stock = new Stack(false);
+    waste = new Stack(false);
+    foundations = [];
+    tableaus = [];
+    moves = 0;
+    time = 0;
+    score = 0;
+
     setup_deck();
 
     var ci = 0;
@@ -55,10 +69,10 @@ $(function() {
             tableaus[ti].push(cards[ci++], face);
         }
     }
-    while (ci < (cards.length - 1)) {
+    while (ci < (cards.length)) {
         stock.push(cards[ci++], 'back');
     }
-    waste.push(cards[ci++], 'front');
+    //waste.push(cards[ci++], 'front');
 
     foundations['clubs'] = new Stack(false, 1);
     foundations['diamonds'] = new Stack(false, 1);
@@ -67,8 +81,19 @@ $(function() {
 
     $("#placeholder_stock").on("click", recycle_waste);
 
+    $("#button_new_game").on("click", new_game);
+
     draw_page();
-});
+}
+
+function setup_deck()
+{
+    for (i=0; i<52; i++) {
+        cards.push(new Card(i));
+    }
+    shuffle(cards);
+}
+
 
 
 /**
