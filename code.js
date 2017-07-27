@@ -453,7 +453,7 @@ function handleDropEvent( event, ui ) {
                 return;
             }
         } else {
-            if (to_card.suite == from_card.suite) {
+            if (to_card.suite != from_card.suite) {
                 console.log("Suites must match in foundation.");
                 return;
             }
