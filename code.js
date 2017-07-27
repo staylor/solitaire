@@ -9,7 +9,6 @@
  *  <dragged>   13
  *
  * To Do
- *  - Determine if won.
  *  - Add new game button.
  *  - Save game state history.
  *  - Support undo.
@@ -503,13 +502,15 @@ function handleDropEvent( event, ui ) {
  */
 function check_won()
 {
-    // if all cards are face up, then you won.
-    for (i in cards) {
-        var card = cards[i];
-        if (card.face == "back") {
-            $("#top_modal").hide();
-
-            return;
+    // If all cards in tableaus.
+    for (ti in tableaus) {
+        var tableau = tableaus[ti];
+        for (ci in tableau.cards) {
+            var card = tableau.cards[ci];
+            if (card.face == "back") {
+                $("#top_modal").hide();
+                return;
+            }
         }
     }
     $("#top_modal").show();
