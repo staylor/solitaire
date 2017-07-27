@@ -1,10 +1,43 @@
 html, body {
    margin: 0;
    padding: 0;
-   background: #81C784;
+   background: #2DB570;
 }
+#nav {
+   position: relative;
+   height: 28px;
+   color: #ffffff;
+   background: #128265;
+   margin: 0 auto;
+   line-height: 50px;
+   height: 50px;
+}
+.times_icon {
+   display: inline-block;
+   width: 23px;
+   height: 25px;
+   background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4wLjQsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iMjE0LjYwNHB4IiBoZWlnaHQ9IjI3Ny4wNjJweCIgdmlld0JveD0iMCAwIDIxNC42MDQgMjc3LjA2MiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjE0LjYwNCAyNzcuMDYyIg0KCSB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxwYXRoIGQ9Ik0yMDcuNDYyLDE2OS4zOTNjLTguMzcsMjIuMTg4LTIzLjg5OCwzOS40NC00Ni4wOTQsNDguNTE1di00OC41MTVsMjYuNjI5LTIzLjg5OGwtMjYuNjI5LTIzLjYwNVY4OC40OTgNCgljMjQuMjA5LTEuNzE0LDQxLjA1NC0xOS41NjUsNDEuMDU0LTQxLjQ1NGMwLTI4LjY0Ni0yNy4yMzYtMzguNzMzLTQyLjc3MS0zOC43MzNjLTMuMzIzLDAtNy4wNjEsMC0xMi41MDgsMS4zMXYxLjMxNA0KCWMyLjAyMSwwLDUuMDQ3LTAuMzA0LDYuMDU1LTAuMzA0YzEwLjc5NywwLDE4Ljg2NCw1LjA0NCwxOC44NjQsMTQuODI4YzAsNy4zNjEtNi4wNTMsMTQuODI5LTE2Ljg1MywxNC44MjkNCgljLTI2LjYyOCwwLTU3Ljg5MS0yMS41ODktOTEuOTg1LTIxLjU4OWMtMzAuMzYzLDAtNTEuMjQxLDIyLjU5Ni01MS4yNDEsNDUuNDk2YzAsMjIuNTkxLDEzLjExNSwyOS45NTUsMjYuOTMyLDM1bDAuMzA0LTEuMzE0DQoJYy00LjMzOC0yLjcyNC03LjM2NC03LjM2MS03LjM2NC0xNC44MjRjMC0xMC4wODgsOS4zODEtMTguNTYyLDIxLjE4Mi0xOC41NjJjMjguNjQ2LDAsNzQuNzQ0LDIzLjkwNiwxMDMuMzg2LDIzLjkwNmgyLjcyNXYzMy42ODkNCglsLTI2LjYyOSwyMy4xOTlsMjYuNjI5LDIzLjkwNXY0OS4xMjJjLTExLjA5NSw0LjAzMy0yMi41OTYsNS43NTEtMzQuMzk0LDUuNzUxYy00NC40ODQsMC03Mi43MjctMjYuOTMzLTcyLjcyNy03MS43MTgNCgljMC0xMC43OTEsMS4zMTMtMjEuMTgzLDQuMzM3LTMxLjM3bDIyLjE5Mi05Ljc4NHY5OS4wNTRsNDUuMDg3LTE5Ljg3MlY4OS4yMDVsLTY2LjM3LDI5LjY1NQ0KCWM2Ljc1Ny0xOS41NjcsMjAuNTc2LTMzLjY4OSwzNy4wMTctNDEuNzZsLTAuMzAzLTEuMDA3Yy00NC40ODEsOS43ODQtODcuNTUyLDQzLjQ3NC04Ny41NTIsOTQuMDA5DQoJYzAsNTguMjk5LDQ5LjEyMiw5OC42NSwxMDYuNDEsOTguNjVjNjAuNjIyLDAsOTUuMDIyLTQwLjQ0Nyw5NS4zMi05OS4zNkgyMDcuNDYyeiIvPg0KPC9zdmc+DQo=");
+}
+#nav_left {
+   position: absolute;
+   font-size: 28px;
+   line-height: 50px;
+   font-family: "nyt-karnak-display-130124",georgia,"times new roman",times,serif;
+}
+#nav_right {
+   position: absolute;
+   right: 0;
+   text-align: right;
+   font-family: "nyt-franklin", arial, serif;
+}
+#nav_right i {
+   font-size: 24px;
+   padding-right: 20px;
+   line-height: 50px;
+}
+
 #board {
-   background: #81C784;
+   //background: #81C784;
    position: relative;
    width: 775px;
    height: 900px;
@@ -150,10 +183,10 @@ html, body {
 
 
 .red {
-   color: #F44336;
+   color: #FC471D;
 }
 .black {
-   color: black;
+   color: #333;
 }
 
 .card {
