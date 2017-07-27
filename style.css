@@ -16,21 +16,28 @@ html, body {
   display: table;
   clear: both;
 }
-.times_icon, #nav_left {
+.times_icon, #nav_left, .pipe {
    float: left;
    display: inline-block;
    vertical-align: middle;
 }
+.pipe {
+   height: 22px;
+   border-left: 1px solid #EEEEEE;
+   padding: 0 2px;
+   margin-top: 9px;
+   margin-left: 2px;
+   margin-right: 2px;
+}
 .times_icon {
    margin-top: 8px;
    margin-left: 20px;
-   margin-right: 10px;
 }
 #nav_left {
    font-family: "nyt-karnak-display-130124",georgia,"times new roman",times,serif;
-   font-size: 28px;
+   font-size: 25px;
    font-weight: 400;
-   padding-top: 10px;
+   padding-top: 12px;
    padding-bottom: 10px;
 }
 #nav_right {
