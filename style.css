@@ -167,6 +167,13 @@ html, body {
 .card_back {
    background: #2196F3;
 }
+.card_back img {
+   position: absolute;
+   top: 23px;
+   left: 15px;
+   height: 60px;
+}
+
 .card_front {
   cursor: -webkit-grab;
   cursor: grab;
