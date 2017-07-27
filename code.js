@@ -290,7 +290,7 @@ Card.prototype.toString = function(){
 Card.prototype.toHtml = function(i){
     var html = "";
     if (this.face == 'back') {
-        html = "<div data-id=\"" + this.id + "\" class=\"card card_back\"></div>";
+        html = "<div data-id=\"" + this.id + "\" class=\"card card_back\"><img src=\"images/nyt_logo.png\"/></div>";
     } else {
         html = "<div id=\"card_" + this.id + "\" data-id=\"" + this.id + "\" class=\"card card_front " + this.color +
             "\" style=\"z-index: " + i + "\" data-zi=\"" + i + "\">" +
