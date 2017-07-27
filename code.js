@@ -69,6 +69,8 @@ $(function() {
  */
 function dump_state()
 {
+    console.log("---------------------");
+
     var str = "";
     var comma = "";
     for (i in stock.cards) {
@@ -96,7 +98,7 @@ function dump_state()
             str += comma + card.toString();
             comma = ", ";
         }
-        console.log("tableau " + ti + ": " + str);
+        console.log("tableau" + ti + ": " + str);
     }
 
     for (fi in foundations) {
@@ -108,7 +110,7 @@ function dump_state()
             str += comma + card.toString();
             comma = ", ";
         }
-        console.log("foundation " + fi + ": " + str);
+        console.log(fi + ": " + str);
     }
 }
 
@@ -352,8 +354,8 @@ function handleDropEvent( event, ui ) {
         return;
     }
     if ((from_stack_name == to_stack_name) ||
-        ("placeholder_" + from_stack_name == to_stack_name)) {
-        console.log("Dropped cache on it's original stack (ph).");
+        ("placeholder_" + from_stack_name == to_stack_name) ||
+        ("dropzone_" + from_stack_name == to_stack_name)) {
         return;
     }
 
