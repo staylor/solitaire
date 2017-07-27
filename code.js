@@ -372,7 +372,6 @@ function handleDropEvent( event, ui ) {
     dump_state();
     draw_page();
 
-
     $("#drag_container").remove();
     if (selected != null) {
         selected.remove();
@@ -401,12 +400,14 @@ function get_stack(stack_id)
         index = parts[parts.length - 1];
     }
     if ((stack_id.startsWith("tableau")) ||
-        (stack_id.startsWith("placeholder_tableau"))) {
+        (stack_id.startsWith("placeholder_tableau")) ||
+        (stack_id.startsWith("dropzone_tableau"))) {
         if (index != null) {
             return (tableaus[index]);
         }
     } else if ((stack_id.startsWith("foundation")) ||
-               (stack_id.startsWith("placeholder_foundation"))) {
+               (stack_id.startsWith("placeholder_foundation")) ||
+               (stack_id.startsWith("dropzone_foundation"))) {
         if (index != null) {
             return (foundations[index]);
         }

@@ -81,6 +81,55 @@ html, body {
    left: 690px;
 }
 
+.dropzone {
+   position: absolute;
+   z-index: 0;
+   width: 115px;
+   height: 900px;
+   top: 150px;
+   border: 1px solid red;
+}
+#dropzone_foundation_clubs {
+   top: -25px;
+   left: 330px;
+   height: 160px;
+}
+#dropzone_foundation_diamonds {
+   top: -25px;
+   left: 445px;
+   height: 160px;
+}
+#dropzone_foundation_hearts {
+   top: -25px;
+   left: 560px;
+   height: 160px;
+}
+#dropzone_foundation_spades {
+   top: -25px;
+   left: 675px;
+   height: 160px;
+}
+#dropzone_tableau_1 {
+   left: -15px;
+}
+#dropzone_tableau_2 {
+   left: 100px;
+}
+#dropzone_tableau_3 {
+   left: 215px;
+}
+#dropzone_tableau_4 {
+   left: 330px;
+}
+#dropzone_tableau_5 {
+   left: 445px;
+}
+#dropzone_tableau_6 {
+   left: 560px;
+}
+#dropzone_tableau_7 {
+   left: 675px;
+}
 
 .ph_suite {
    font-size: 60px;
