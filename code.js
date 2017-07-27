@@ -64,6 +64,24 @@ $(function() {
     draw_page();
 });
 
+
+/**
+ * Check any cards in tableau need to be flipped.
+ */
+function flip_tableau_cards()
+{
+    for (ti in tableaus) {
+        var tableau = tableaus[ti];
+        for (ci in tableau.cards) {
+            var card = tableau.cards[ci];
+            if (ci == (tableau.cards.length - 1)) {
+                // last card in tableau stack so make sure front is showing.
+                card.face = 'front';
+            }
+        }
+    }
+}
+
 /**
  * Write current state of cards to the console.
  */
@@ -117,6 +135,7 @@ function dump_state()
 
 function draw_page()
 {
+    flip_tableau_cards();
     dump_state();
     $("#tableau_1").html(tableaus[1].toHtml());
     $("#tableau_2").html(tableaus[2].toHtml());
