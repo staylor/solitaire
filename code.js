@@ -445,12 +445,20 @@ function handleDropEvent( event, ui ) {
                 console.log("Can only put card one less in value on card in tableau.");
                 return;
             }
-
         }
     } else if (to_stack_type == "foundation") {
         if (to_card == null) {
             if (from_card.value != 1) {
                 console.log ("Can only put ace on blank foundation space.");
+                return;
+            }
+        } else {
+            if (to_card.suite == from_card.suite) {
+                console.log("Suites must match in foundation.");
+                return;
+            }
+            if (to_card.value != (from_card.value - 1)) {
+                console.log("Can only put card one greater in value on card in foundation.");
                 return;
             }
         }
