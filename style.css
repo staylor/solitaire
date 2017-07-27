@@ -172,6 +172,7 @@ html, body {
    top: 23px;
    left: 15px;
    height: 60px;
+   opacity: 0.2;
 }
 
 .card_front {
