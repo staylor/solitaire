@@ -200,12 +200,24 @@ a {
    left: 675px;
 }
 
-.ph_suit, .ph_recycle, .ph_recycle i {
+.ph_recycle, .ph_recycle i {
    font-size: 60px;
    line-height: 105px;
    color: rgba(255,255,255,0.7);
    text-align: center;
    vertical-align: middle;
+}
+.ph_suit {
+   text-align: center;
+   vertical-align: middle;
+}
+.ph_suit img {
+   width: 50px;
+   opacity: 0.3;
+   margin-top: 28px;
+}
+.ph_suit img:hover {
+   opacity: 0.1;
 }
 
 .card_suit img {
