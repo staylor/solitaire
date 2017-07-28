@@ -9,7 +9,7 @@
  *  <dragged>   13
  *
  * To Do
- *  - Add new game button.
+ *  - Fix: when card is flipped in tableau add 5 to score.
  *  - Save game state history.
  *  - Support undo.
  *  - Keep track of score.
@@ -279,6 +279,11 @@ function recycle_waste()
             var card = stock.cards[i];
             card.face = "back";
         }
+        score -= 100;
+        if (score < 0) {
+            score = 0;
+        }
+
         draw_page();
         $("#stock .card_back:last-child").on("click", next_card);
     } else {
@@ -505,6 +510,7 @@ function handleDropEvent( event, ui ) {
     // move cards from one stack to another
     var from_stack = get_stack(from_stack_name);
     var to_stack = get_stack(to_stack_name);
+    var from_stack_type = get_stack_type(from_stack_name);
     var to_stack_type = get_stack_type(to_stack_name);
 
     // if tableau then from card has to be one less than last to card and opposite suit or king on empty stack
@@ -571,6 +577,22 @@ function handleDropEvent( event, ui ) {
     }
 
     moves++;
+
+    // scoring
+    console.log("!!!! from " + from_stack_type + " to " + to_stack_type);
+    if ((from_stack_type == "waste") && (to_stack_type == "tableau")) {
+        score += 5;
+    } else if ((from_stack_type == "waste") && (to_stack_type == "foundation")) {
+        score += 10;
+    } else if ((from_stack_type == "tableau") && (to_stack_type == "foundation")) {
+        score += 10;
+    } else if ((from_stack_type == "foundation") && (to_stack_type == "tableau")) {
+        score -= 15;
+    }
+    if (score < 0) {
+        score = 0;
+    }
+
     draw_page();
 }
 
