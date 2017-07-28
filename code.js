@@ -9,7 +9,6 @@
  *  <dragged>   13
  *
  * To Do
- *  - Fix: when card is flipped in tableau add 5 to score.
  *  - Save game state history.
  *  - Support undo.
  *  - Keep track of score.
@@ -137,6 +136,19 @@ function setup_deck()
  */
 function flip_tableau_cards()
 {
+    var num_fronts_before = 0;
+    var num_fronts_after = 0;
+
+    for (ti in tableaus) {
+        var tableau = tableaus[ti];
+        for (ci in tableau.cards) {
+            var card = tableau.cards[ci];
+            if (card.face == 'front') {
+                num_fronts_before++;
+            }
+        }
+    }
+
     for (ti in tableaus) {
         var tableau = tableaus[ti];
         for (ci in tableau.cards) {
@@ -145,8 +157,16 @@ function flip_tableau_cards()
                 // last card in tableau stack so make sure front is showing.
                 card.face = 'front';
             }
+            if (card.face == 'front') {
+                num_fronts_after++;
+            }
         }
     }
+
+    if (num_fronts_after > num_fronts_before) {
+        score += 5;
+    }
+
 }
 
 /**
