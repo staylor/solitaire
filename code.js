@@ -155,13 +155,14 @@ function dump_state()
 
     var str = "";
     var comma = "";
+    var num_cards = 0;
     for (i in stock.cards) {
         var card = stock.cards[i];
         str += comma + card.toString();
         comma = ", ";
     }
-    console.log("stock: " + str);
-
+    console.log("stock (" + stock.cards.length + "): " + str);
+    num_cards = stock.cards.length;
     str = "";
     comma = "";
     for (i in waste.cards) {
@@ -169,7 +170,8 @@ function dump_state()
         str += comma + card.toString();
         comma = ", ";
     }
-    console.log("waste: " + str);
+    console.log("waste (" + waste.cards.length + "): " + str);
+    num_cards += waste.cards.length;
 
     for (ti in tableaus) {
         str = ""
@@ -180,7 +182,8 @@ function dump_state()
             str += comma + card.toString();
             comma = ", ";
         }
-        console.log("tableau" + ti + ": " + str);
+        console.log("tableau" + ti + " (" + tableau.cards.length + "): " + str);
+        num_cards += tableau.cards.length;
     }
 
     for (fi in foundations) {
@@ -192,8 +195,10 @@ function dump_state()
             str += comma + card.toString();
             comma = ", ";
         }
-        console.log(fi + ": " + str);
+        console.log(fi + " (" + foundation.cards.length + "): " + str);
+        num_cards += foundation.cards.length;
     }
+    console.log("number of cards: " + num_cards);
 }
 
 
