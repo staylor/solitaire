@@ -91,8 +91,7 @@ function new_game()
 
     $("#button_new_game").on("click", new_game);
 
-    $("#stock .card_back:last-child").on("click", next_card);
-
+    //$("#stock .card_back:last-child").on("click", next_card);
 }
 
 
@@ -262,6 +261,8 @@ function draw_page()
     $(".tableau, .foundation").droppable({
         drop: handleDropEvent
     });
+    $("#stock .card_back:last-child").on("click", next_card);
+
 }
 
 /**
@@ -279,7 +280,6 @@ function next_card()
 
     moves++;
     draw_page();
-    $("#stock .card_back:last-child").on("click", next_card);
 }
 
 /**
@@ -305,7 +305,6 @@ function recycle_waste()
         }
 
         draw_page();
-        $("#stock .card_back:last-child").on("click", next_card);
     } else {
         console.log("Didn't recycle waste because stock was set or waste was empty.");
     }
