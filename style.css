@@ -315,17 +315,17 @@ a {
    display: none;
 }
 
-#stats {
-   top: 10px;
-   margin: 0 auto;
+.stats, #help {
+   display: inline-block;
+   margin-left: 20px;
    text-align: center;
-   z-index: 150;
-   font-size: 16px;
+}
+.title {
+   font-size: 12px;
+   color: #BDBDBD;
 }
 #time {
    display: inline-block;
-   margin: 0 10px;
-   font-size: 20px;
 }
 
 
