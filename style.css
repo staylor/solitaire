@@ -200,13 +200,22 @@ a {
    left: 675px;
 }
 
-.ph_suite, .ph_recycle, .ph_recycle i {
+.ph_suit, .ph_recycle, .ph_recycle i {
    font-size: 60px;
    line-height: 105px;
    color: rgba(255,255,255,0.7);
    text-align: center;
    vertical-align: middle;
 }
+
+.card_suit img {
+   width: 26px;
+   margin-top: 3px;
+}
+.card_center_suit img {
+   width: 48px;
+}
+
 
 #placeholder_foundation_clubs:hover, #placeholder_foundation_spades:hover {
    color: black;
@@ -253,7 +262,7 @@ a {
   cursor: pointer;
 }
 
-.card_value, .card_suite, .card_center {
+.card_value, .card_suit, .card_center {
    position: absolute;
    top: 5px;
    font-size: 24px;
@@ -262,9 +271,8 @@ a {
 .card_value {
    left: 5px;
    font-family: "jk-cards", "nyt-franklin", arial, serif;
-
 }
-.card_suite {
+.card_suit {
    right: 5px;
 }
 .card_center {
