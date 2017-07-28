@@ -1,3 +1,7 @@
+@font-face {
+    font-family: "jk-cards";
+    src: url("fonts/jk-playingcards.woff") format('woff');
+}
 html, body {
    margin: 0;
    padding: 0;
@@ -279,6 +283,7 @@ a {
 }
 .card_value {
    left: 5px;
+   //font-family: "jk-cards", "nyt-franklin", arial, serif;
    font-family: "nyt-franklin", arial, serif;
 }
 .card_suit {
