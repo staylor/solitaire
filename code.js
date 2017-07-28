@@ -79,10 +79,6 @@ function new_game()
     foundations['hearts'] = new Stack(false, 1);
     foundations['spades'] = new Stack(false, 1);
 
-    $("#placeholder_stock").on("click", recycle_waste);
-
-    $("#button_new_game").on("click", new_game);
-
     if (clock_timer != null) {
         clearTimeout(clock_timer);
         clock_timer = null;
@@ -91,6 +87,13 @@ function new_game()
     clock_timer = window.setInterval(update_clock, 1000);
 
     draw_page();
+
+    $("#placeholder_stock").on("click", recycle_waste);
+
+    $("#button_new_game").on("click", new_game);
+
+    $("#stock .card_back:last-child").on("click", next_card);
+
 }
 
 
@@ -239,8 +242,6 @@ function draw_page()
     $(".tableau, .foundation").droppable({
         drop: handleDropEvent
     });
-
-    $("#stock .card_back:last-child").on("click", next_card);
 }
 
 /**
@@ -258,6 +259,7 @@ function next_card()
 
     moves++;
     draw_page();
+    $("#stock .card_back:last-child").on("click", next_card);
 }
 
 /**
@@ -265,17 +267,24 @@ function next_card()
  */
 function recycle_waste()
 {
-    console.log("Recycle waste.");
+    if (((waste.cards != null) && (waste.cards.length > 0)) &&
+        ((stock.cards == null) || (stock.cards.length == 0))) {
+        console.log("Recycle waste.");
 
-    stock.cards = waste.cards;
-    shuffle(stock.cards);
-    waste.cards = [];
+        stock.cards = waste.cards;
+        shuffle(stock.cards);
+        waste.cards = [];
 
-    for (i in stock.cards) {
-        var card = stock.cards[i];
-        card.face = "back";
+        for (i in stock.cards) {
+            var card = stock.cards[i];
+            card.face = "back";
+        }
+        draw_page();
+        $("#stock .card_back:last-child").on("click", next_card);
+    } else {
+        console.log("Didn't recycle waste because stock was set or waste was empty.");
     }
-    draw_page();
+
 }
 
 
