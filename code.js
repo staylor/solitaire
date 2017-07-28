@@ -201,7 +201,7 @@ function draw_page()
 {
     flip_tableau_cards();
     check_won();
-    //dump_state();
+    dump_state();
     $("#tableau_1").html(tableaus[1].toHtml());
     $("#tableau_2").html(tableaus[2].toHtml());
     $("#tableau_3").html(tableaus[3].toHtml());
@@ -312,8 +312,8 @@ Stack.prototype.toHtml = function(){
  * Card class. Pass value from 0 to 51 to constructor.
  *   value:      1-13
  *   value_str:  A, 1-10, J, Q, K
- *   suite:      ♣, ♦, ❤, ♠
- *   suite_name: clubs, diamonds, hearts, spades
+ *   suit:      ♣, ♦, ❤, ♠
+ *   suit_name: clubs, diamonds, hearts, spades
  *   color:      red, black
  *   face:       front, back
  */
@@ -333,29 +333,29 @@ function Card(card)
     } else {
         this.value_str = this.value;
     }
-    this.suite = "♣";
-    this.suite_name = "clubs";
+    this.suit = "♣";
+    this.suit_name = "clubs";
 
     this.color = "black";
 
     if (card >= 39) {
-        this.suite = "♠";
-        this.suite_name = "spades";
+        this.suit = "♠";
+        this.suit_name = "spades";
         this.color = "black";
     } else if (card >= 26) {
-        this.suite = "♦";
-        this.suite_name = "diamonds";
+        this.suit = "♦";
+        this.suit_name = "diamonds";
         this.color = "red";
     } else if (card >= 13) {
-        this.suite = "❤";
-        this.suite_name = "hearts";
+        this.suit = "❤";
+        this.suit_name = "hearts";
         this.color = "red";
     }
 }
 
 
 Card.prototype.toString = function(){
-    return (this.value_str + this.suite);
+    return (this.value_str + this.suit);
 }
 
 // Returns HTML representation of the card.
@@ -367,8 +367,8 @@ Card.prototype.toHtml = function(i){
         html = "<div id=\"card_" + this.id + "\" data-id=\"" + this.id + "\" class=\"card card_front " + this.color +
             "\" style=\"z-index: " + i + "\" data-zi=\"" + i + "\">" +
             "<div class=\"card_value\">" + this.value_str + "</div>" +
-            "<div class=\"card_suite\">" + this.suite + "</div>" +
-            "<div class=\"card_center\"><div class=\"card_center_suite\">" + this.suite + "</div></div></div>";
+            "<div class=\"card_suit\">" + get_suit_svg(this.suit_name) + "</div>" +
+            "<div class=\"card_center\"><div class=\"card_center_suit\">" + get_suit_svg(this.suit_name) + "</div></div></div>";
     }
     return (html);
 }
@@ -493,7 +493,7 @@ function handleDropEvent( event, ui ) {
     var to_stack = get_stack(to_stack_name);
     var to_stack_type = get_stack_type(to_stack_name);
 
-    // if tableau then from card has to be one less than last to card and opposite suite or king on empty stack
+    // if tableau then from card has to be one less than last to card and opposite suit or king on empty stack
     var from_card_index = card_index(from_stack.cards, from_card_id);
     var from_card = from_stack.cards[from_card_index];
     var to_card = null;
@@ -521,9 +521,9 @@ function handleDropEvent( event, ui ) {
             }
         }
     } else if (to_stack_type == "foundation") {
-        var to_stack_suite = get_stack_suite(to_stack_name);
-        if (to_stack_suite != from_card.suite_name) {
-            console.log("Suites must match.");
+        var to_stack_suit = get_stack_suit(to_stack_name);
+        if (to_stack_suit != from_card.suit_name) {
+            console.log("Suits must match.");
             return;
         }
         if (to_card == null) {
@@ -532,8 +532,8 @@ function handleDropEvent( event, ui ) {
                 return;
             }
         } else {
-            if (to_card.suite != from_card.suite) {
-                console.log("Suites must match in foundation.");
+            if (to_card.suit != from_card.suit) {
+                console.log("Suits must match in foundation.");
                 return;
             }
             if (to_card.value != (from_card.value - 1)) {
@@ -641,17 +641,35 @@ function get_stack_type(stack_id)
 }
 
 /**
- * Given foundation stack name, return foundation stack's suite.
+ * Given foundation stack name, return foundation stack's suit.
  */
-function get_stack_suite(stack_id)
+function get_stack_suit(stack_id)
 {
     if (stack_id == null) {
         return (null);
     }
     var parts = stack_id.split("_");
-    var suite = null;
+    var suit = null;
     if (parts.length > 0) {
-        suite = parts[parts.length - 1];
+        suit = parts[parts.length - 1];
     }
-    return (suite);
+    return (suit);
+}
+
+
+function get_suit_svg(suit_name)
+{
+    if (suit_name == "clubs") {
+        return ("<img src=\"data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTQwcHgiIGhlaWdodD0iMTQwcHgiIHZpZXdCb3g9IjAgMCAxNDAgMTQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCA0NS4yICg0MzUxNCkgLSBodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2ggLS0+CiAgICA8dGl0bGU+Q2FyZC9TdWl0cy9DbHViPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGRlZnM+PC9kZWZzPgogICAgPGcgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgZmlsbD0iIzMzMzMzMyI+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik05NS4wMDYsMTA1LjAzOCBDMTA5LjMxLDEwNS4wMzggMTIwLjkwNSw5My40NDIgMTIwLjkwNSw3OS4xMzkgQzEyMC45MDUsNjQuODM2IDEwOS4zMSw1My4yNCA5NS4wMDYsNTMuMjQgQzkzLjE0NCw1My4yNCA5MS4zMjksNTMuNDQxIDg5LjU3OCw1My44MTQgQzk0LjAzOSw0OS4xNjIgOTYuNzg1LDQyLjg1MiA5Ni43ODUsMzUuODk4IEM5Ni43ODUsMjEuNTk1IDg1LjE5MSwxMCA3MC44ODcsMTAgQzU2LjU4MywxMCA0NC45ODgsMjEuNTk1IDQ0Ljk4OCwzNS44OTggQzQ0Ljk4OCw0Mi44NjUgNDcuNzQ0LDQ5LjE4NSA1Mi4yMiw1My44NCBDNTAuMTk2LDUzLjMzMyA0OC4wOCw1My4wNTkgNDUuOSw1My4wNTkgQzMxLjU5Niw1My4wNTkgMjAsNjQuNjU1IDIwLDc4Ljk1OCBDMjAsOTMuMjYyIDMxLjU5NiwxMDQuODU3IDQ1LjksMTA0Ljg1NyBDNTMuODk1LDEwNC44NTcgNjEuMDQxLDEwMS4yMzIgNjUuNzkyLDk1LjUzOCBMNjUuNzkyLDk2LjY2IEM2NS43OTIsMTA4LjE4MyA1Ni40NTEsMTE3LjUyMiA0NC45MywxMTcuNTIyIEw0NC45MywxMjYuNCBMOTUuOTc2LDEyNi40IEw5NS45NzYsMTE3LjUyMiBDODQuMjA5LDExNy41MjIgNzQuNjcsMTA3Ljk4MyA3NC42Nyw5Ni4yMTYgTDc0LjY3LDk1LjE2NSBDNzkuNDEyLDEwMS4xNzUgODYuNzU2LDEwNS4wMzggOTUuMDA2LDEwNS4wMzgiPjwvcGF0aD4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg==\"/>");
+    }
+    if (suit_name == "diamonds") {
+        return ("<img src=\"data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTQwcHgiIGhlaWdodD0iMTQwcHgiIHZpZXdCb3g9IjAgMCAxNDAgMTQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCA0NS4yICg0MzUxNCkgLSBodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2ggLS0+CiAgICA8dGl0bGU+Q2FyZC9TdWl0cy9EaWFtb25kPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGRlZnM+PC9kZWZzPgogICAgPGcgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgZmlsbD0iI0ZDNDcxRCI+CiAgICAgICAgICAgIDxwb2x5Z29uIHBvaW50cz0iNjkuNjE2IDEyNy4yMzQgMTUgNjkuMTE3IDY5LjYxNiAxMSAxMjQuMjMyIDY5LjExNyI+PC9wb2x5Z29uPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+\"/>");
+    }
+    if (suit_name == "hearts") {
+        return ("<img src=\"data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTQwcHgiIGhlaWdodD0iMTQwcHgiIHZpZXdCb3g9IjAgMCAxNDAgMTQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCA0NS4yICg0MzUxNCkgLSBodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2ggLS0+CiAgICA8dGl0bGU+Q2FyZC9TdWl0cy9IZWFydDwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxkZWZzPjwvZGVmcz4KICAgIDxnIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGZpbGw9IiNGQzQ3MUQiPgogICAgICAgICAgICA8cGF0aCBkPSJNMTE1LjA1Miw2OC4yOTQgQzExOS43NDMsNjMuMzk3IDEyMi42MzEsNTYuNzU5IDEyMi42MzEsNDkuNDQxIEMxMjIuNjMxLDM0LjM4NiAxMTAuNDI2LDIyLjE4IDk1LjM2OSwyMi4xOCBDODQuNTk4LDIyLjE4IDc1LjI4OCwyOC40MjkgNzAuODYxLDM3LjQ5NyBDNjYuNDY5LDI4LjMzIDU3LjEwNiwyMiA0Ni4yNjIsMjIgQzMxLjIwNiwyMiAxOSwzNC4yMDUgMTksNDkuMjYyIEMxOSw1Ni42NjggMjEuOTU5LDYzLjM4MiAyNi43NTMsNjguMjk1IEwyNi43NDksNjguMjk3IEwyNi45LDY4LjQ0OCBDMjYuOTQ3LDY4LjQ5NyAyNi45OTUsNjguNTQ2IDI3LjA0NCw2OC41OTQgTDcwLjY0MSwxMTYuMTM0IEwxMTQuNDA3LDY4Ljk0NiBDMTE0LjU1OSw2OC43OTkgMTE0LjcwOSw2OC42NDkgMTE0Ljg1OCw2OC40OTcgTDExNS4wNTksNjguMjk3IEwxMTUuMDUyLDY4LjI5NCBaIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=\"/>");
+    }
+    if (suit_name == "spades") {
+        return ("<img src=\"data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTQwcHgiIGhlaWdodD0iMTQwcHgiIHZpZXdCb3g9IjAgMCAxNDAgMTQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCA0NS4yICg0MzUxNCkgLSBodHRwOi8vd3d3LmJvaGVtaWFuY29kaW5nLmNvbS9za2V0Y2ggLS0+CiAgICA8dGl0bGU+Q2FyZC9TdWl0cy9TcGFkZTwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxkZWZzPjwvZGVmcz4KICAgIDxnIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGZpbGw9IiMzMzMzMzMiPgogICAgICAgICAgICA8cGF0aCBkPSJNOTQuMzY5LDEwMS42MzQgQzEwOS40MjUsMTAxLjYzNCAxMjEuNjMxLDg5LjQyOCAxMjEuNjMxLDc0LjM3MiBDMTIxLjYzMSw2Ni45NjUgMTE4LjY3Miw2MC4yNTIgMTEzLjg3OCw1NS4zMzggTDExMy44ODIsNTUuMzM3IEwxMTMuNzMxLDU1LjE4NSBDMTEzLjY4Myw1NS4xMzYgMTEzLjYzNiw1NS4wODcgMTEzLjU4Nyw1NS4wMzkgTDY5Ljk5LDExIEwyNi4yMjMsNTQuNjg3IEMyNi4wNzIsNTQuODM1IDI1LjkyMiw1NC45ODUgMjUuNzczLDU1LjEzNiBMMjUuNTcyLDU1LjMzNyBMMjUuNTc5LDU1LjM0IEMyMC44ODgsNjAuMjM3IDE4LDY2Ljg3NCAxOCw3NC4xOTIgQzE4LDg5LjI0NyAzMC4yMDUsMTAxLjQ1MyA0NS4yNjIsMTAxLjQ1MyBDNTMuMDk5LDEwMS40NTMgNjAuMTYxLDk4LjE0MiA2NS4xMzQsOTIuODQ2IEM2NC43MDIsMTAzLjk4NyA1NS41MzksMTEyLjg4NyA0NC4yOTIsMTEyLjg4NyBMNDQuMjkyLDEyMS43NjUgTDk1LjMzOSwxMjEuNzY1IEw5NS4zMzksMTEyLjg4NyBDODMuODk2LDExMi44ODcgNzQuNTYzLDEwMy44NjYgNzQuMDU3LDkyLjU1IEM3OS4wNDgsOTguMTI0IDg2LjI5OCwxMDEuNjM0IDk0LjM2OSwxMDEuNjM0Ij48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=\"/>");
+    }
+
 }
