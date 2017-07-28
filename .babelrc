@@ -1,0 +1,6 @@
+{
+  "presets": [
+    "babel-preset-kyt-react",
+    "stage-0"
+  ]
+}

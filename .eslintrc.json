@@ -1,0 +1,16 @@
+{
+  "extends": ["./node_modules/kyt/config/.eslintrc.base.json"],
+
+  "parser": "babel-eslint",
+
+  "settings": {
+  },
+
+  "env": {},
+
+  "plugins": [],
+
+  "rules": {
+    "no-underscore-dangle": ["error", { "allow": ["__typename"] }]
+  }
+}
