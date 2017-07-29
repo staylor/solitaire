@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getSuitSVG } from './svg';
+import { getSuitSVG } from './utils/svg';
 
 /* eslint-disable react/prop-types */
 

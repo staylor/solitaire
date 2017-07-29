@@ -1,15 +1,24 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Card from './Card';
 
-/* eslint-disable react/prop-types */
-
 export default class Stack extends Component {
+  static propTypes = {
+    splay: PropTypes.boolean,
+  };
+
+  static defaultProps = {
+    splay: false,
+  };
+
   constructor(props) {
     super(props);
 
-    this.cards = [props.splay];
+    this.cards = [];
 
-    // Whether to splay cards when displaying.  Tableau stacks are splayed.  Other stacks aren't.
+    // Whether to splay cards when displaying.
+    // Tableau stacks are splayed.
+    // Other stacks aren't.
     this.splay = props.splay;
   }
 

@@ -19,68 +19,68 @@
  *  - http://api.jqueryui.com/draggable/
  */
 
-let cards = [];
+// const cards = [];
 
 // cards currently being dragged
 let selected = null;
 
 // stacks
-let stock = new Stack(false);
-let waste = new Stack(false);
-let foundations = [];
-let tableaus = [];
+// const stock = new Stack();
+// const waste = new Stack();
+// const foundations = [];
+// const tableaus = [];
 
-let moves = 0;
-let start_time = null;
-let score = 0;
+// let moves = 0;
+// let score = 0;
 
-let clock_timer = null;
+// let start_time = null;
+// let clock_timer = null;
 
 $(() => {
   new_game();
 });
 
 function new_game() {
-  cards = [];
-  selected = null;
-  stock = new Stack(false);
-  waste = new Stack(false);
-  foundations = [];
-  tableaus = [];
-  moves = 0;
-  time = 0;
-  score = 0;
-
-  setup_deck();
-
-  let ci = 0;
-
-  for (let ti = 1; ti <= 7; ti++) {
-    tableaus[ti] = new Stack(true, 101);
-    for (let tci = 1; tci <= ti; tci++) {
-      var face = 'back';
-      if (tci == ti) {
-        var face = 'front';
-      }
-      tableaus[ti].push(cards[ci++], face);
-    }
-  }
-  while (ci < cards.length) {
-    stock.push(cards[ci++], 'back');
-  }
+  // cards = [];
+  // selected = null;
+  // stock = new Stack(false);
+  // waste = new Stack(false);
+  // foundations = [];
+  // tableaus = [];
+  // moves = 0;
+  // time = 0;
+  // score = 0;
+  //
+  // setup_deck();
+  //
+  // let ci = 0;
+  //
+  // for (let ti = 1; ti <= 7; ti++) {
+  //   tableaus[ti] = new Stack(true, 101);
+  //   for (let tci = 1; tci <= ti; tci++) {
+  //     var face = 'back';
+  //     if (tci == ti) {
+  //       var face = 'front';
+  //     }
+  //     tableaus[ti].push(cards[ci++], face);
+  //   }
+  // }
+  // while (ci < cards.length) {
+  //   stock.push(cards[ci++], 'back');
+  // }
   // waste.push(cards[ci++], 'front');
 
-  foundations.clubs = new Stack(false, 1);
-  foundations.diamonds = new Stack(false, 1);
-  foundations.hearts = new Stack(false, 1);
-  foundations.spades = new Stack(false, 1);
+  // foundations.clubs = new Stack(false, 1);
+  // foundations.diamonds = new Stack(false, 1);
+  // foundations.hearts = new Stack(false, 1);
+  // foundations.spades = new Stack(false, 1);
 
-  if (clock_timer != null) {
-    clearTimeout(clock_timer);
-    clock_timer = null;
-  }
-  start_time = Date.now();
-  clock_timer = window.setInterval(update_clock, 1000);
+  // if (clock_timer != null) {
+  //   clearTimeout(clock_timer);
+  //   clock_timer = null;
+  // }
+  // start_time = Date.now();
+  // clock_timer = window.setInterval(update_clock, 1000);
 
   draw_page();
 
@@ -91,36 +91,36 @@ function new_game() {
   // $("#stock .card_back:last-child").on("click", next_card);
 }
 
-function update_clock() {
-  const cur_time = Date.now();
-  // diff time from saved time
-  const diff = cur_time - start_time;
-  const seconds = Math.floor(diff / 1000) % 60;
-  const minutes = Math.floor(diff / 60000) % 60;
-  // TBD: add hours
+// function update_clock() {
+//   const cur_time = Date.now();
+//   // diff time from saved time
+//   const diff = cur_time - start_time;
+//   const seconds = Math.floor(diff / 1000) % 60;
+//   const minutes = Math.floor(diff / 60000) % 60;
+//   // TBD: add hours
+//
+//   let date_str = seconds;
+//   if (seconds < 10) {
+//     date_str = `0${date_str}`;
+//   }
+//   date_str = `${minutes}:${date_str}`;
+//   /*
+//     if (hours > 0) {
+//         if (minutes < 10) {
+//             date_str = "0" + date_str;
+//         }
+//         date_str = hours + ":" + date_str;
+//     }
+// */
+//   $('#time').html(date_str);
+// }
 
-  let date_str = seconds;
-  if (seconds < 10) {
-    date_str = `0${date_str}`;
-  }
-  date_str = `${minutes}:${date_str}`;
-  /*
-    if (hours > 0) {
-        if (minutes < 10) {
-            date_str = "0" + date_str;
-        }
-        date_str = hours + ":" + date_str;
-    }
-*/
-  $('#time').html(date_str);
-}
-
-function setup_deck() {
-  for (i = 0; i < 52; i++) {
-    cards.push(new Card(i));
-  }
-  shuffle(cards);
-}
+// function setup_deck() {
+//   for (i = 0; i < 52; i++) {
+//     cards.push(new Card(i));
+//   }
+//   shuffle(cards);
+// }
 
 /**
  * Check any cards in tableau need to be flipped.
@@ -297,123 +297,100 @@ function recycle_waste() {
   }
 }
 
-/**
- * Stack class.
- */
-function Stack(splay) {
-  this.cards = [];
-
-  // Whether to splay cards when displaying.  Tableau stacks are splayed.  Other stacks aren't.
-  this.splay = splay;
-}
-
-// Returns HTML representation of the card stack.
-Stack.prototype.push = function(card, face) {
-  card.face = face;
-  this.cards.push(card);
-};
-
-Stack.prototype.toHtml = function() {
-  let html = '';
-  const top_margin = 0;
-
-  zi = 1;
-  for (i in this.cards) {
-    const card = this.cards[i];
-    html += card.toHtml(zi++);
-  }
-  return html;
-};
-
-/**
- * Card class. Pass value from 0 to 51 to constructor.
- *   value:      1-13
- *   value_str:  A, 1-10, J, Q, K
- *   suit:      ♣, ♦, ❤, ♠
- *   suit_name: clubs, diamonds, hearts, spades
- *   color:      red, black
- *   face:       front, back
- */
-function Card(card) {
-  this.id = card;
-  this.face = 'front';
-  this.value = card % 13 + 1;
-  if (this.value == 1) {
-    this.value_str = 'A';
-  } else if (this.value == 11) {
-    this.value_str = 'J';
-  } else if (this.value == 12) {
-    this.value_str = 'Q';
-  } else if (this.value == 13) {
-    this.value_str = 'K';
-  } else {
-    this.value_str = this.value;
-  }
-  this.suit = '♣';
-  this.suit_name = 'clubs';
-
-  this.color = 'black';
-
-  if (card >= 39) {
-    this.suit = '♠';
-    this.suit_name = 'spades';
-    this.color = 'black';
-  } else if (card >= 26) {
-    this.suit = '♦';
-    this.suit_name = 'diamonds';
-    this.color = 'red';
-  } else if (card >= 13) {
-    this.suit = '❤';
-    this.suit_name = 'hearts';
-    this.color = 'red';
-  }
-}
-
-Card.prototype.toString = function() {
-  return this.value_str + this.suit;
-};
-
-// Returns HTML representation of the card.
-Card.prototype.toHtml = function(i) {
-  let html = '';
-  if (this.face == 'back') {
-    html = `<div data-id="${this
-      .id}" class="card card_back"><img src="images/nyt_logo.png"/></div>`;
-  } else {
-    html =
-      `<div id="card_${this.id}" data-id="${this.id}" class="card card_front ${this
-        .color}" style="z-index: ${i}" data-zi="${i}">` +
-      `<div class="card_value">${this.value_str}</div>` +
-      `<div class="card_suit">${get_suit_svg(this.suit_name)}</div>` +
-      `<div class="card_center"><div class="card_center_suit">${get_suit_svg(
-        this.suit_name
-      )}</div></div></div>`;
-  }
-  return html;
-};
-
-/**
- * Shuffles an array.
- */
-function shuffle(array) {
-  let currentIndex = array.length,
-    temporaryValue,
-    randomIndex;
-
-  // While there remain elements to shuffle...
-  while (currentIndex !== 0) {
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
-}
+// /**
+//  * Stack class.
+//  */
+// function Stack(splay) {
+//   this.cards = [];
+//
+//   // Whether to splay cards when displaying.  Tableau stacks are splayed.  Other stacks aren't.
+//   this.splay = splay;
+// }
+//
+// // Returns HTML representation of the card stack.
+// Stack.prototype.push = function(card, face) {
+//   card.face = face;
+//   this.cards.push(card);
+// };
+//
+// Stack.prototype.toHtml = function() {
+//   let html = '';
+//   const top_margin = 0;
+//
+//   zi = 1;
+//   for (i in this.cards) {
+//     const card = this.cards[i];
+//     html += card.toHtml(zi++);
+//   }
+//   return html;
+// };
+//
+// /**
+//  * Card class. Pass value from 0 to 51 to constructor.
+//  *   value:      1-13
+//  *   value_str:  A, 1-10, J, Q, K
+//  *   suit:      ♣, ♦, ❤, ♠
+//  *   suit_name: clubs, diamonds, hearts, spades
+//  *   color:      red, black
+//  *   face:       front, back
+//  */
+// function Card(card) {
+//   this.id = card;
+//   this.face = 'front';
+//   this.value = card % 13 + 1;
+//   if (this.value == 1) {
+//     this.value_str = 'A';
+//   } else if (this.value == 11) {
+//     this.value_str = 'J';
+//   } else if (this.value == 12) {
+//     this.value_str = 'Q';
+//   } else if (this.value == 13) {
+//     this.value_str = 'K';
+//   } else {
+//     this.value_str = this.value;
+//   }
+//   this.suit = '♣';
+//   this.suit_name = 'clubs';
+//
+//   this.color = 'black';
+//
+//   if (card >= 39) {
+//     this.suit = '♠';
+//     this.suit_name = 'spades';
+//     this.color = 'black';
+//   } else if (card >= 26) {
+//     this.suit = '♦';
+//     this.suit_name = 'diamonds';
+//     this.color = 'red';
+//   } else if (card >= 13) {
+//     this.suit = '❤';
+//     this.suit_name = 'hearts';
+//     this.color = 'red';
+//   }
+// }
+//
+// Card.prototype.toString = function() {
+//   return this.value_str + this.suit;
+// };
+//
+// // Returns HTML representation of the card.
+// Card.prototype.toHtml = function(i) {
+//   let html = '';
+//   if (this.face == 'back') {
+//     html = `<div data-id="${this
+//       .id}" class="card card_back"><img src="images/nyt_logo.png"/></div>`;
+//   } else {
+//     html =
+//       `<div id="card_${this.id}" data-id="${this.id}" class="card card_front ${this
+//         .color}" style="z-index: ${i}" data-zi="${i}">` +
+//       `<div class="card_value">${this.value_str}</div>` +
+//       `<div class="card_suit">${get_suit_svg(this.suit_name)}</div>` +
+//       `<div class="card_center"><div class="card_center_suit">${get_suit_svg(
+//         this.suit_name
+//       )}</div></div></div>`;
+//   }
+//   return html;
+// };
 
 /**
  * Given an array of cards, returns the index of the card with the specified id.

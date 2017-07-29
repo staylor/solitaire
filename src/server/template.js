@@ -1,6 +1,14 @@
 import Helmet from 'react-helmet';
 
-export default ({ root, css, ids, manifestJSBundle, vendorJSBundle, mainJSBundle }) => {
+export default ({
+  root,
+  css,
+  ids,
+  preloadedState,
+  manifestJSBundle,
+  vendorJSBundle,
+  mainJSBundle,
+}) => {
   const helmet = Helmet.rewind();
 
   return `<!DOCTYPE html>
@@ -16,6 +24,12 @@ ${helmet.meta.toString()}${helmet.link.toString()}${helmet.script.toString()}
 </head>
 <body>
 <script>window._glam = ${JSON.stringify(ids)}</script>
+<script>
+  // WARNING: See the following for security issues around embedding JSON in HTML:
+  // http://redux.js.org/docs/recipes/ServerRendering.html#security-considerations
+  window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
+</script>
+<script src=
 <main id="main">${root}</main>
 ${manifestJSBundle ? `<script defer src="${manifestJSBundle}"></script>` : ''}
 ${vendorJSBundle ? `<script defer src="${vendorJSBundle}"></script>` : ''}
