@@ -1,6 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { css } from 'glamor';
+
+const styles = {
+  stats: {
+    display: 'inline-block',
+    marginLeft: 20,
+    textAlign: 'center',
+  },
+  title: {
+    fontSize: 10,
+    color: '#9e9e9e',
+  },
+};
 
 @connect(state => ({
   score: state.score,
@@ -18,8 +31,8 @@ export default class Score extends Component {
     const { score } = this.props;
 
     return (
-      <div id="stats_score" className="stats">
-        <div className="title">Score</div>
+      <div className={css(styles.stats)}>
+        <div className={css(styles.title)}>Score</div>
         <span id="score">
           {score}
         </span>

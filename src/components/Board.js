@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { css } from 'glamor';
 import { getSuitSVG } from '../utils/svg';
 import Stack from './Stack';
 import TopModal from './TopModal';
+
+const styles = {
+  board: {
+    position: 'relative',
+    width: 775,
+    height: 900,
+    margin: '40px auto',
+  },
+};
 
 @connect(({ app }) => ({
   stock: app.stock,
@@ -14,10 +24,8 @@ export default class Board extends Component {
   render() {
     const { stock, waste, tableaus, foundations } = this.props;
 
-    console.log(this.props);
-
     return (
-      <div id="board">
+      <div className={css(styles.board)}>
         <div id="dropzone_foundation_clubs" className="dropzone foundation" />
         <div id="dropzone_foundation_diamonds" className="dropzone foundation" />
         <div id="dropzone_foundation_hearts" className="dropzone foundation" />

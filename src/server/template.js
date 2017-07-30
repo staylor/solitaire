@@ -21,14 +21,14 @@ ${helmet.title.toString()}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
 <style>${css}</style>
 ${helmet.meta.toString()}${helmet.link.toString()}${helmet.script.toString()}
-</head>
-<body>
 <script>window._glam = ${JSON.stringify(ids)}</script>
 <script>
   // WARNING: See the following for security issues around embedding JSON in HTML:
   // http://redux.js.org/docs/recipes/ServerRendering.html#security-considerations
   window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
 </script>
+</head>
+<body>
 <div id="main">${root}</div>
 ${manifestJSBundle ? `<script defer src="${manifestJSBundle}"></script>` : ''}
 ${vendorJSBundle ? `<script defer src="${vendorJSBundle}"></script>` : ''}

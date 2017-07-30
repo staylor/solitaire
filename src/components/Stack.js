@@ -18,7 +18,10 @@ export default class Stack extends Component {
 
     return (
       <div className={`stack ${className}`}>
-        {stack.cards.map((card, i) => <Card card={card} zi={i} />)}
+        {stack.cards.map((card, i) =>
+          // eslint-disable-next-line react/no-array-index-key
+          <Card key={`card-${i}`} card={card} zi={i} />
+        )}
       </div>
     );
   }

@@ -1,5 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { css } from 'glamor';
+
+const styles = {
+  stats: {
+    display: 'inline-block',
+    marginLeft: 20,
+    textAlign: 'center',
+  },
+  title: {
+    fontSize: 10,
+    color: '#9e9e9e',
+  },
+
+  time: {
+    display: 'inline-block',
+  },
+};
 
 export default class Time extends Component {
   static propTypes = {
@@ -40,9 +57,9 @@ export default class Time extends Component {
     }
 
     return (
-      <div id="stats_time" className="stats">
-        <div className="title">Time</div>
-        <span id="time">{`${minutes}:${dateStr}`}</span>
+      <div className={css(styles.stats)}>
+        <div className={css(styles.title)}>Time</div>
+        <span className={css(styles.title)}>{`${minutes}:${dateStr}`}</span>
       </div>
     );
   }

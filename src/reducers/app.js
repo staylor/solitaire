@@ -15,7 +15,7 @@ function getInitialState() {
 
   let ci = 0;
 
-  for (let ti = 1; ti <= 7; ti += 1) {
+  for (let ti = 0; ti < 7; ti += 1) {
     tableaus[ti] = new Stack(true);
     for (let tci = 1; tci <= ti; tci += 1) {
       let face = 'back';
