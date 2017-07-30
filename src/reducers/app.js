@@ -6,6 +6,7 @@ import { shuffle } from '../utils';
 function getInitialState() {
   const cards = [];
   const stock = new Stack();
+  const waste = new Stack();
   const tableaus = [];
 
   for (let i = 0; i < 52; i += 1) {
@@ -35,7 +36,7 @@ function getInitialState() {
     selected: null,
     stock,
     tableaus,
-    waste: new Stack(),
+    waste,
     foundations: {
       clubs: new Stack(),
       diamonds: new Stack(),

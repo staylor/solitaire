@@ -4,15 +4,17 @@ import { getSuitSVG } from '../utils/svg';
 import Stack from './Stack';
 import TopModal from './TopModal';
 
-@connect(state => ({
-  stock: state.stock,
-  waste: state.waste,
-  tableaus: state.tableaus,
-  foundations: state.foundations,
+@connect(({ app }) => ({
+  stock: app.stock,
+  waste: app.waste,
+  tableaus: app.tableaus,
+  foundations: app.foundations,
 }))
 export default class Board extends Component {
   render() {
     const { stock, waste, tableaus, foundations } = this.props;
+
+    console.log(this.props);
 
     return (
       <div id="board">
@@ -56,7 +58,7 @@ export default class Board extends Component {
         <Stack key="waste" className="waste" stack={waste} />
         {Object.keys(foundations).map((foundation, i) =>
           // eslint-disable-next-line react/no-array-index-key
-          <Stack key={`foundation-${i}`} className="foundation" stack={foundation} />
+          <Stack key={`foundation-${i}`} className="foundation" stack={foundations[foundation]} />
         )}
         {tableaus.map((tableau, i) =>
           // eslint-disable-next-line react/no-array-index-key

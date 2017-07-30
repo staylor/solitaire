@@ -29,8 +29,7 @@ ${helmet.meta.toString()}${helmet.link.toString()}${helmet.script.toString()}
   // http://redux.js.org/docs/recipes/ServerRendering.html#security-considerations
   window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
 </script>
-<script src=
-<main id="main">${root}</main>
+<div id="main">${root}</div>
 ${manifestJSBundle ? `<script defer src="${manifestJSBundle}"></script>` : ''}
 ${vendorJSBundle ? `<script defer src="${vendorJSBundle}"></script>` : ''}
 ${mainJSBundle ? `<script defer src="${mainJSBundle}"></script>` : ''}
