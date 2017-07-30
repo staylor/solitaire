@@ -161,78 +161,78 @@ function flip_tableau_cards() {
 /**
  * Write current state of cards to the console.
  */
-function dump_state() {
-  console.log('---------------------');
-
-  let str = '';
-  let comma = '';
-  let num_cards = 0;
-  for (i in stock.cards) {
-    var card = stock.cards[i];
-    str += comma + card.toString();
-    comma = ', ';
-  }
-  console.log(`stock (${stock.cards.length}): ${str}`);
-  num_cards = stock.cards.length;
-  str = '';
-  comma = '';
-  for (i in waste.cards) {
-    var card = waste.cards[i];
-    str += comma + card.toString();
-    comma = ', ';
-  }
-  console.log(`waste (${waste.cards.length}): ${str}`);
-  num_cards += waste.cards.length;
-
-  for (ti in tableaus) {
-    str = '';
-    comma = '';
-    const tableau = tableaus[ti];
-    for (ci in tableau.cards) {
-      var card = tableau.cards[ci];
-      str += comma + card.toString();
-      comma = ', ';
-    }
-    console.log(`tableau${ti} (${tableau.cards.length}): ${str}`);
-    num_cards += tableau.cards.length;
-  }
-
-  for (fi in foundations) {
-    str = '';
-    comma = '';
-    const foundation = foundations[fi];
-    for (ci in foundation.cards) {
-      var card = foundation.cards[ci];
-      str += comma + card.toString();
-      comma = ', ';
-    }
-    console.log(`${fi} (${foundation.cards.length}): ${str}`);
-    num_cards += foundation.cards.length;
-  }
-  console.log(`number of cards: ${num_cards}`);
-}
+// function dump_state() {
+//   console.log('---------------------');
+//
+//   let str = '';
+//   let comma = '';
+//   let num_cards = 0;
+//   for (i in stock.cards) {
+//     var card = stock.cards[i];
+//     str += comma + card.toString();
+//     comma = ', ';
+//   }
+//   console.log(`stock (${stock.cards.length}): ${str}`);
+//   num_cards = stock.cards.length;
+//   str = '';
+//   comma = '';
+//   for (i in waste.cards) {
+//     var card = waste.cards[i];
+//     str += comma + card.toString();
+//     comma = ', ';
+//   }
+//   console.log(`waste (${waste.cards.length}): ${str}`);
+//   num_cards += waste.cards.length;
+//
+//   for (ti in tableaus) {
+//     str = '';
+//     comma = '';
+//     const tableau = tableaus[ti];
+//     for (ci in tableau.cards) {
+//       var card = tableau.cards[ci];
+//       str += comma + card.toString();
+//       comma = ', ';
+//     }
+//     console.log(`tableau${ti} (${tableau.cards.length}): ${str}`);
+//     num_cards += tableau.cards.length;
+//   }
+//
+//   for (fi in foundations) {
+//     str = '';
+//     comma = '';
+//     const foundation = foundations[fi];
+//     for (ci in foundation.cards) {
+//       var card = foundation.cards[ci];
+//       str += comma + card.toString();
+//       comma = ', ';
+//     }
+//     console.log(`${fi} (${foundation.cards.length}): ${str}`);
+//     num_cards += foundation.cards.length;
+//   }
+//   console.log(`number of cards: ${num_cards}`);
+// }
 
 function draw_page() {
   flip_tableau_cards();
   check_won();
-  dump_state();
-  $('#tableau_1').html(tableaus[1].toHtml());
-  $('#tableau_2').html(tableaus[2].toHtml());
-  $('#tableau_3').html(tableaus[3].toHtml());
-  $('#tableau_4').html(tableaus[4].toHtml());
-  $('#tableau_5').html(tableaus[5].toHtml());
-  $('#tableau_6').html(tableaus[6].toHtml());
-  $('#tableau_7').html(tableaus[7].toHtml());
+  // dump_state();
+  // $('#tableau_1').html(tableaus[1].toHtml());
+  // $('#tableau_2').html(tableaus[2].toHtml());
+  // $('#tableau_3').html(tableaus[3].toHtml());
+  // $('#tableau_4').html(tableaus[4].toHtml());
+  // $('#tableau_5').html(tableaus[5].toHtml());
+  // $('#tableau_6').html(tableaus[6].toHtml());
+  // $('#tableau_7').html(tableaus[7].toHtml());
 
-  $('#stock').html(stock.toHtml());
-  $('#waste').html(waste.toHtml());
+  // $('#stock').html(stock.toHtml());
+  // $('#waste').html(waste.toHtml());
 
-  $('#foundation_clubs').html(foundations.clubs.toHtml());
-  $('#foundation_diamonds').html(foundations.diamonds.toHtml());
-  $('#foundation_hearts').html(foundations.hearts.toHtml());
-  $('#foundation_spades').html(foundations.spades.toHtml());
+  // $('#foundation_clubs').html(foundations.clubs.toHtml());
+  // $('#foundation_diamonds').html(foundations.diamonds.toHtml());
+  // $('#foundation_hearts').html(foundations.hearts.toHtml());
+  // $('#foundation_spades').html(foundations.spades.toHtml());
 
-  $('#moves').html(moves);
+  // $('#moves').html(moves);
   $('#score').html(score);
 
   $('.card_front').draggable({

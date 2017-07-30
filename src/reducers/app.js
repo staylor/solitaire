@@ -1,5 +1,6 @@
 import Stack from '../Stack';
 import Card from '../Card';
+import { NEW_MOVE } from '../actions';
 import { shuffle } from '../utils';
 
 function getInitialState() {
@@ -53,6 +54,12 @@ function appReducer(state = null, action) {
   }
 
   switch (action.type) {
+    case NEW_MOVE:
+      const increment = state.moves + 1;
+      return {
+        ...state,
+        moves: increment,
+      };
     default:
       break;
   }
