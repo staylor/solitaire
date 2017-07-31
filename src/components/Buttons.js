@@ -23,7 +23,7 @@ const styles = {
     margin: 10,
     cursor: 'pointer',
     textAlign: 'middle',
-    lineHeight: 20,
+    lineHeight: '20px',
 
     ':hover': {
       background: '#036154',

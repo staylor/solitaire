@@ -7,12 +7,6 @@
   cursor: pointer;
 }
 
-.card:not(:first-child) {
-  margin-top: -75px;
-}
-
-#stock .card:not(:first-child),
-#waste .card:not(:first-child),
 .foundation .card:not(:first-child) {
   margin-top: -115px;
 }

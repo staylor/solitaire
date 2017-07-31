@@ -7,6 +7,7 @@ import { getSuitSVG } from '../utils/svg';
 const styles = {
   card: {
     borderRadius: 10,
+    marginTop: -75,
     width: 75,
     height: 105,
     userSelect: 'none',
@@ -15,6 +16,9 @@ const styles = {
     border: '5px solid #fafafa',
     boxShadow: '4px 4px 2px rgba(0, 0, 0, 0.4)',
     zIndex: 1,
+    ':first-child': {
+      marginTop: 0,
+    },
   },
   back: {
     background: '#2196f3',
@@ -68,10 +72,10 @@ const styles = {
   },
 };
 
-export default ({ card, zi }) => {
+export default ({ card, zi, style = null }) => {
   if (card.face === 'back') {
     return (
-      <div className={css(styles.card, styles.back)} data-id={card.id}>
+      <div className={css(styles.card, styles.back, style)} data-id={card.id}>
         <img className={css(styles.backImage)} alt="" src="/images/nyt_logo.png" />
       </div>
     );
@@ -83,7 +87,7 @@ export default ({ card, zi }) => {
     <div
       id={`card_${card.id}`}
       data-id={card.id}
-      className={css(styles.card, styles.front, styles[card.color])}
+      className={css(styles.card, styles.front, styles[card.color], style)}
       style={{ zIndex: zi }}
       data-zi={zi}
     >

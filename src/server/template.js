@@ -18,6 +18,8 @@ export default ({
 ${helmet.title.toString()}
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<link href="https://typeface.nytimes.com/css/zam5nzz.css" rel="stylesheet"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
 <style>${css}</style>
 ${helmet.meta.toString()}${helmet.link.toString()}${helmet.script.toString()}

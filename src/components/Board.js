@@ -21,6 +21,12 @@ const styles = {
     top: 0,
     left: 115,
   },
+  stockCard: {
+    marginTop: -115,
+    ':first-child': {
+      marginTop: 0,
+    },
+  },
   clubs: {
     top: 0,
     left: 345,
@@ -81,8 +87,18 @@ export default class Board extends Component {
       <div className={css(styles.board)}>
         <Dropzones />
         <Placeholders />
-        <Stack key="stock" className={css(styles.stock)} stack={stock} />
-        <Stack key="waste" className={css(styles.waste)} stack={waste} />
+        <Stack
+          key="stock"
+          className={css(styles.stock)}
+          cardStyle={styles.stockCard}
+          stack={stock}
+        />
+        <Stack
+          key="waste"
+          className={css(styles.waste)}
+          cardStyle={styles.stockCard}
+          stack={waste}
+        />
         {Object.keys(foundations).map((foundation, i) =>
           <Stack
             // eslint-disable-next-line react/no-array-index-key

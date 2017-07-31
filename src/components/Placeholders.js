@@ -20,7 +20,7 @@ const styles = {
   },
   recycle: {
     fontSize: 60,
-    lineHeight: 105,
+    lineHeight: '105px',
     color: 'rgba(255, 255, 255, 0.7)',
     textAlign: 'center',
     verticalAlign: 'middle',
