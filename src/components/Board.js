@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { css } from 'glamor';
-import { getSuitSVG } from '../utils/svg';
 import Stack from './Stack';
 import TopModal from './TopModal';
+import Dropzones from './Dropzones';
+import Placeholders from './Placeholders';
 
 const styles = {
   board: {
@@ -11,6 +12,58 @@ const styles = {
     width: 775,
     height: 900,
     margin: '40px auto',
+  },
+  stock: {
+    top: 0,
+    left: 0,
+  },
+  waste: {
+    top: 0,
+    left: 115,
+  },
+  clubs: {
+    top: 0,
+    left: 345,
+  },
+  diamonds: {
+    top: 0,
+    left: 460,
+  },
+  hearts: {
+    top: 0,
+    left: 575,
+  },
+  spades: {
+    top: 0,
+    left: 690,
+  },
+  tableau_1: {
+    top: 165,
+    left: 0,
+  },
+  tableau_2: {
+    top: 165,
+    left: 115,
+  },
+  tableau_3: {
+    top: 165,
+    left: 230,
+  },
+  tableau_4: {
+    top: 165,
+    left: 345,
+  },
+  tableau_5: {
+    top: 165,
+    left: 460,
+  },
+  tableau_6: {
+    top: 165,
+    left: 575,
+  },
+  tableau_7: {
+    top: 165,
+    left: 690,
   },
 };
 
@@ -26,51 +79,21 @@ export default class Board extends Component {
 
     return (
       <div className={css(styles.board)}>
-        <div id="dropzone_foundation_clubs" className="dropzone foundation" />
-        <div id="dropzone_foundation_diamonds" className="dropzone foundation" />
-        <div id="dropzone_foundation_hearts" className="dropzone foundation" />
-        <div id="dropzone_foundation_spades" className="dropzone foundation" />
-        <div id="dropzone_tableau_1" className="dropzone tableau" />
-        <div id="dropzone_tableau_2" className="dropzone tableau" />
-        <div id="dropzone_tableau_3" className="dropzone tableau" />
-        <div id="dropzone_tableau_4" className="dropzone tableau" />
-        <div id="dropzone_tableau_5" className="dropzone tableau" />
-        <div id="dropzone_tableau_6" className="dropzone tableau" />
-        <div id="dropzone_tableau_7" className="dropzone tableau" />
-
-        <div id="placeholder_stock" className="placeholder ph_recycle">
-          <i className="material-icons">refresh</i>
-        </div>
-        <div id="placeholder_waste" className="placeholder" />
-        <div id="placeholder_foundation_clubs" className="placeholder ph_suit foundation">
-          {getSuitSVG('clubs')}
-        </div>
-        <div id="placeholder_foundation_diamonds" className="placeholder ph_suit foundation">
-          {getSuitSVG('diamonds')}
-        </div>
-        <div id="placeholder_foundation_hearts" className="placeholder ph_suit foundation">
-          {getSuitSVG('hearts')}
-        </div>
-        <div id="placeholder_foundation_spades" className="placeholder ph_suit foundation">
-          {getSuitSVG('spades')}
-        </div>
-        <div id="placeholder_tableau_1" className="placeholder tableau" />
-        <div id="placeholder_tableau_2" className="placeholder tableau" />
-        <div id="placeholder_tableau_3" className="placeholder tableau" />
-        <div id="placeholder_tableau_4" className="placeholder tableau" />
-        <div id="placeholder_tableau_5" className="placeholder tableau" />
-        <div id="placeholder_tableau_6" className="placeholder tableau" />
-        <div id="placeholder_tableau_7" className="placeholder tableau" />
-
-        <Stack key="stock" className="stock" stack={stock} />
-        <Stack key="waste" className="waste" stack={waste} />
+        <Dropzones />
+        <Placeholders />
+        <Stack key="stock" className={css(styles.stock)} stack={stock} />
+        <Stack key="waste" className={css(styles.waste)} stack={waste} />
         {Object.keys(foundations).map((foundation, i) =>
-          // eslint-disable-next-line react/no-array-index-key
-          <Stack key={`foundation-${i}`} className="foundation" stack={foundations[foundation]} />
+          <Stack
+            // eslint-disable-next-line react/no-array-index-key
+            key={`foundation-${i}`}
+            className={css(styles[foundation])}
+            stack={foundations[foundation]}
+          />
         )}
         {tableaus.map((tableau, i) =>
           // eslint-disable-next-line react/no-array-index-key
-          <Stack key={`tableau-${i}`} className="tableau" stack={tableau} />
+          <Stack key={`tableau-${i}`} className={css(styles[`tableau_${i + 1}`])} stack={tableau} />
         )}
 
         <TopModal />

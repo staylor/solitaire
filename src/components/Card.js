@@ -26,11 +26,11 @@ export default ({ card, zi }) => {
         {card.getDisplayValue()}
       </div>
       <div className="card_suit">
-        {suitSVG}
+        <img alt="" src={suitSVG} />
       </div>
       <div className="card_center">
         <div className="card_center_suit">
-          {suitSVG}
+          <img alt="" src={suitSVG} />
         </div>
       </div>
     </div>

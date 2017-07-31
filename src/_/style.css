@@ -3,158 +3,15 @@
   src: url("fonts/jk-playingcards.woff") format('woff');
 }
 
-.placeholder,
 .card {
   border-radius: 10px;
   width: 75px;
   height: 105px;
   user-select: none;
 }
-.placeholder {
-  position: absolute;
-  background: rgba(255, 255, 255, 0.1);
-  border: 5px solid rgba(255, 255, 255, 0.2);
-  z-index: 0;
-}
+
 .stack {
   position: absolute;
-}
-
-#placeholder_stock,
-#stock {
-  top: 0;
-  left: 0;
-}
-#placeholder_waste,
-#waste {
-  top: 0;
-  left: 115px;
-}
-#placeholder_foundation_clubs,
-#foundation_clubs {
-  top: 0;
-  left: 345px;
-}
-#placeholder_foundation_diamonds,
-#foundation_diamonds {
-  top: 0;
-  left: 460px;
-}
-#placeholder_foundation_hearts,
-#foundation_hearts {
-  top: 0;
-  left: 575px;
-}
-#placeholder_foundation_spades,
-#foundation_spades {
-  top: 0;
-  left: 690px;
-}
-
-#placeholder_tableau_1,
-#tableau_1 {
-  top: 165px;
-  left: 0;
-}
-#placeholder_tableau_2,
-#tableau_2 {
-  top: 165px;
-  left: 115px;
-}
-#placeholder_tableau_3,
-#tableau_3 {
-  top: 165px;
-  left: 230px;
-}
-#placeholder_tableau_4,
-#tableau_4 {
-  top: 165px;
-  left: 345px;
-}
-#placeholder_tableau_5,
-#tableau_5 {
-  top: 165px;
-  left: 460px;
-}
-#placeholder_tableau_6,
-#tableau_6 {
-  top: 165px;
-  left: 575px;
-}
-#placeholder_tableau_7,
-#tableau_7 {
-  top: 165px;
-  left: 690px;
-}
-
-.dropzone {
-  position: absolute;
-  z-index: 0;
-  width: 115px;
-  height: 900px;
-  top: 150px;
-}
-#dropzone_foundation_clubs {
-  top: -25px;
-  left: 330px;
-  height: 160px;
-}
-#dropzone_foundation_diamonds {
-  top: -25px;
-  left: 445px;
-  height: 160px;
-}
-#dropzone_foundation_hearts {
-  top: -25px;
-  left: 560px;
-  height: 160px;
-}
-#dropzone_foundation_spades {
-  top: -25px;
-  left: 675px;
-  height: 160px;
-}
-#dropzone_tableau_1 {
-  left: -15px;
-}
-#dropzone_tableau_2 {
-  left: 100px;
-}
-#dropzone_tableau_3 {
-  left: 215px;
-}
-#dropzone_tableau_4 {
-  left: 330px;
-}
-#dropzone_tableau_5 {
-  left: 445px;
-}
-#dropzone_tableau_6 {
-  left: 560px;
-}
-#dropzone_tableau_7 {
-  left: 675px;
-}
-
-.ph_recycle,
-.ph_recycle i {
-  font-size: 60px;
-  line-height: 105px;
-  color: rgba(255, 255, 255, 0.7);
-  text-align: center;
-  vertical-align: middle;
-}
-.ph_suit {
-  text-align: center;
-  vertical-align: middle;
-}
-.ph_suit img {
-  width: 50px;
-  opacity: 0.3;
-  margin-top: 28px;
-}
-.ph_suit img:hover {
-  opacity: 1;
 }
 
 .card_suit img {
@@ -163,18 +20,6 @@
 }
 .card_center_suit img {
   width: 48px;
-}
-
-#placeholder_foundation_clubs:hover,
-#placeholder_foundation_spades:hover {
-  color: black;
-}
-#placeholder_foundation_diamonds:hover,
-#placeholder_foundation_hearts:hover {
-  color: #f44336;
-}
-.ph_recycle i:hover {
-  color: #ff9800;
 }
 
 .red {
@@ -207,8 +52,7 @@
   cursor: -webkit-grab;
   cursor: grab;
 }
-#stock .card_back:last-child,
-#placeholder_stock {
+#stock .card_back:last-child {
   cursor: pointer;
 }
 
