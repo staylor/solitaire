@@ -1,13 +1,78 @@
 import React from 'react';
+import { css } from 'glamor';
 import { getSuitSVG } from '../utils/svg';
 
 /* eslint-disable react/prop-types */
 
+const styles = {
+  card: {
+    borderRadius: 10,
+    width: 75,
+    height: 105,
+    userSelect: 'none',
+    position: 'relative',
+    background: '#fff',
+    border: '5px solid #fafafa',
+    boxShadow: '4px 4px 2px rgba(0, 0, 0, 0.4)',
+    zIndex: 1,
+  },
+  back: {
+    background: '#2196f3',
+  },
+  backImage: {
+    position: 'absolute',
+    top: 23,
+    left: 15,
+    height: 60,
+    opacity: 0.2,
+  },
+  front: {
+    cursor: 'grab',
+  },
+  red: {
+    color: '#fc471d',
+  },
+  black: {
+    color: '#333',
+  },
+  suit: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    fontWeight: 800,
+    fontSize: 24,
+  },
+  suitImage: {
+    width: 26,
+    marginTop: 3,
+  },
+  center: {
+    position: 'absolute',
+    fontWeight: 800,
+    fontSize: 48,
+    textAlign: 'center',
+    top: 40,
+    left: 0,
+    width: '100%',
+  },
+  centerImage: {
+    width: 48,
+  },
+  value: {
+    position: 'absolute',
+    top: 5,
+    fontSize: 24,
+    fontWeight: 800,
+    left: 5,
+    fontFamily: '"nyt-franklin", arial, serif',
+  },
+};
+
 export default ({ card, zi }) => {
   if (card.face === 'back') {
     return (
-      <div className="card card_back" data-id={card.id}>
-        <img alt="" src="/images/nyt_logo.png" />
+      <div className={css(styles.card, styles.back)} data-id={card.id}>
+        <img className={css(styles.backImage)} alt="" src="/images/nyt_logo.png" />
       </div>
     );
   }
@@ -18,20 +83,18 @@ export default ({ card, zi }) => {
     <div
       id={`card_${card.id}`}
       data-id={card.id}
-      className={`card card_front ${card.color}`}
+      className={css(styles.card, styles.front, styles[card.color])}
       style={{ zIndex: zi }}
       data-zi={zi}
     >
-      <div className="card_value">
+      <div className={css(styles.value)}>
         {card.getDisplayValue()}
       </div>
-      <div className="card_suit">
-        <img alt="" src={suitSVG} />
+      <div className={css(styles.suit)}>
+        <img className={css(styles.suitImage)} alt="" src={suitSVG} />
       </div>
-      <div className="card_center">
-        <div className="card_center_suit">
-          <img alt="" src={suitSVG} />
-        </div>
+      <div className={css(styles.center)}>
+        <img className={css(styles.centerImage)} alt="" src={suitSVG} />
       </div>
     </div>
   );

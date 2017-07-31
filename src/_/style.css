@@ -3,82 +3,10 @@
   src: url("fonts/jk-playingcards.woff") format('woff');
 }
 
-.card {
-  border-radius: 10px;
-  width: 75px;
-  height: 105px;
-  user-select: none;
-}
-
-.stack {
-  position: absolute;
-}
-
-.card_suit img {
-  width: 26px;
-  margin-top: 3px;
-}
-.card_center_suit img {
-  width: 48px;
-}
-
-.red {
-  color: #fc471d;
-}
-.black {
-  color: #333;
-}
-
-.card {
-  position: relative;
-  background: #ffffff;
-  border: 5px solid #fafafa;
-  box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.4);
-  z-index: 1;
-}
-
-.card_back {
-  background: #2196f3;
-}
-.card_back img {
-  position: absolute;
-  top: 23px;
-  left: 15px;
-  height: 60px;
-  opacity: 0.2;
-}
-
-.card_front {
-  cursor: -webkit-grab;
-  cursor: grab;
-}
 #stock .card_back:last-child {
   cursor: pointer;
 }
 
-.card_value,
-.card_suit,
-.card_center {
-  position: absolute;
-  top: 5px;
-  font-size: 24px;
-  font-weight: 800;
-}
-.card_value {
-  left: 5px;
-  //font-family: "jk-cards", "nyt-franklin", arial, serif;
-  font-family: "nyt-franklin", arial, serif;
-}
-.card_suit {
-  right: 5px;
-}
-.card_center {
-  font-size: 48px;
-  text-align: center;
-  top: 40px;
-  left: 0px;
-  width: 100%;
-}
 .card:not(:first-child) {
   margin-top: -75px;
 }
