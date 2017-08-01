@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'glamor';
-import StackModel from '../Stack';
 import Card from './Card';
+
+/* eslint-disable react/forbid-prop-types */
 
 const styles = {
   stack: {
@@ -12,23 +13,22 @@ const styles = {
 
 export default class Stack extends Component {
   static propTypes = {
-    stack: PropTypes.instanceOf(StackModel).isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    className: PropTypes.any,
-    // eslint-disable-next-line react/forbid-prop-types
+    id: PropTypes.string.isRequired,
+    stack: PropTypes.object.isRequired,
+    style: PropTypes.object,
     cardStyle: PropTypes.object,
   };
 
   static defaultProps = {
-    className: null,
+    style: null,
     cardStyle: null,
   };
 
   render() {
-    const { stack, className, cardStyle } = this.props;
+    const { id, stack, style, cardStyle } = this.props;
 
     return (
-      <div className={css(styles.stack, className)}>
+      <div id={id} className={css(styles.stack, style)}>
         {stack.cards.map((card, i) =>
           // eslint-disable-next-line react/no-array-index-key
           <Card key={`card-${i}`} card={card} zi={i} style={cardStyle} />

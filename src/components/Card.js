@@ -92,7 +92,7 @@ export default ({ card, zi, style = null }) => {
       data-zi={zi}
     >
       <div className={css(styles.value)}>
-        {card.getDisplayValue()}
+        {card.displayValue}
       </div>
       <div className={css(styles.suit)}>
         <img className={css(styles.suitImage)} alt="" src={suitSVG} />

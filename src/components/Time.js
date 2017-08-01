@@ -59,7 +59,9 @@ export default class Time extends Component {
     return (
       <div className={css(styles.stats)}>
         <div className={css(styles.title)}>Time</div>
-        <span className={css(styles.title)}>{`${minutes}:${dateStr}`}</span>
+        <span className={css(styles.time)}>
+          {this.interval === null ? '0:00' : `${minutes}:${dateStr}`}
+        </span>
       </div>
     );
   }

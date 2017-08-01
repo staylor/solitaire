@@ -1,6 +1,7 @@
 import React from 'react';
 import { css } from 'glamor';
 import { getSuitSVG } from '../utils/svg';
+import { STACK_OFFSET } from '../utils/constants';
 
 const styles = {
   placeholder: {
@@ -35,64 +36,29 @@ const styles = {
     left: 115,
   },
   suit: {
+    top: 0,
     textAlign: 'center',
     verticalAlign: 'middle',
   },
   clubs: {
-    top: 0,
-    left: 345,
     ':hover': {
       color: 'black',
     },
   },
   diamonds: {
-    top: 0,
-    left: 460,
     ':hover': {
       color: '#f44336',
     },
   },
   hearts: {
-    top: 0,
-    left: 575,
     ':hover': {
       color: '#f44336',
     },
   },
   spades: {
-    top: 0,
-    left: 690,
     ':hover': {
       color: 'black',
     },
-  },
-  tableau_1: {
-    top: 165,
-    left: 0,
-  },
-  tableau_2: {
-    top: 165,
-    left: 115,
-  },
-  tableau_3: {
-    top: 165,
-    left: 230,
-  },
-  tableau_4: {
-    top: 165,
-    left: 345,
-  },
-  tableau_5: {
-    top: 165,
-    left: 460,
-  },
-  tableau_6: {
-    top: 165,
-    left: 575,
-  },
-  tableau_7: {
-    top: 165,
-    left: 690,
   },
 
   image: {
@@ -105,29 +71,44 @@ const styles = {
   },
 };
 
+const suits = {
+  clubs: 0,
+  diamonds: 1,
+  hearts: 2,
+  spades: 3,
+};
+
 export default () =>
   <div>
     <div className={css(styles.placeholder, styles.recycle, styles.stock)}>
       <i className={`${css(styles.recycle, styles.recycleIcon)} material-icons`}>refresh</i>
     </div>
     <div className={css(styles.placeholder, styles.waste)} />
-    <div className={`${css(styles.placeholder, styles.suit, styles.clubs)} foundation`}>
-      <img className={css(styles.image)} alt="" src={getSuitSVG('clubs')} />
-    </div>
-    <div className={`${css(styles.placeholder, styles.suit, styles.diamonds)} foundation`}>
-      <img className={css(styles.image)} alt="" src={getSuitSVG('diamonds')} />
-    </div>
-    <div className={`${css(styles.placeholder, styles.suit, styles.hearts)} foundation`}>
-      <img className={css(styles.image)} alt="" src={getSuitSVG('hearts')} />
-    </div>
-    <div className={`${css(styles.placeholder, styles.suit, styles.spades)} foundation`}>
-      <img className={css(styles.image)} alt="" src={getSuitSVG('spades')} />
-    </div>
-    <div className={`${css(styles.placeholder, styles.tableau_1)} tableau`} />
-    <div className={`${css(styles.placeholder, styles.tableau_2)} tableau`} />
-    <div className={`${css(styles.placeholder, styles.tableau_3)} tableau`} />
-    <div className={`${css(styles.placeholder, styles.tableau_4)} tableau`} />
-    <div className={`${css(styles.placeholder, styles.tableau_5)} tableau`} />
-    <div className={`${css(styles.placeholder, styles.tableau_6)} tableau`} />
-    <div className={`${css(styles.placeholder, styles.tableau_7)} tableau`} />
+    {Object.keys(suits).map((suit, i) => {
+      const id = `suit-placeholder-${i}`;
+      return (
+        <div
+          id={id}
+          key={id}
+          className={css(styles.placeholder, styles.suit, styles[suit], {
+            left: 3 * STACK_OFFSET + suits[suit] * STACK_OFFSET,
+          })}
+        >
+          <img className={css(styles.image)} alt="" src={getSuitSVG(suit)} />
+        </div>
+      );
+    })}
+    {Array.from(Array(7).keys()).map(i => {
+      const id = `tableau-placeholder-${i}`;
+      return (
+        <div
+          id={id}
+          key={id}
+          className={css(styles.placeholder, {
+            top: 165,
+            left: i * STACK_OFFSET,
+          })}
+        />
+      );
+    })}
   </div>;

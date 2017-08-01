@@ -5,6 +5,9 @@ import Stack from './Stack';
 import TopModal from './TopModal';
 import Dropzones from './Dropzones';
 import Placeholders from './Placeholders';
+import { STACK_OFFSET } from '../utils/constants';
+
+/* eslint-disable react/no-array-index-key */
 
 const styles = {
   board: {
@@ -13,63 +16,11 @@ const styles = {
     height: 900,
     margin: '40px auto',
   },
-  stock: {
-    top: 0,
-    left: 0,
-  },
-  waste: {
-    top: 0,
-    left: 115,
-  },
   stockCard: {
-    marginTop: -115,
+    marginTop: -1 * STACK_OFFSET,
     ':first-child': {
       marginTop: 0,
     },
-  },
-  clubs: {
-    top: 0,
-    left: 345,
-  },
-  diamonds: {
-    top: 0,
-    left: 460,
-  },
-  hearts: {
-    top: 0,
-    left: 575,
-  },
-  spades: {
-    top: 0,
-    left: 690,
-  },
-  tableau_1: {
-    top: 165,
-    left: 0,
-  },
-  tableau_2: {
-    top: 165,
-    left: 115,
-  },
-  tableau_3: {
-    top: 165,
-    left: 230,
-  },
-  tableau_4: {
-    top: 165,
-    left: 345,
-  },
-  tableau_5: {
-    top: 165,
-    left: 460,
-  },
-  tableau_6: {
-    top: 165,
-    left: 575,
-  },
-  tableau_7: {
-    top: 165,
-    left: 690,
   },
 };
 
@@ -88,29 +39,45 @@ export default class Board extends Component {
         <Dropzones />
         <Placeholders />
         <Stack
+          style={{ top: 0, left: 0 }}
+          id="stock"
           key="stock"
-          className={css(styles.stock)}
           cardStyle={styles.stockCard}
           stack={stock}
         />
         <Stack
+          style={{ top: 0, left: STACK_OFFSET }}
+          id="waste"
           key="waste"
-          className={css(styles.waste)}
           cardStyle={styles.stockCard}
           stack={waste}
         />
-        {Object.keys(foundations).map((foundation, i) =>
-          <Stack
-            // eslint-disable-next-line react/no-array-index-key
-            key={`foundation-${i}`}
-            className={css(styles[foundation])}
-            stack={foundations[foundation]}
-          />
-        )}
-        {tableaus.map((tableau, i) =>
-          // eslint-disable-next-line react/no-array-index-key
-          <Stack key={`tableau-${i}`} className={css(styles[`tableau_${i + 1}`])} stack={tableau} />
-        )}
+        {Object.keys(foundations).map((foundation, i) => {
+          const id = `foundation-${i}`;
+          return (
+            <Stack
+              style={{ top: 0, left: i * STACK_OFFSET + 345 }}
+              id={id}
+              key={id}
+              stack={foundations[foundation]}
+            />
+          );
+        })}
+        {tableaus.map((tableau, i) => {
+          if (!tableau) {
+            return null;
+          }
+
+          const id = `tableau-${i}`;
+          return (
+            <Stack
+              style={{ top: 165, left: (i - 1) * STACK_OFFSET }}
+              id={id}
+              key={id}
+              stack={tableau}
+            />
+          );
+        })}
 
         <TopModal />
       </div>

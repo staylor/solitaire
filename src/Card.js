@@ -7,6 +7,22 @@
  *   color:      red, black
  *   face:       front, back
  */
+
+const getDisplayValue = value => {
+  switch (value) {
+    case 1:
+      return 'A';
+    case 11:
+      return 'J';
+    case 12:
+      return 'Q';
+    case 13:
+      return 'K';
+    default:
+      return value;
+  }
+};
+
 export default class Card {
   constructor(cardIndex) {
     this.id = cardIndex;
@@ -29,21 +45,7 @@ export default class Card {
       this.suitName = 'hearts';
       this.color = 'red';
     }
-  }
-
-  getDisplayValue() {
-    switch (this.value) {
-      case 1:
-        return 'A';
-      case 11:
-        return 'J';
-      case 12:
-        return 'Q';
-      case 13:
-        return 'K';
-      default:
-        return this.value;
-    }
+    this.displayValue = getDisplayValue(this.value);
   }
 
   toString() {
