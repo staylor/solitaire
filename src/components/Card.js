@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { DragSource } from 'react-dnd';
 import { css } from 'glamor';
 import { getSuitSVG } from '../utils/svg';
 
@@ -72,32 +73,56 @@ const styles = {
   },
 };
 
-export default ({ card, zi, style = null, onClick = null }) => {
-  if (card.face === 'back') {
-    return (
-      <div role="presentation" className={css(styles.card, styles.back, style)} onClick={onClick}>
-        <img className={css(styles.backImage)} alt="" src="/images/nyt_logo.png" />
+const cardSource = {
+  beginDrag(props) {
+    const item = { card: props.card };
+    return item;
+  },
+
+  endDrag(props, monitor) {
+    if (!monitor.didDrop()) {
+      return;
+    }
+
+    const item = monitor.getItem();
+    const dropResult = monitor.getDropResult();
+    console.log(item, dropResult);
+  },
+};
+
+@DragSource(props => props.card.suitName, cardSource, (connect, monitor) => ({
+  connectDragSource: connect.dragSource(),
+  isDragging: monitor.isDragging(),
+}))
+export default class Card extends Component {
+  render() {
+    const { connectDragSource, card, zi, style = null, onClick = null } = this.props;
+    if (card.face === 'back') {
+      return (
+        <div role="presentation" className={css(styles.card, styles.back, style)} onClick={onClick}>
+          <img className={css(styles.backImage)} alt="" src="/images/nyt_logo.png" />
+        </div>
+      );
+    }
+
+    const suitSVG = getSuitSVG(card.suitName);
+
+    return connectDragSource(
+      <div
+        role="presentation"
+        className={css(styles.card, styles.front, styles[card.color], style)}
+        style={{ zIndex: zi }}
+      >
+        <div className={css(styles.value)}>
+          {card.displayValue}
+        </div>
+        <div className={css(styles.suit)}>
+          <img className={css(styles.suitImage)} alt="" src={suitSVG} />
+        </div>
+        <div className={css(styles.center)}>
+          <img className={css(styles.centerImage)} alt="" src={suitSVG} />
+        </div>
       </div>
     );
   }
-
-  const suitSVG = getSuitSVG(card.suitName);
-
-  return (
-    <div
-      role="presentation"
-      className={css(styles.card, styles.front, styles[card.color], style)}
-      style={{ zIndex: zi }}
-    >
-      <div className={css(styles.value)}>
-        {card.displayValue}
-      </div>
-      <div className={css(styles.suit)}>
-        <img className={css(styles.suitImage)} alt="" src={suitSVG} />
-      </div>
-      <div className={css(styles.center)}>
-        <img className={css(styles.centerImage)} alt="" src={suitSVG} />
-      </div>
-    </div>
-  );
-};
+}

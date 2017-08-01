@@ -233,7 +233,7 @@ function draw_page() {
   // $('#foundation_spades').html(foundations.spades.toHtml());
 
   // $('#moves').html(moves);
-  $('#score').html(score);
+  // $('#score').html(score);
 
   $('.card_front').draggable({
     revert: true,
@@ -254,18 +254,18 @@ function draw_page() {
 /**
  * Flip next card on the waste pile.
  */
-function next_card() {
-  console.log('Flip next card.');
-
-  const last_card_index = stock.cards.length - 1;
-  const move_card = stock.cards.slice(last_card_index);
-  move_card[0].face = 'front';
-  waste.cards = waste.cards.concat(move_card);
-  stock.cards = stock.cards.slice(0, last_card_index);
-
-  moves++;
-  draw_page();
-}
+// function next_card() {
+//   console.log('Flip next card.');
+//
+//   const last_card_index = stock.cards.length - 1;
+//   const move_card = stock.cards.slice(last_card_index);
+//   move_card[0].face = 'front';
+//   waste.cards = waste.cards.concat(move_card);
+//   stock.cards = stock.cards.slice(0, last_card_index);
+//
+//   moves++;
+//   draw_page();
+// }
 
 /**
  * Reshuffle cards from waste and put in stock.

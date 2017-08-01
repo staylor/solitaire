@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import { css } from 'glamor';
 import Stack from './Stack';
 import TopModal from './TopModal';
@@ -25,6 +27,7 @@ const styles = {
   },
 };
 
+@DragDropContext(HTML5Backend)
 @connect(
   ({ app }) => ({
     stock: app.stock,
@@ -61,12 +64,12 @@ export default class Board extends Component {
           stack={waste}
         />
         {Object.keys(foundations).map((foundation, i) => {
-          const id = `foundation-${i}`;
+          const key = `foundation-${i}`;
           return (
             <Stack
               style={{ top: 0, left: i * STACK_OFFSET + STACK_OFFSET * 3 }}
-              id={id}
-              key={id}
+              id={foundation}
+              key={key}
               stack={foundations[foundation]}
             />
           );
