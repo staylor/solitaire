@@ -1,7 +1,8 @@
-import { NEW_MOVE, NEXT_CARD, START_NEW_GAME } from '../actions';
+import { NEW_MOVE, NEXT_CARD, UNDO, START_NEW_GAME } from '../actions';
 
 export default function movesReducer(state = 0, action) {
   switch (action.type) {
+    case UNDO:
     case NEXT_CARD:
     case NEW_MOVE: {
       const increment = state + 1;

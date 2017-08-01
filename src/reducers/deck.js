@@ -1,8 +1,12 @@
 import Card from '../Card';
-import { START_NEW_GAME, NEXT_CARD, UNDO } from '../actions';
+import { START_NEW_GAME, NEXT_CARD, UNDO, DROP_CARD } from '../actions';
 import { shuffle } from '../utils';
 
+let stateHistory = [];
+
 function getInitialState() {
+  stateHistory = [];
+
   const deck = [];
   for (let i = 0; i < 52; i += 1) {
     deck.push(new Card(i));
@@ -47,11 +51,9 @@ function getInitialState() {
   };
 }
 
-const stateHistory = [];
-
 const deepClone = obj => JSON.parse(JSON.stringify(obj));
 
-export default function appReducer(state = null, action) {
+export default function deckReducer(state = null, action) {
   if (state === null) {
     state = getInitialState();
   }
@@ -75,8 +77,46 @@ export default function appReducer(state = null, action) {
         return deepClone(stateHistory.pop());
       }
       break;
+    case DROP_CARD: {
+      const prevState = deepClone(state);
+      stateHistory.push(prevState);
+      const clonedState = deepClone(state);
+      // $TODO: this kinda sucks
+      const [toStack, toIndex = null] = action.to.split('-');
+      const [fromStack, fromIndex = null] = action.from.split('-');
+      let item;
+      let itemIndex;
+
+      const findItem = (card, i) => {
+        if (card.id === action.id) {
+          itemIndex = i;
+          return true;
+        }
+        return false;
+      };
+
+      const removeAndFlip = stack => {
+        item = stack.find(findItem);
+        stack.splice(itemIndex, 1);
+        stack[stack.length - 1].face = 'front';
+        return stack;
+      };
+
+      if (fromIndex === null) {
+        clonedState[fromStack] = removeAndFlip(clonedState[fromStack]);
+      } else {
+        clonedState[fromStack][fromIndex] = removeAndFlip(clonedState[fromStack][fromIndex]);
+      }
+
+      if (toIndex === null) {
+        clonedState[toStack].push(item);
+      } else {
+        clonedState[toStack][toIndex].push(item);
+      }
+      return clonedState;
+    }
     default:
-      return state;
+      break;
   }
   return state;
 }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { DragSource } from 'react-dnd';
 import { css } from 'glamor';
+import { dropCard } from '../actions';
 import { getSuitSVG } from '../utils/svg';
 
 /* eslint-disable react/prop-types */
@@ -75,7 +77,7 @@ const styles = {
 
 const cardSource = {
   beginDrag(props) {
-    const item = { card: props.card };
+    const item = { card: props.card, stackID: props.stackID };
     return item;
   },
 
@@ -86,12 +88,17 @@ const cardSource = {
 
     const item = monitor.getItem();
     const dropResult = monitor.getDropResult();
-    console.log(item, dropResult);
+    props.onDropCard(item.card.id, dropResult.id, item.stackID);
   },
 };
 
-@DragSource(props => props.card.suitName, cardSource, (connect, monitor) => ({
-  connectDragSource: connect.dragSource(),
+@connect(null, dispatch => ({
+  onDropCard: (id, to, from) => {
+    dispatch(dropCard(id, to, from));
+  },
+}))
+@DragSource(props => props.card.suitName, cardSource, (connection, monitor) => ({
+  connectDragSource: connection.dragSource(),
   isDragging: monitor.isDragging(),
 }))
 export default class Card extends Component {

@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { css } from 'glamor';
 import Stack from './Stack';
+import Foundation from './Foundation';
 import TopModal from './TopModal';
-import Dropzones from './Dropzones';
 import Placeholders from './Placeholders';
 import { STACK_OFFSET } from '../utils/constants';
 import { nextCard } from '../actions';
 
-/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/no-array-index-key, react/forbid-prop-types */
 
 const styles = {
   board: {
@@ -29,11 +30,11 @@ const styles = {
 
 @DragDropContext(HTML5Backend)
 @connect(
-  ({ app }) => ({
-    stock: app.stock,
-    waste: app.waste,
-    tableaus: app.tableaus,
-    foundations: app.foundations,
+  ({ deck }) => ({
+    stock: deck.stock,
+    waste: deck.waste,
+    tableaus: deck.tableaus,
+    foundations: deck.foundations,
   }),
   dispatch => ({
     onNextCard: () => {
@@ -42,11 +43,23 @@ const styles = {
   })
 )
 export default class Board extends Component {
+  static propTypes = {
+    stock: PropTypes.array.isRequired,
+    waste: PropTypes.array.isRequired,
+    tableaus: PropTypes.array.isRequired,
+    foundations: PropTypes.shape({
+      clubs: PropTypes.array,
+      diamonds: PropTypes.array,
+      hearts: PropTypes.array,
+      spades: PropTypes.array,
+    }).isRequired,
+    onNextCard: PropTypes.func.isRequired,
+  };
+
   render() {
     const { stock, waste, tableaus, foundations, onNextCard } = this.props;
     return (
       <div className={css(styles.board)}>
-        <Dropzones />
         <Placeholders />
         <Stack
           style={{ top: 0, left: 0 }}
@@ -64,18 +77,19 @@ export default class Board extends Component {
           stack={waste}
         />
         {Object.keys(foundations).map((foundation, i) => {
-          const key = `foundation-${i}`;
+          const id = `foundations-${foundation}`;
           return (
-            <Stack
+            <Foundation
               style={{ top: 0, left: i * STACK_OFFSET + STACK_OFFSET * 3 }}
-              id={foundation}
-              key={key}
+              id={id}
+              key={id}
+              suit={foundation}
               stack={foundations[foundation]}
             />
           );
         })}
         {tableaus.map((tableau, i) => {
-          const id = `tableau-${i}`;
+          const id = `tableaus-${i}`;
           return (
             <Stack style={{ top: 165, left: i * STACK_OFFSET }} id={id} key={id} stack={tableau} />
           );

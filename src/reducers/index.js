@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
-import app from './app';
+import deck from './deck';
 import score from './score';
 import moves from './moves';
 import time from './time';
 
 const appReducers = combineReducers({
-  app,
+  deck,
   score,
   moves,
   startTime: time,

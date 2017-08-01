@@ -5,7 +5,11 @@ import Cards from './Cards';
 const stackTarget = {
   canDrop(props, monitor) {
     const item = monitor.getItem();
-    return item.stackID === props.id;
+    let lastValue = 0;
+    if (props.stack.length) {
+      lastValue = props.stack[props.stack.length - 1].value;
+    }
+    return item.card.suitName === props.suit && item.card.value === lastValue + 1;
   },
   drop(props, monitor) {
     if (monitor.didDrop()) {
@@ -15,12 +19,12 @@ const stackTarget = {
   },
 };
 
-@DropTarget(props => props.id, stackTarget, (connect, monitor) => ({
+@DropTarget(props => props.suit, stackTarget, (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
   isOver: monitor.isOver(),
   canDrop: monitor.canDrop(),
 }))
-export default class Stack extends Component {
+export default class Foundation extends Component {
   render() {
     return <Cards {...this.props} />;
   }
