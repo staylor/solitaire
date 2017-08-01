@@ -1,5 +1,5 @@
 import Card from '../Card';
-import { START_NEW_GAME, NEXT_CARD, UNDO, DROP_CARD } from '../actions';
+import { START_NEW_GAME, NEXT_CARD, UNDO, DROP_CARD, RECYCLE } from '../actions';
 import { shuffle } from '../utils';
 
 let stateHistory = [];
@@ -63,6 +63,20 @@ export default function deckReducer(state = null, action) {
       return {
         ...getInitialState(),
       };
+    case RECYCLE: {
+      const prevState = deepClone(state);
+      stateHistory.push(prevState);
+
+      const clonedState = deepClone(state);
+      clonedState.stock = [
+        ...clonedState.waste.map(card => {
+          card.face = 'back';
+          return card;
+        }),
+      ];
+      clonedState.waste = [];
+      return clonedState;
+    }
     case NEXT_CARD: {
       const prevState = deepClone(state);
       stateHistory.push(prevState);

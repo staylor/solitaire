@@ -3,6 +3,7 @@ export const START_NEW_GAME = 'START_NEW_GAME';
 export const NEXT_CARD = 'NEXT_CARD';
 export const NEW_MOVE = 'NEW_MOVE';
 export const DROP_CARD = 'DROP_CARD';
+export const RECYCLE = 'RECYCLE';
 
 export const undo = () => ({
   type: UNDO,
@@ -25,4 +26,8 @@ export const dropCard = (id, to, from) => ({
   id,
   to,
   from,
+});
+
+export const recycleWaste = () => ({
+  type: RECYCLE,
 });

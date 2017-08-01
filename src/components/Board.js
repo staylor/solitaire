@@ -6,7 +6,9 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { css } from 'glamor';
 import Stack from './Stack';
 import Foundation from './Foundation';
+import Tableau from './Tableau';
 import TopModal from './TopModal';
+import RecycleButton from './RecycleButton';
 import Placeholders from './Placeholders';
 import { STACK_OFFSET } from '../utils/constants';
 import { nextCard } from '../actions';
@@ -69,6 +71,7 @@ export default class Board extends Component {
           stack={stock}
           onClick={onNextCard}
         />
+        {stock.length === 0 && <RecycleButton />}
         <Stack
           style={{ top: 0, left: STACK_OFFSET }}
           id="waste"
@@ -91,7 +94,12 @@ export default class Board extends Component {
         {tableaus.map((tableau, i) => {
           const id = `tableaus-${i}`;
           return (
-            <Stack style={{ top: 165, left: i * STACK_OFFSET }} id={id} key={id} stack={tableau} />
+            <Tableau
+              style={{ top: 165, left: i * STACK_OFFSET }}
+              id={id}
+              key={id}
+              stack={tableau}
+            />
           );
         })}
 
