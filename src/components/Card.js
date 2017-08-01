@@ -1,83 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { DragSource } from 'react-dnd';
+import { getEmptyImage } from 'react-dnd-html5-backend';
 import { css } from 'glamor';
 import { dropCard } from '../actions';
 import { getSuitSVG } from '../utils/svg';
+import { getSelectedCards } from '../utils/card';
+import styles from '../styles/card';
 
 /* eslint-disable react/prop-types */
 
-const styles = {
-  card: {
-    borderRadius: 10,
-    marginTop: -75,
-    width: 75,
-    height: 105,
-    userSelect: 'none',
-    position: 'relative',
-    background: '#fff',
-    border: '5px solid #fafafa',
-    boxShadow: '4px 4px 2px rgba(0, 0, 0, 0.4)',
-    zIndex: 1,
-    ':first-child': {
-      marginTop: 0,
-    },
-  },
-  back: {
-    background: '#2196f3',
-  },
-  backImage: {
-    position: 'absolute',
-    top: 23,
-    left: 15,
-    height: 60,
-    opacity: 0.2,
-  },
-  front: {
-    cursor: 'grab',
-  },
-  red: {
-    color: '#fc471d',
-  },
-  black: {
-    color: '#333',
-  },
-  suit: {
-    position: 'absolute',
-    top: 5,
-    right: 5,
-    fontWeight: 800,
-    fontSize: 24,
-  },
-  suitImage: {
-    width: 26,
-    marginTop: 3,
-  },
-  center: {
-    position: 'absolute',
-    fontWeight: 800,
-    fontSize: 48,
-    textAlign: 'center',
-    top: 40,
-    left: 0,
-    width: '100%',
-  },
-  centerImage: {
-    width: 48,
-  },
-  value: {
-    position: 'absolute',
-    top: 5,
-    fontSize: 24,
-    fontWeight: 800,
-    left: 5,
-    fontFamily: '"nyt-franklin", arial, serif',
-  },
-};
+const selectCache = {};
 
 const cardSource = {
   beginDrag(props) {
     const item = { card: props.card, stackID: props.stackID };
+    if (selectCache[item.card.id]) {
+      item.selected = selectCache[item.card.id];
+    } else {
+      item.selected = getSelectedCards({ item, deck: props.deck });
+      selectCache[item.card.id] = item.selected;
+    }
     return item;
   },
 
@@ -88,36 +31,72 @@ const cardSource = {
 
     const item = monitor.getItem();
     const dropResult = monitor.getDropResult();
-    props.onDropCard(item.card.id, dropResult.id, item.stackID);
+    props.onDropCard(item.selected, dropResult.id, item.stackID);
+    delete selectCache[item.card.id];
   },
 };
 
-@connect(null, dispatch => ({
-  onDropCard: (id, to, from) => {
-    dispatch(dropCard(id, to, from));
-  },
-}))
+@connect(
+  ({ deck }) => ({
+    deck,
+  }),
+  dispatch => ({
+    onDropCard: (id, to, from) => {
+      dispatch(dropCard(id, to, from));
+    },
+  })
+)
 @DragSource(props => props.card.suitName, cardSource, (connection, monitor) => ({
   connectDragSource: connection.dragSource(),
+  connectDragPreview: connection.dragPreview(),
   isDragging: monitor.isDragging(),
+  item: monitor.getItem(),
 }))
 export default class Card extends Component {
+  componentDidMount() {
+    this.props.connectDragPreview(getEmptyImage(), {
+      captureDraggingState: true,
+    });
+  }
+
   render() {
-    const { connectDragSource, card, zi, style = null, onClick = null } = this.props;
+    const {
+      isDragging,
+      item,
+      connectDragSource,
+      card,
+      zi,
+      style = null,
+      onClick = null,
+    } = this.props;
     if (card.face === 'back') {
       return (
-        <div role="presentation" className={css(styles.card, styles.back, style)} onClick={onClick}>
+        <div
+          role="presentation"
+          className={css(styles.card, styles.back, style)}
+          style={{ zIndex: zi }}
+          onClick={onClick}
+        >
           <img className={css(styles.backImage)} alt="" src="/images/nyt_logo.png" />
         </div>
       );
     }
 
     const suitSVG = getSuitSVG(card.suitName);
+    const isSelected =
+      item && item.selected.findIndex(selectedItem => selectedItem.id === card.id) > -1;
+
+    let dragStyles = {};
+    if (isDragging || isSelected) {
+      dragStyles = {
+        opacity: 0,
+      };
+    }
 
     return connectDragSource(
       <div
         role="presentation"
-        className={css(styles.card, styles.front, styles[card.color], style)}
+        className={css(styles.card, styles.front, styles[card.color], style, dragStyles)}
         style={{ zIndex: zi }}
       >
         <div className={css(styles.value)}>

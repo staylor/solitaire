@@ -38,7 +38,7 @@ function getInitialState() {
   }
 
   return {
-    cards: shuffle(cards),
+    selected: [],
     stock,
     waste,
     tableaus,
@@ -64,8 +64,8 @@ export default function deckReducer(state = null, action) {
         ...getInitialState(),
       };
     case RECYCLE: {
-      const prevState = deepClone(state);
-      stateHistory.push(prevState);
+      // const prevState = deepClone(state);
+      // stateHistory.push(prevState);
 
       const clonedState = deepClone(state);
       clonedState.stock = [
@@ -78,8 +78,8 @@ export default function deckReducer(state = null, action) {
       return clonedState;
     }
     case NEXT_CARD: {
-      const prevState = deepClone(state);
-      stateHistory.push(prevState);
+      // const prevState = deepClone(state);
+      // stateHistory.push(prevState);
       const clonedState = deepClone(state);
       const lastCard = clonedState.stock.pop();
       lastCard.face = 'front';
@@ -92,41 +92,46 @@ export default function deckReducer(state = null, action) {
       }
       break;
     case DROP_CARD: {
-      const prevState = deepClone(state);
-      stateHistory.push(prevState);
+      // const prevState = deepClone(state);
+      // stateHistory.push(prevState);
       const clonedState = deepClone(state);
       // $TODO: this kinda sucks
       const [toStack, toIndex = null] = action.to.split('-');
       const [fromStack, fromIndex = null] = action.from.split('-');
-      let item;
-      let itemIndex;
+      action.selected.forEach(selectedCard => {
+        let item;
+        let itemIndex;
 
-      const findItem = (card, i) => {
-        if (card.id === action.id) {
-          itemIndex = i;
-          return true;
+        const findItem = (card, i) => {
+          if (card.id === selectedCard.id) {
+            itemIndex = i;
+            return true;
+          }
+          return false;
+        };
+
+        const removeAndFlip = stack => {
+          item = { ...stack.find(findItem) };
+          stack.splice(itemIndex, 1);
+          const clonedStack = [...stack];
+          if (clonedStack.length) {
+            clonedStack[clonedStack.length - 1].face = 'front';
+          }
+          return clonedStack;
+        };
+
+        if (fromIndex === null) {
+          clonedState[fromStack] = removeAndFlip(clonedState[fromStack]);
+        } else {
+          clonedState[fromStack][fromIndex] = removeAndFlip(clonedState[fromStack][fromIndex]);
         }
-        return false;
-      };
 
-      const removeAndFlip = stack => {
-        item = stack.find(findItem);
-        stack.splice(itemIndex, 1);
-        stack[stack.length - 1].face = 'front';
-        return stack;
-      };
-
-      if (fromIndex === null) {
-        clonedState[fromStack] = removeAndFlip(clonedState[fromStack]);
-      } else {
-        clonedState[fromStack][fromIndex] = removeAndFlip(clonedState[fromStack][fromIndex]);
-      }
-
-      if (toIndex === null) {
-        clonedState[toStack].push(item);
-      } else {
-        clonedState[toStack][toIndex].push(item);
-      }
+        if (toIndex === null) {
+          clonedState[toStack].push(item);
+        } else {
+          clonedState[toStack][toIndex].push(item);
+        }
+      });
       return clonedState;
     }
     default:

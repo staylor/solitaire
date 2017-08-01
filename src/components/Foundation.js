@@ -26,6 +26,10 @@ const stackTarget = {
 }))
 export default class Foundation extends Component {
   render() {
-    return <Cards {...this.props} />;
+    const style = {
+      ...this.props.cardStyle,
+      marginTop: -115,
+    };
+    return <Cards {...this.props} cardStyle={style} />;
   }
 }

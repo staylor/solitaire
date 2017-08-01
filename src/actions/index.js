@@ -21,9 +21,9 @@ export const startNewGame = () => ({
   type: START_NEW_GAME,
 });
 
-export const dropCard = (id, to, from) => ({
+export const dropCard = (selected, to, from) => ({
   type: DROP_CARD,
-  id,
+  selected,
   to,
   from,
 });

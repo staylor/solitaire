@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { css } from 'glamor';
+import CardDragLayer from './CardDragLayer';
 import Stack from './Stack';
 import Foundation from './Foundation';
 import Tableau from './Tableau';
@@ -104,6 +105,7 @@ export default class Board extends Component {
         })}
 
         <TopModal />
+        <CardDragLayer />
       </div>
     );
   }
