@@ -1,23 +1,24 @@
 import Stack from '../Stack';
 import Card from '../Card';
-import { NEW_MOVE } from '../actions';
+import { START_NEW_GAME } from '../actions';
 import { shuffle } from '../utils';
 
 function getInitialState() {
-  const cards = [];
+  const deck = [];
+  for (let i = 0; i < 52; i += 1) {
+    deck.push(new Card(i));
+  }
+
   const stock = new Stack();
   const waste = new Stack();
   const tableaus = [];
-
-  for (let i = 0; i < 52; i += 1) {
-    cards.push(new Card(i));
-  }
+  const cards = shuffle(deck);
 
   let ci = 0;
 
-  for (let ti = 1; ti <= 7; ti += 1) {
+  for (let ti = 0; ti < 7; ti += 1) {
     tableaus[ti] = new Stack(true);
-    for (let tci = 1; tci <= ti; tci += 1) {
+    for (let tci = 0; tci < ti + 1; tci += 1) {
       let face = 'back';
       if (tci === ti) {
         face = 'front';
@@ -43,28 +44,21 @@ function getInitialState() {
       hearts: new Stack(),
       spades: new Stack(),
     },
-    moves: 0,
-    time: 0,
-    score: 0,
   };
 }
 
-function appReducer(state = null, action) {
+export default function appReducer(state = null, action) {
   if (state === null) {
     state = getInitialState();
   }
 
   switch (action.type) {
-    case NEW_MOVE:
-      const increment = state.moves + 1;
+    case START_NEW_GAME:
       return {
-        ...state,
-        moves: increment,
+        ...getInitialState(),
       };
     default:
       break;
   }
   return state;
 }
-
-export default appReducer;

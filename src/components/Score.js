@@ -15,8 +15,8 @@ const styles = {
   },
 };
 
-@connect(state => ({
-  score: state.score,
+@connect(({ score }) => ({
+  score,
 }))
 export default class Score extends Component {
   static propTypes = {

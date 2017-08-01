@@ -56,7 +56,7 @@ export default class Board extends Component {
           const id = `foundation-${i}`;
           return (
             <Stack
-              style={{ top: 0, left: i * STACK_OFFSET + 345 }}
+              style={{ top: 0, left: i * STACK_OFFSET + STACK_OFFSET * 3 }}
               id={id}
               key={id}
               stack={foundations[foundation]}
@@ -64,18 +64,9 @@ export default class Board extends Component {
           );
         })}
         {tableaus.map((tableau, i) => {
-          if (!tableau) {
-            return null;
-          }
-
           const id = `tableau-${i}`;
           return (
-            <Stack
-              style={{ top: 165, left: (i - 1) * STACK_OFFSET }}
-              id={id}
-              key={id}
-              stack={tableau}
-            />
+            <Stack style={{ top: 165, left: i * STACK_OFFSET }} id={id} key={id} stack={tableau} />
           );
         })}
 

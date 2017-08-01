@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { css } from 'glamor';
 
@@ -18,17 +19,16 @@ const styles = {
   },
 };
 
+@connect(({ startTime }) => ({
+  startTime,
+}))
 export default class Time extends Component {
   static propTypes = {
-    startTime: PropTypes.number,
-  };
-
-  static defaultProps = {
-    startTime: Date.now(),
+    startTime: PropTypes.number.isRequired,
   };
 
   state = {
-    time: Date.now(),
+    time: null,
   };
 
   interval = null;
@@ -43,24 +43,34 @@ export default class Time extends Component {
     window.clearInterval(this.interval);
   }
 
+  componentWillReceiveProps() {
+    window.clearInterval(this.interval);
+    this.interval = window.setInterval(() => {
+      this.setState({ time: Date.now() });
+    }, 1000);
+    this.setState({ time: null });
+  }
+
   render() {
     const { startTime } = this.props;
     const { time } = this.state;
 
-    const diff = time - startTime;
-    const seconds = Math.floor(diff / 1000) % 60;
-    const minutes = Math.floor(diff / 60000) % 60;
+    let dateStr = null;
+    if (time === null) {
+      dateStr = '0:00';
+    } else {
+      const diff = time - startTime;
+      const seconds = Math.floor(diff / 1000) % 60;
+      const minutes = Math.floor(diff / 60000) % 60;
 
-    let dateStr = seconds;
-    if (seconds < 10) {
-      dateStr = `0${dateStr}`;
+      dateStr = `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
     }
 
     return (
       <div className={css(styles.stats)}>
         <div className={css(styles.title)}>Time</div>
         <span className={css(styles.time)}>
-          {this.interval === null ? '0:00' : `${minutes}:${dateStr}`}
+          {dateStr}
         </span>
       </div>
     );

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { css } from 'glamor';
 import { startNewGame } from '../actions';
@@ -36,19 +37,26 @@ const styles = {
 };
 
 @connect(null, dispatch => ({
-  onNewGame: () => {
+  onNewGame: e => {
+    e.preventDefault();
+    e.currentTarget.blur();
+
     dispatch(startNewGame());
   },
 }))
 export default class Buttons extends Component {
+  static propTypes = {
+    onNewGame: PropTypes.func.isRequired,
+  };
+
   render() {
     const { onNewGame } = this.props;
 
     return (
       <div className={css(styles.buttons)}>
-        <div className={css(styles.button)} onClick={onNewGame}>
+        <a tabIndex="-1" role="button" className={css(styles.button)} onClick={onNewGame}>
           <i className={`material-icons ${css(styles.i)}`}>star</i> New Game
-        </div>
+        </a>
         <div id="button_undo" className={css(styles.button)}>
           <i className={`material-icons ${css(styles.i)}`}>undo</i> Undo
         </div>

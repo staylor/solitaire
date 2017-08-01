@@ -15,8 +15,8 @@ const styles = {
   },
 };
 
-@connect(state => ({
-  moves: state.moves,
+@connect(({ moves }) => ({
+  moves,
 }))
 export default class Moves extends Component {
   static propTypes = {

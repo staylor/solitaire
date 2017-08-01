@@ -13,7 +13,12 @@ rehydrate(window._glam);
 const preloadedState = window.__PRELOADED_STATE__;
 delete window.__PRELOADED_STATE__;
 
-const store = createStore(appReducers, preloadedState);
+const store = createStore(
+  appReducers,
+  preloadedState,
+  // eslint-disable-next-line
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 ReactDOM.render(
   <Provider store={store}>
