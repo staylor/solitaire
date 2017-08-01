@@ -1,6 +1,5 @@
-import Stack from '../Stack';
 import Card from '../Card';
-import { START_NEW_GAME } from '../actions';
+import { START_NEW_GAME, NEXT_CARD, UNDO } from '../actions';
 import { shuffle } from '../utils';
 
 function getInitialState() {
@@ -9,43 +8,48 @@ function getInitialState() {
     deck.push(new Card(i));
   }
 
-  const stock = new Stack();
-  const waste = new Stack();
+  const stock = [];
+  const waste = [];
   const tableaus = [];
   const cards = shuffle(deck);
 
   let ci = 0;
 
   for (let ti = 0; ti < 7; ti += 1) {
-    tableaus[ti] = new Stack(true);
+    tableaus[ti] = [];
     for (let tci = 0; tci < ti + 1; tci += 1) {
       let face = 'back';
       if (tci === ti) {
         face = 'front';
       }
-      tableaus[ti].push(cards[ci], face);
+      cards[ci].face = face;
+      tableaus[ti].push(cards[ci]);
       ci += 1;
     }
   }
   while (ci < cards.length) {
-    stock.push(cards[ci], 'back');
+    cards[ci].face = 'back';
+    stock.push(cards[ci]);
     ci += 1;
   }
 
   return {
     cards: shuffle(cards),
-    selected: null,
     stock,
-    tableaus,
     waste,
+    tableaus,
     foundations: {
-      clubs: new Stack(),
-      diamonds: new Stack(),
-      hearts: new Stack(),
-      spades: new Stack(),
+      clubs: [],
+      diamonds: [],
+      hearts: [],
+      spades: [],
     },
   };
 }
+
+const stateHistory = [];
+
+const deepClone = obj => JSON.parse(JSON.stringify(obj));
 
 export default function appReducer(state = null, action) {
   if (state === null) {
@@ -57,8 +61,22 @@ export default function appReducer(state = null, action) {
       return {
         ...getInitialState(),
       };
-    default:
+    case NEXT_CARD: {
+      const prevState = deepClone(state);
+      stateHistory.push(prevState);
+      const clonedState = deepClone(state);
+      const lastCard = clonedState.stock.pop();
+      lastCard.face = 'front';
+      clonedState.waste.push(lastCard);
+      return clonedState;
+    }
+    case UNDO:
+      if (stateHistory.length) {
+        return deepClone(stateHistory.pop());
+      }
       break;
+    default:
+      return state;
   }
   return state;
 }

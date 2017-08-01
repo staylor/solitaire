@@ -72,10 +72,10 @@ const styles = {
   },
 };
 
-export default ({ card, zi, style = null }) => {
+export default ({ card, zi, style = null, onClick = null }) => {
   if (card.face === 'back') {
     return (
-      <div className={css(styles.card, styles.back, style)} data-id={card.id}>
+      <div role="presentation" className={css(styles.card, styles.back, style)} onClick={onClick}>
         <img className={css(styles.backImage)} alt="" src="/images/nyt_logo.png" />
       </div>
     );
@@ -85,11 +85,9 @@ export default ({ card, zi, style = null }) => {
 
   return (
     <div
-      id={`card_${card.id}`}
-      data-id={card.id}
+      role="presentation"
       className={css(styles.card, styles.front, styles[card.color], style)}
       style={{ zIndex: zi }}
-      data-zi={zi}
     >
       <div className={css(styles.value)}>
         {card.displayValue}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { css } from 'glamor';
-import { startNewGame } from '../actions';
+import { startNewGame, undo } from '../actions';
 
 const styles = {
   buttons: {
@@ -43,23 +43,30 @@ const styles = {
 
     dispatch(startNewGame());
   },
+  onUndo: e => {
+    e.preventDefault();
+    e.currentTarget.blur();
+
+    dispatch(undo());
+  },
 }))
 export default class Buttons extends Component {
   static propTypes = {
     onNewGame: PropTypes.func.isRequired,
+    onUndo: PropTypes.func.isRequired,
   };
 
   render() {
-    const { onNewGame } = this.props;
+    const { onNewGame, onUndo } = this.props;
 
     return (
       <div className={css(styles.buttons)}>
         <a tabIndex="-1" role="button" className={css(styles.button)} onClick={onNewGame}>
           <i className={`material-icons ${css(styles.i)}`}>star</i> New Game
         </a>
-        <div id="button_undo" className={css(styles.button)}>
+        <a tabIndex="-1" role="button" className={css(styles.button)} onClick={onUndo}>
           <i className={`material-icons ${css(styles.i)}`}>undo</i> Undo
-        </div>
+        </a>
       </div>
     );
   }

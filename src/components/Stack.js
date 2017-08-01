@@ -8,30 +8,39 @@ import Card from './Card';
 const styles = {
   stack: {
     position: 'absolute',
+    cursor: 'pointer',
   },
 };
 
 export default class Stack extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    stack: PropTypes.object.isRequired,
+    stack: PropTypes.array.isRequired,
     style: PropTypes.object,
     cardStyle: PropTypes.object,
+    onClick: PropTypes.func,
   };
 
   static defaultProps = {
     style: null,
     cardStyle: null,
+    onClick: null,
   };
 
   render() {
-    const { id, stack, style, cardStyle } = this.props;
-
+    const { id, stack, style, cardStyle, onClick } = this.props;
+    const lastIndex = stack.length - 1;
     return (
       <div id={id} className={css(styles.stack, style)}>
-        {stack.cards.map((card, i) =>
-          // eslint-disable-next-line react/no-array-index-key
-          <Card key={`card-${i}`} card={card} zi={i} style={cardStyle} />
+        {stack.map((card, i) =>
+          <Card
+            // eslint-disable-next-line react/no-array-index-key
+            key={`card-${i}`}
+            card={card}
+            zi={i}
+            style={cardStyle}
+            onClick={i === lastIndex ? onClick : null}
+          />
         )}
       </div>
     );

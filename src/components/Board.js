@@ -6,6 +6,7 @@ import TopModal from './TopModal';
 import Dropzones from './Dropzones';
 import Placeholders from './Placeholders';
 import { STACK_OFFSET } from '../utils/constants';
+import { nextCard } from '../actions';
 
 /* eslint-disable react/no-array-index-key */
 
@@ -24,16 +25,22 @@ const styles = {
   },
 };
 
-@connect(({ app }) => ({
-  stock: app.stock,
-  waste: app.waste,
-  tableaus: app.tableaus,
-  foundations: app.foundations,
-}))
+@connect(
+  ({ app }) => ({
+    stock: app.stock,
+    waste: app.waste,
+    tableaus: app.tableaus,
+    foundations: app.foundations,
+  }),
+  dispatch => ({
+    onNextCard: () => {
+      dispatch(nextCard());
+    },
+  })
+)
 export default class Board extends Component {
   render() {
-    const { stock, waste, tableaus, foundations } = this.props;
-
+    const { stock, waste, tableaus, foundations, onNextCard } = this.props;
     return (
       <div className={css(styles.board)}>
         <Dropzones />
@@ -44,6 +51,7 @@ export default class Board extends Component {
           key="stock"
           cardStyle={styles.stockCard}
           stack={stock}
+          onClick={onNextCard}
         />
         <Stack
           style={{ top: 0, left: STACK_OFFSET }}
