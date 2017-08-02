@@ -10,8 +10,6 @@ import styles from '../styles/card';
 
 /* eslint-disable react/prop-types */
 
-const selectCache = {};
-
 const cardSource = {
   beginDrag(props, monitor, { context: { selected } }) {
     const item = { card: props.card, stackID: props.stackID, selected: [] };
@@ -31,7 +29,6 @@ const cardSource = {
     const item = monitor.getItem();
     const dropResult = monitor.getDropResult();
     props.onDropCard(item.selected, dropResult.id, item.stackID);
-    delete selectCache[item.card.id];
   },
 };
 

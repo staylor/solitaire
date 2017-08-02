@@ -47,8 +47,4 @@ export default class Card {
     }
     this.displayValue = getDisplayValue(this.value);
   }
-
-  toString() {
-    return this.getDisplayValue() + this.suit;
-  }
 }
