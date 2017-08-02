@@ -30,6 +30,16 @@ export default class Cards extends Component {
     onClick: null,
   };
 
+  static childContextTypes = {
+    selected: PropTypes.array,
+  };
+
+  getChildContext() {
+    return {
+      selected: this.props.stack.filter(card => card.face === 'front'),
+    };
+  }
+
   render() {
     const { id, stack, style, cardStyle, onClick, connectDropTarget } = this.props;
     const lastIndex = stack.length - 1;

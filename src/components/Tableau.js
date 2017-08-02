@@ -10,9 +10,10 @@ const stackTarget = {
     if (props.stack.length) {
       lastValue = props.stack[props.stack.length - 1];
     }
-    return (
-      lastValue && item.card.color !== lastValue.color && item.card.value === lastValue.value - 1
-    );
+    if (lastValue) {
+      return item.card.color !== lastValue.color && item.card.value === lastValue.value - 1;
+    }
+    return item.card.value === 13;
   },
   drop(props, monitor) {
     if (monitor.didDrop()) {

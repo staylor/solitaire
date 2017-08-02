@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { DragSource } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import { css } from 'glamor';
 import { dropCard } from '../actions';
 import { getSuitSVG } from '../utils/svg';
-import { getSelectedCards } from '../utils/card';
 import styles from '../styles/card';
 
 /* eslint-disable react/prop-types */
@@ -13,14 +13,13 @@ import styles from '../styles/card';
 const selectCache = {};
 
 const cardSource = {
-  beginDrag(props) {
-    const item = { card: props.card, stackID: props.stackID };
-    if (selectCache[item.card.id]) {
-      item.selected = selectCache[item.card.id];
-    } else {
-      item.selected = getSelectedCards({ item, deck: props.deck });
-      selectCache[item.card.id] = item.selected;
+  beginDrag(props, monitor, { context: { selected } }) {
+    const item = { card: props.card, stackID: props.stackID, selected: [] };
+    if (!selected.length) {
+      return item;
     }
+    const indexSlice = selected.findIndex(card => card.id === item.card.id);
+    item.selected = selected.slice(indexSlice);
     return item;
   },
 
@@ -36,16 +35,11 @@ const cardSource = {
   },
 };
 
-@connect(
-  ({ deck }) => ({
-    deck,
-  }),
-  dispatch => ({
-    onDropCard: (id, to, from) => {
-      dispatch(dropCard(id, to, from));
-    },
-  })
-)
+@connect(null, dispatch => ({
+  onDropCard: (id, to, from) => {
+    dispatch(dropCard(id, to, from));
+  },
+}))
 @DragSource(props => props.card.suitName, cardSource, (connection, monitor) => ({
   connectDragSource: connection.dragSource(),
   connectDragPreview: connection.dragPreview(),
@@ -53,6 +47,10 @@ const cardSource = {
   item: monitor.getItem(),
 }))
 export default class Card extends Component {
+  static contextTypes = {
+    selected: PropTypes.array,
+  };
+
   componentDidMount() {
     this.props.connectDragPreview(getEmptyImage(), {
       captureDraggingState: true,

@@ -15,4 +15,6 @@ const styles = {
   },
 };
 
-export default () => <div className={css(styles.modal)}>YOU WON!!!</div>;
+export default function TopModal() {
+  return <div className={css(styles.modal)}>YOU WON!!!</div>;
+}

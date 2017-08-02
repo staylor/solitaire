@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 import Cards from './Cards';
 
@@ -25,6 +26,15 @@ const stackTarget = {
   canDrop: monitor.canDrop(),
 }))
 export default class Foundation extends Component {
+  static propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
+    cardStyle: PropTypes.object,
+  };
+
+  static defaultProps = {
+    cardStyle: {},
+  };
+
   render() {
     const style = {
       ...this.props.cardStyle,

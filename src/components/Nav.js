@@ -83,25 +83,28 @@ const styles = {
   },
 };
 
-export default () =>
-  <div className={css(styles.nav)}>
-    <div className={css(styles.timesIcon)}>
-      <img
-        className={css(styles.timesIconImage)}
-        alt="The New York Times"
-        src={getTimesIconSVG()}
-      />
-    </div>
-    <div className={css(styles.pipe)} />
-    <div className={css(styles.title)}>Solitaire</div>
-    <div className={css(styles.info)}>
-      <Moves />
-      <Time />
-      <Score />
-      <div className={css(styles.help)}>
-        <a className={css(styles.link)} href="https://en.wikipedia.org/wiki/Klondike_(solitaire)">
-          <i className={`${css(styles.settings)} material-icons`}>settings</i>
-        </a>
+export default function Nav() {
+  return (
+    <div className={css(styles.nav)}>
+      <div className={css(styles.timesIcon)}>
+        <img
+          className={css(styles.timesIconImage)}
+          alt="The New York Times"
+          src={getTimesIconSVG()}
+        />
+      </div>
+      <div className={css(styles.pipe)} />
+      <div className={css(styles.title)}>Solitaire</div>
+      <div className={css(styles.info)}>
+        <Moves />
+        <Time />
+        <Score />
+        <div className={css(styles.help)}>
+          <a className={css(styles.link)} href="https://en.wikipedia.org/wiki/Klondike_(solitaire)">
+            <i className={`${css(styles.settings)} material-icons`}>settings</i>
+          </a>
+        </div>
       </div>
     </div>
-  </div>;
+  );
+}

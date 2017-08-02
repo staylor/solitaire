@@ -5,7 +5,7 @@ import styles from '../styles/card';
 
 /* eslint-disable react/prop-types */
 
-export default ({ card, zi = null }) => {
+export default function ActiveCard({ card, zi = null }) {
   const suitSVG = getSuitSVG(card.suitName);
 
   return (
@@ -26,4 +26,4 @@ export default ({ card, zi = null }) => {
       </div>
     </div>
   );
-};
+}

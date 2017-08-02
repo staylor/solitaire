@@ -12,9 +12,12 @@ css.global('html, body', {
   color: '#fff',
 });
 
-export default () =>
-  <main>
-    <Nav />
-    <Board />
-    <Buttons />
-  </main>;
+export default function App() {
+  return (
+    <main>
+      <Nav />
+      <Board />
+      <Buttons />
+    </main>
+  );
+}
