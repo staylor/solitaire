@@ -1,14 +1,12 @@
 import { combineReducers } from 'redux';
 import deck from './deck';
-import score from './score';
 import moves from './moves';
-import time from './time';
+import status from './status';
 
 const appReducers = combineReducers({
   deck,
-  score,
   moves,
-  startTime: time,
+  status,
 });
 
 export default appReducers;

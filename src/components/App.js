@@ -2,6 +2,7 @@ import React from 'react';
 import { css } from 'glamor';
 import Nav from './Nav';
 import Board from './Board';
+import Status from './Status';
 import Buttons from './Buttons';
 
 css.global('html, body', {
@@ -17,6 +18,7 @@ export default function App() {
     <main>
       <Nav />
       <Board />
+      <Status />
       <Buttons />
     </main>
   );

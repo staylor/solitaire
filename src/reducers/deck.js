@@ -38,6 +38,7 @@ function getInitialState() {
   }
 
   return {
+    score: 0,
     selected: [],
     stock,
     waste,
@@ -64,8 +65,8 @@ export default function deckReducer(state = null, action) {
         ...getInitialState(),
       };
     case RECYCLE: {
-      // const prevState = deepClone(state);
-      // stateHistory.push(prevState);
+      const prevState = deepClone(state);
+      stateHistory.push(prevState);
 
       const clonedState = deepClone(state);
       clonedState.stock = [
@@ -74,12 +75,14 @@ export default function deckReducer(state = null, action) {
           return card;
         }),
       ];
+      clonedState.stock.reverse();
       clonedState.waste = [];
+      clonedState.score = Math.max(0, clonedState.score - 100);
       return clonedState;
     }
     case NEXT_CARD: {
-      // const prevState = deepClone(state);
-      // stateHistory.push(prevState);
+      const prevState = deepClone(state);
+      stateHistory.push(prevState);
       const clonedState = deepClone(state);
       const lastCard = clonedState.stock.pop();
       lastCard.face = 'front';
@@ -92,8 +95,8 @@ export default function deckReducer(state = null, action) {
       }
       break;
     case DROP_CARD: {
-      // const prevState = deepClone(state);
-      // stateHistory.push(prevState);
+      const prevState = deepClone(state);
+      stateHistory.push(prevState);
       const clonedState = deepClone(state);
       // $TODO: this kinda sucks
       const [toStack, toIndex = null] = action.to.split('-');
@@ -116,6 +119,7 @@ export default function deckReducer(state = null, action) {
           const clonedStack = [...stack];
           if (clonedStack.length) {
             clonedStack[clonedStack.length - 1].face = 'front';
+            clonedState.score += 5;
           }
           return clonedStack;
         };
@@ -130,6 +134,13 @@ export default function deckReducer(state = null, action) {
           clonedState[toStack].push(item);
         } else {
           clonedState[toStack][toIndex].push(item);
+        }
+        if (fromStack === 'waste' && toStack === 'tableaus') {
+          clonedState.score += 5;
+        } else if (fromStack === 'waste' && toStack === 'foundations') {
+          clonedState.score += 10;
+        } else if (fromStack === 'tableaus' && toStack === 'foundations') {
+          clonedState.score += 10;
         }
       });
       return clonedState;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { css } from 'glamor';
+import { NEW_STATE, INACTIVE_STATE, SUCCESS_STATE } from '../actions';
 
 const styles = {
   stats: {
@@ -19,23 +20,23 @@ const styles = {
   },
 };
 
-@connect(({ startTime }) => ({
-  startTime,
+@connect(({ status }) => ({
+  gameStatus: status,
 }))
 export default class Time extends Component {
   static propTypes = {
-    startTime: PropTypes.number.isRequired,
+    gameStatus: PropTypes.string.isRequired,
   };
 
   state = {
-    time: null,
+    time: 0,
   };
 
   interval = null;
 
   componentDidMount() {
     this.interval = window.setInterval(() => {
-      this.setState({ time: Date.now() });
+      this.setState(({ time }) => ({ time: time + 1 }));
     }, 1000);
   }
 
@@ -43,28 +44,24 @@ export default class Time extends Component {
     window.clearInterval(this.interval);
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
     window.clearInterval(this.interval);
+    if (nextProps.gameStatus === INACTIVE_STATE || nextProps.gameStatus === SUCCESS_STATE) {
+      return;
+    }
+    if (nextProps.gameStatus === NEW_STATE) {
+      this.setState({ time: 0 });
+    }
     this.interval = window.setInterval(() => {
-      this.setState({ time: Date.now() });
+      this.setState(({ time }) => ({ time: time + 1 }));
     }, 1000);
-    this.setState({ time: null });
   }
 
   render() {
-    const { startTime } = this.props;
     const { time } = this.state;
-
-    let dateStr = null;
-    if (time === null) {
-      dateStr = '0:00';
-    } else {
-      const diff = time - startTime;
-      const seconds = Math.floor(diff / 1000) % 60;
-      const minutes = Math.floor(diff / 60000) % 60;
-
-      dateStr = `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
-    }
+    const seconds = time % 60;
+    const minutes = Math.floor(time / 60) % 60;
+    const dateStr = `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
 
     return (
       <div className={css(styles.stats)}>

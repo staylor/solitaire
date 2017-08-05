@@ -88,7 +88,9 @@ export default class Card extends Component {
 
     const suitSVG = getSuitSVG(card.suitName);
     const isSelected =
-      item && item.selected.findIndex(selectedItem => selectedItem.id === card.id) > -1;
+      item &&
+      item.selected &&
+      item.selected.findIndex(selectedItem => selectedItem.id === card.id) > -1;
 
     let dragStyles = {};
     if (isDragging || isSelected) {
