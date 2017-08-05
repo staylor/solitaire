@@ -17,7 +17,7 @@
   "scripts": {
     "dev": "kyt dev",
     "build": "kyt build",
-    "start": "kyt start"
+    "start": "node build/server/main.js"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

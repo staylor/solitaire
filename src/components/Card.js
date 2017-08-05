@@ -10,18 +10,27 @@ import styles from '../styles/card';
 
 /* eslint-disable react/prop-types */
 
+let selectedData = null;
+
 const cardSource = {
   beginDrag(props, monitor, { context: { selected } }) {
+    if (selectedData !== null) {
+      return selectedData;
+    }
+
     const item = { card: props.card, stackID: props.stackID, selected: [] };
     if (!selected.length) {
+      selectedData = item;
       return item;
     }
     const indexSlice = selected.findIndex(card => card.id === item.card.id);
     item.selected = selected.slice(indexSlice);
+    selectedData = item;
     return item;
   },
 
   endDrag(props, monitor) {
+    selectedData = null;
     if (!monitor.didDrop()) {
       return;
     }
