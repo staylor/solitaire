@@ -75,7 +75,6 @@ export default class Foundations extends Component {
           return (
             <section key={id}>
               <div
-                id={id}
                 key={id}
                 className={css(styles.placeholder, styles.suit, styles[foundation], {
                   left: 3 * STACK_OFFSET + suits[foundation] * STACK_OFFSET,
