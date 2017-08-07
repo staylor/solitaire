@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { css } from 'glamor';
-import { winGame, ACTIVE_STATE, SUCCESS_STATE } from '../actions';
+import { winGame, ACTIVE_STATE } from '../actions';
 
 const styles = {
   modal: {
