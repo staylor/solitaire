@@ -4,6 +4,6 @@
 module.exports = {
   reactHotLoader: true,
   debug: false,
-  serverURL: { port: 3003 },
-  clientURL: { port: 3004 },
+  serverURL: 'http://localhost:3003',
+  clientURL: 'http://localhost:3004',
 };
