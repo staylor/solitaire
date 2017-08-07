@@ -8,3 +8,15 @@ Re-implements a lot of his code using:
 * React-DnD
 * Glamor
 * KYT
+
+## Installation
+
+```bash
+yarn
+```
+
+## Run the app
+
+```bash
+yarn dev
+```
