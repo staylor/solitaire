@@ -34,7 +34,9 @@ export default class TopModal extends Component {
     onSuccess: PropTypes.func.isRequired,
   };
 
-  winner = false;
+  state = {
+    winner: false,
+  };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.gameStatus !== ACTIVE_STATE) {
@@ -51,15 +53,14 @@ export default class TopModal extends Component {
     }, 0);
 
     if (cardsLeft === 0) {
-      console.log('WON');
       nextProps.onSuccess();
-      this.winner = true;
+      this.setState({ winner: true });
     }
   }
 
   render() {
-    const { gameStatus } = this.props;
-    if (gameStatus === SUCCESS_STATE || this.winner === true) {
+    const { winner } = this.state;
+    if (winner) {
       return <div className={css(styles.modal)}>YOU WON!!!</div>;
     }
     return null;
