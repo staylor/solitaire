@@ -17,10 +17,6 @@ export default class CardDragLayer extends Component {
       return null;
     }
 
-    return (
-      <div>
-        {item.selected.map((card, i) => <ActiveCard key={card.id} card={card} zi={i} />)}
-      </div>
-    );
+    return item.selected.map((card, i) => <ActiveCard key={card.id} card={card} zi={i} />);
   }
 }

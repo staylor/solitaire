@@ -33,17 +33,15 @@ export default class Waste extends Component {
 
   render() {
     const { waste } = this.props;
-    return (
-      <section>
-        <div className={css(styles.placeholder, styles.waste)} />
-        <Stack
-          style={{ top: 0, left: STACK_OFFSET }}
-          id="waste"
-          key="waste"
-          cardStyle={styles.card}
-          stack={waste}
-        />
-      </section>
-    );
+    return [
+      <div className={css(styles.placeholder, styles.waste)} />,
+      <Stack
+        style={{ top: 0, left: STACK_OFFSET }}
+        id="waste"
+        key="waste"
+        cardStyle={styles.card}
+        stack={waste}
+      />,
+    ];
   }
 }

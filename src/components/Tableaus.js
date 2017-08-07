@@ -27,27 +27,17 @@ export default class Tableaus extends Component {
 
   render() {
     const { tableaus } = this.props;
-    return (
-      <section>
-        {tableaus.map((tableau, i) => {
-          const id = `tableaus-${i}`;
-          return (
-            <section key={id}>
-              <div
-                className={css(styles.placeholder, {
-                  top: 165,
-                  left: i * STACK_OFFSET,
-                })}
-              />
-              <Tableau
-                style={{ ...styles.tableau, left: i * STACK_OFFSET }}
-                id={id}
-                stack={tableau}
-              />
-            </section>
-          );
-        })}
-      </section>
-    );
+    return tableaus.map((tableau, i) => {
+      const id = `tableaus-${i}`;
+      return [
+        <div
+          className={css(styles.placeholder, {
+            top: 165,
+            left: i * STACK_OFFSET,
+          })}
+        />,
+        <Tableau style={{ ...styles.tableau, left: i * STACK_OFFSET }} id={id} stack={tableau} />,
+      ];
+    });
   }
 }

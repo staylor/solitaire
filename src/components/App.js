@@ -14,12 +14,5 @@ css.global('html, body', {
 });
 
 export default function App() {
-  return (
-    <main>
-      <Nav />
-      <Board />
-      <Status />
-      <Buttons />
-    </main>
-  );
+  return [<Nav />, <Board />, <Status />, <Buttons />];
 }

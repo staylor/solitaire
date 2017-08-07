@@ -44,19 +44,17 @@ export default class Stock extends Component {
 
   render() {
     const { stock, onNextCard } = this.props;
-    return (
-      <section>
-        <div className={css(styles.placeholder, styles.stock)} />
-        <Stack
-          style={{ top: 0, left: 0 }}
-          id="stock"
-          key="stock"
-          cardStyle={styles.card}
-          stack={stock}
-          onClick={onNextCard}
-        />
-        {stock.length === 0 && <RecycleButton />}
-      </section>
-    );
+    return [
+      <div className={css(styles.placeholder, styles.stock)} />,
+      <Stack
+        style={{ top: 0, left: 0 }}
+        id="stock"
+        key="stock"
+        cardStyle={styles.card}
+        stack={stock}
+        onClick={onNextCard}
+      />,
+      stock.length === 0 && <RecycleButton />,
+    ];
   }
 }
