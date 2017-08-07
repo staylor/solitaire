@@ -4,4 +4,5 @@
 module.exports = {
   reactHotLoader: true,
   debug: false,
+  serverURL: 'http://localhost:3003',
 };
