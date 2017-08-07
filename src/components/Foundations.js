@@ -70,24 +70,22 @@ export default class Foundations extends Component {
     const { foundations } = this.props;
     return Object.keys(foundations).map((foundation, i) => {
       const id = `foundations-${foundation}`;
-      return (
-        <section key={id}>
-          <div
-            key={id}
-            className={css(styles.placeholder, styles.suit, styles[foundation], {
-              left: 3 * STACK_OFFSET + suits[foundation] * STACK_OFFSET,
-            })}
-          >
-            <img className={css(styles.image)} alt="" src={getSuitSVG(foundation)} />
-          </div>
-          <Foundation
-            style={{ top: 0, left: i * STACK_OFFSET + STACK_OFFSET * 3 }}
-            id={id}
-            suit={foundation}
-            stack={foundations[foundation]}
-          />
-        </section>
-      );
+      return [
+        <div
+          key={id}
+          className={css(styles.placeholder, styles.suit, styles[foundation], {
+            left: 3 * STACK_OFFSET + suits[foundation] * STACK_OFFSET,
+          })}
+        >
+          <img className={css(styles.image)} alt="" src={getSuitSVG(foundation)} />
+        </div>,
+        <Foundation
+          style={{ top: 0, left: i * STACK_OFFSET + STACK_OFFSET * 3 }}
+          id={id}
+          suit={foundation}
+          stack={foundations[foundation]}
+        />,
+      ];
     });
   }
 }
