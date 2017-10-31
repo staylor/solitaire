@@ -1,20 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { css } from 'glamor';
+import { STACK_OFFSET } from 'utils/constants';
 import Tableau from './Tableau';
-import { STACK_OFFSET } from '../utils/constants';
-import placeholder from '../styles/placeholder';
+import Placeholder from './Placeholder';
 
-const styles = {
-  placeholder: {
-    ...placeholder,
-  },
-  tableau: {
-    height: 900,
-    top: 165,
-  },
-};
+const OFFSET_TOP = 165;
+const TABLEAU_HEIGHT = 900;
 
 @connect(({ deck }) => ({
   tableaus: deck.tableaus,
@@ -30,13 +22,21 @@ export default class Tableaus extends Component {
     return tableaus.map((tableau, i) => {
       const id = `tableaus-${i}`;
       return [
-        <div
-          className={css(styles.placeholder, {
-            top: 165,
+        <Placeholder
+          style={{
+            top: OFFSET_TOP,
             left: i * STACK_OFFSET,
-          })}
+          }}
         />,
-        <Tableau style={{ ...styles.tableau, left: i * STACK_OFFSET }} id={id} stack={tableau} />,
+        <Tableau
+          style={{
+            height: TABLEAU_HEIGHT,
+            top: OFFSET_TOP,
+            left: i * STACK_OFFSET,
+          }}
+          id={id}
+          stack={tableau}
+        />,
       ];
     });
   }

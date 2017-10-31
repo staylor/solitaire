@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { css } from 'glamor';
+import { css } from 'emotion';
+import { STACK_OFFSET } from 'utils/constants';
+import { getSuitSVG } from 'utils/svg';
 import Foundation from './Foundation';
-import { STACK_OFFSET } from '../utils/constants';
-import { getSuitSVG } from '../utils/svg';
-import placeholder from '../styles/placeholder';
+import Placeholder from './Placeholder';
 
 const styles = {
-  placeholder: {
-    ...placeholder,
-  },
   suit: {
     top: 0,
     textAlign: 'center',
@@ -71,14 +68,14 @@ export default class Foundations extends Component {
     return Object.keys(foundations).map((foundation, i) => {
       const id = `foundations-${foundation}`;
       return [
-        <div
+        <Placeholder
           key={id}
-          className={css(styles.placeholder, styles.suit, styles[foundation], {
+          className={css(styles.suit, styles[foundation], {
             left: 3 * STACK_OFFSET + suits[foundation] * STACK_OFFSET,
           })}
         >
           <img className={css(styles.image)} alt="" src={getSuitSVG(foundation)} />
-        </div>,
+        </Placeholder>,
         <Foundation
           style={{ top: 0, left: i * STACK_OFFSET + STACK_OFFSET * 3 }}
           id={id}

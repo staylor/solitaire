@@ -134,14 +134,15 @@ export default function DragLayer(collect, options = {}) {
                 this.offset = offset;
               }}
             >
-              {this.state.isDragging &&
+              {this.state.isDragging && (
                 <DecoratedComponent
                   {...this.props}
                   {...this.state.collected}
                   ref={child => {
                     this.child = child;
                   }}
-                />}
+                />
+              )}
             </div>
           </div>
         );

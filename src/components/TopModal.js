@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { css } from 'glamor';
-import { winGame, ACTIVE_STATE } from '../actions';
+import styled from 'react-emotion';
+import { winGame, ACTIVE_STATE } from 'actions';
 
-const styles = {
-  modal: {
-    position: 'absolute',
-    fontSize: 100,
-    left: 100,
-    top: 200,
-    zIndex: 300,
-    color: '#fff',
-    textShadow: '2px 2px #bdbdbd',
-    fontFamily: '"nyt-karnak-display-130124", georgia, "times new roman", times, serif',
-    display: 'none',
-  },
-};
+const Modal = styled.div`
+  position: absolute;
+  font-size: 100px;
+  left: 100;
+  top: 200;
+  z-index: 300;
+  color: #fff;
+  text-shadow: 2px 2px #bdbdbd;
+  font-family: 'nyt-karnak-display-130124', georgia, 'times new roman', times, serif;
+  display: none;
+`;
 
 @connect(
   ({ deck, status }) => ({ deck, gameStatus: status }),
@@ -61,7 +59,7 @@ export default class TopModal extends Component {
   render() {
     const { winner } = this.state;
     if (winner) {
-      return <div className={css(styles.modal)}>YOU WON!!!</div>;
+      return <Modal>YOU WON!!!</Modal>;
     }
     return null;
   }

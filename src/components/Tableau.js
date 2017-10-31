@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { DropTarget } from 'react-dnd';
+import { Types } from 'utils/constants';
 import Cards from './Cards';
-import { Types } from '../utils/constants';
 
 const stackTarget = {
   canDrop(props, monitor) {

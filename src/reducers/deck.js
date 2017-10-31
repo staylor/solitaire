@@ -1,6 +1,6 @@
+import { START_NEW_GAME, NEXT_CARD, UNDO, DROP_CARD, RECYCLE } from 'actions';
+import { shuffle } from 'utils';
 import Card from '../Card';
-import { START_NEW_GAME, NEXT_CARD, UNDO, DROP_CARD, RECYCLE } from '../actions';
-import { shuffle } from '../utils';
 
 let stateHistory = [];
 

@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { DragSource } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import { css } from 'glamor';
-import { dropCard } from '../actions';
-import { getSuitSVG } from '../utils/svg';
-import styles from '../styles/card';
+import { dropCard } from 'actions';
+import { getSuitSVG } from 'utils/svg';
+import styles from 'styles/card';
 
 /* eslint-disable react/prop-types */
 
@@ -105,9 +105,7 @@ export default class Card extends Component {
         className={css(styles.card, styles.front, styles[card.color], style, dragStyles)}
         style={{ zIndex: zi }}
       >
-        <div className={css(styles.value)}>
-          {card.displayValue}
-        </div>
+        <div className={css(styles.value)}>{card.displayValue}</div>
         <div className={css(styles.suit)}>
           <img className={css(styles.suitImage)} alt="" src={suitSVG} />
         </div>

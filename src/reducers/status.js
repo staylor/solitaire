@@ -7,7 +7,7 @@ import {
   INACTIVE_STATE,
   NEW_STATE,
   SUCCESS_STATE,
-} from '../actions';
+} from 'actions';
 
 export default function statusReducer(state = ACTIVE_STATE, action) {
   switch (action.type) {

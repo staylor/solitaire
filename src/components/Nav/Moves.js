@@ -1,19 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { css } from 'glamor';
 import PropTypes from 'prop-types';
-
-const styles = {
-  stats: {
-    display: 'inline-block',
-    marginLeft: 20,
-    textAlign: 'center',
-  },
-  title: {
-    fontSize: 10,
-    color: '#9e9e9e',
-  },
-};
+import { Stats, Title } from './styled';
 
 @connect(({ moves }) => ({
   moves,
@@ -31,12 +19,10 @@ export default class Moves extends Component {
     const { moves } = this.props;
 
     return (
-      <div className={css(styles.stats)}>
-        <div className={css(styles.title)}>Moves</div>
-        <span id="moves">
-          {moves}
-        </span>
-      </div>
+      <Stats>
+        <Title>Moves</Title>
+        <span id="moves">{moves}</span>
+      </Stats>
     );
   }
 }

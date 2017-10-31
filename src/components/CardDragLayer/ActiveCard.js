@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from 'glamor';
-import { getSuitSVG } from '../utils/svg';
-import styles from '../styles/card';
+import { getSuitSVG } from 'utils/svg';
+import styles from 'styles/card';
 
 /* eslint-disable react/prop-types */
 
@@ -15,9 +15,7 @@ export default function ActiveCard({ card, zi = null }) {
         zIndex: zi,
       })}
     >
-      <div className={css(styles.value)}>
-        {card.displayValue}
-      </div>
+      <div className={css(styles.value)}>{card.displayValue}</div>
       <div className={css(styles.suit)}>
         <img className={css(styles.suitImage)} alt="" src={suitSVG} />
       </div>

@@ -2,12 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { css } from 'glamor';
-import { recycleWaste } from '../actions';
-import placeholder from '../styles/placeholder';
+import styled from 'react-emotion';
+import { recycleWaste } from 'actions';
+import Placeholder from './Placeholder';
+
+const Recycle = Placeholder.withComponent('a');
+const Button = styled(Recycle)`
+  cursor: pointer;
+  left: 0;
+  top: 0;
+`;
 
 const styles = {
   placeholder: {
-    ...placeholder,
     cursor: 'pointer',
     left: 0,
     top: 0,
@@ -40,14 +47,9 @@ export default class RecycleButton extends Component {
     const { onRecycle } = this.props;
 
     return (
-      <a
-        tabIndex="-1"
-        role="button"
-        className={css(styles.placeholder, styles.recycle)}
-        onClick={onRecycle}
-      >
+      <Button tabIndex="-1" role="button" className={css(styles.recycle)} onClick={onRecycle}>
         <i className={`${css(styles.recycle, styles.recycleIcon)} material-icons`}>refresh</i>
-      </a>
+      </Button>
     );
   }
 }

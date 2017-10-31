@@ -23,7 +23,7 @@ ${helmet.title.toString()}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
 <style>${css}</style>
 ${helmet.meta.toString()}${helmet.link.toString()}${helmet.script.toString()}
-<script>window._glam = ${JSON.stringify(ids)}</script>
+<script>window.__emotion = ${JSON.stringify(ids)}</script>
 <script>
   // WARNING: See the following for security issues around embedding JSON in HTML:
   // http://redux.js.org/docs/recipes/ServerRendering.html#security-considerations

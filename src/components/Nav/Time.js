@@ -1,24 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { css } from 'glamor';
-import { NEW_STATE, INACTIVE_STATE, SUCCESS_STATE } from '../actions';
-
-const styles = {
-  stats: {
-    display: 'inline-block',
-    marginLeft: 20,
-    textAlign: 'center',
-  },
-  title: {
-    fontSize: 10,
-    color: '#9e9e9e',
-  },
-
-  time: {
-    display: 'inline-block',
-  },
-};
+import { NEW_STATE, INACTIVE_STATE, SUCCESS_STATE } from '../../actions';
+import { Stats, Title } from './styled';
 
 @connect(({ status }) => ({
   gameStatus: status,
@@ -64,12 +48,9 @@ export default class Time extends Component {
     const dateStr = `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
 
     return (
-      <div className={css(styles.stats)}>
-        <div className={css(styles.title)}>Time</div>
-        <span className={css(styles.time)}>
-          {dateStr}
-        </span>
-      </div>
+      <Stats>
+        <Title>Time</Title> {dateStr}
+      </Stats>
     );
   }
 }

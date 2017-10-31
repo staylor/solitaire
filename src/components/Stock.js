@@ -1,29 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { css } from 'glamor';
-import { nextCard } from '../actions';
+import { css } from 'emotion';
+import { nextCard } from 'actions';
+import { STACK_OFFSET } from 'utils/constants';
+import Placeholder from './Placeholder';
 import Stack from './Stack';
 import RecycleButton from './RecycleButton';
-import { STACK_OFFSET } from '../utils/constants';
-import placeholder from '../styles/placeholder';
 
-const styles = {
-  placeholder: {
-    ...placeholder,
-  },
-  stock: {
-    top: 0,
-    left: 0,
-    cursor: 'pointer',
-  },
-  card: {
-    marginTop: -1 * STACK_OFFSET,
-    ':first-child': {
-      marginTop: 0,
-    },
-  },
-};
+const stockClass = css`
+  top: 0;
+  left: 0;
+  cursor: pointer;
+`;
+
+const cardClass = css`
+  margin-top: ${-1 * STACK_OFFSET};
+  &:first-child {
+    margin-top: 0;
+  }
+`;
 
 @connect(
   ({ deck }) => ({
@@ -45,12 +41,12 @@ export default class Stock extends Component {
   render() {
     const { stock, onNextCard } = this.props;
     return [
-      <div className={css(styles.placeholder, styles.stock)} />,
+      <Placeholder className={stockClass} />,
       <Stack
         style={{ top: 0, left: 0 }}
         id="stock"
         key="stock"
-        cardStyle={styles.card}
+        cardStyle={cardClass}
         stack={stock}
         onClick={onNextCard}
       />,

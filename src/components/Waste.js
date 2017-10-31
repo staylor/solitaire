@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { css } from 'glamor';
+import { css } from 'react-emotion';
+import { STACK_OFFSET } from 'utils/constants';
 import Stack from './Stack';
-import { STACK_OFFSET } from '../utils/constants';
-import placeholder from '../styles/placeholder';
+import Placeholder from './Placeholder';
 
-const styles = {
-  placeholder: {
-    ...placeholder,
-  },
-  waste: {
-    top: 0,
-    left: 115,
-  },
-  card: {
-    marginTop: -1 * STACK_OFFSET,
-    ':first-child': {
-      marginTop: 0,
-    },
-  },
-};
+const placeholderClass = css`
+  top: 0;
+  left: 115px;
+`;
+
+const stackClass = css`
+  top: 0;
+  left: ${STACK_OFFSET}px;
+`;
+
+const cardClass = css`
+  margin-top: ${-1 * STACK_OFFSET};
+  &:first-child {
+    margin-top: 0;
+  }
+`;
 
 @connect(({ deck }) => ({
   waste: deck.waste,
@@ -34,14 +35,8 @@ export default class Waste extends Component {
   render() {
     const { waste } = this.props;
     return [
-      <div className={css(styles.placeholder, styles.waste)} />,
-      <Stack
-        style={{ top: 0, left: STACK_OFFSET }}
-        id="waste"
-        key="waste"
-        cardStyle={styles.card}
-        stack={waste}
-      />,
+      <Placeholder className={placeholderClass} />,
+      <Stack className={stackClass} id="waste" key="waste" cardStyle={cardClass} stack={waste} />,
     ];
   }
 }

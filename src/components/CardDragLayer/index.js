@@ -8,8 +8,6 @@ import DragLayer from './PerformantDragLayer';
   item: monitor.getItem(),
 }))
 export default class CardDragLayer extends Component {
-  selected = [];
-
   render() {
     const { item } = this.props;
 

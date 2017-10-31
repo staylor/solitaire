@@ -1,4 +1,4 @@
-import { NEW_MOVE, NEXT_CARD, UNDO, START_NEW_GAME } from '../actions';
+import { NEW_MOVE, NEXT_CARD, UNDO, START_NEW_GAME } from 'actions';
 
 export default function movesReducer(state = 0, action) {
   switch (action.type) {

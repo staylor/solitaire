@@ -45,7 +45,7 @@ export default class Cards extends Component {
     const lastIndex = stack.length - 1;
     return connectDropTarget(
       <div id={id} className={css(styles.stack, style)}>
-        {stack.map((card, i) =>
+        {stack.map((card, i) => (
           <Card
             stackID={id}
             // eslint-disable-next-line react/no-array-index-key
@@ -55,7 +55,7 @@ export default class Cards extends Component {
             style={cardStyle}
             onClick={i === lastIndex ? onClick : null}
           />
-        )}
+        ))}
       </div>
     );
   }
